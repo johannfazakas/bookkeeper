@@ -3,9 +3,10 @@ kind: Service
 metadata:
   name: stuff-web-app-lb
 spec:
-  type: LoadBalancer
+  type: NodePort
   selector:
     service: stuff-web-app
   ports:
     - port: 80
       targetPort: 80
+      nodePort: 30000

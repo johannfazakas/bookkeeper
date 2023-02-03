@@ -17,6 +17,7 @@ spec:
     spec:
       containers:
         - name: stuff-web-app
-          image: 668485322428.dkr.ecr.eu-central-1.amazonaws.com/stuff-web-app:latest
+#          TODO(Johann) change image name
+          image: 668485322428.dkr.ecr.eu-central-1.amazonaws.com/sd-web-app:latest
           ports:
             - containerPort: 80
