@@ -1,12 +1,37 @@
 ---
 Resources:
-  StuffEC2Instance:
+  EC2Instance:
     Type: AWS::EC2::Instance
     Properties:
       AvailabilityZone: eu-central-1a
       ImageId: ami-06c39ed6b42908a36
       InstanceType: t2.micro
-  StuffEIP:
+      SecurityGroups:
+        - !Ref SSHSecurityGroup
+      UserData:
+        Fn::Base64:
+          # TODO extract bucket name and region in mapping
+          Fn::Sub: |
+            #!/bin/bash
+            yum -y update
+            yum -y install ruby
+            yum -y install wget
+            wget https://aws-codedeploy-eu-central-1.s3.eu-central-1.amazonaws.com/latest/install
+            chmod +x ./install
+            ./install auto
+
+  EIP:
     Type: AWS::EC2::EIP
     Properties:
-      InstanceId: !Ref StuffEC2Instance
+      InstanceId: !Ref EC2Instance
+
+  SSHSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: stuff-ssh-security-group
+      GroupDescription: Allow SSH connection
+      SecurityGroupIngress:
+        - CidrIp: 0.0.0.0/0
+          IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
