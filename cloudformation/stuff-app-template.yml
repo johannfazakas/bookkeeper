@@ -8,6 +8,7 @@ Resources:
       InstanceType: t2.micro
       SecurityGroups:
         - !Ref SSHSecurityGroup
+      IamInstanceProfile: !Ref EC2InstanceProfile
       UserData:
         Fn::Base64:
           # TODO extract bucket name and region in mapping
@@ -35,3 +36,41 @@ Resources:
           IpProtocol: tcp
           FromPort: 22
           ToPort: 22
+
+  ArtifactsS3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: stuff-artifacts-bucket
+
+  EC2InstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      InstanceProfileName: stuff-ec2-instance-profile
+      Roles:
+        - !Ref EC2InstanceRole
+
+  EC2InstanceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      Path: /stuff/
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - ec2.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      Policies:
+        - PolicyName: stuff-read-artifacts-s3-policy
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 's3:Get*'
+                  - 's3:List*'
+                Resource: !GetAtt
+                  - ArtifactsS3Bucket
+                  - Arn

@@ -7,14 +7,16 @@ Infra stuff for Stuff!
 ```shell
 aws cloudformation create-stack \
   --stack-name stuff-app-stack \
-  --template-body file://cloudformation/stuff-app-template.yml
+  --template-body file://cloudformation/stuff-app-template.yml \
+  --capabilities CAPABILITY_IAM CAPABILITY_NAMED_IAM
 ```
 
 ### Update App Stack
 ```shell
 aws cloudformation update-stack \
   --stack-name stuff-app-stack \
-  --template-body file://cloudformation/stuff-app-template.yml
+  --template-body file://cloudformation/stuff-app-template.yml \
+  --capabilities CAPABILITY_IAM CAPABILITY_NAMED_IAM
 ```
 
 ### Delete App Stack

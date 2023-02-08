@@ -18,7 +18,7 @@ Resources:
   WebAppCodeBuildRole:
     Type: AWS::IAM::Role
     Properties:
-      Path: /
+      Path: /stuff/
       AssumeRolePolicyDocument:
         Version: '2012-10-17'
         Statement:
