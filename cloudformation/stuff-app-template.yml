@@ -1,0 +1,12 @@
+---
+Resources:
+  StuffEC2Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      AvailabilityZone: eu-central-1a
+      ImageId: ami-06c39ed6b42908a36
+      InstanceType: t2.micro
+  StuffEIP:
+    Type: AWS::EC2::EIP
+    Properties:
+      InstanceId: !Ref StuffEC2Instance

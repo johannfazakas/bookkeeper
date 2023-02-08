@@ -1,0 +1,41 @@
+---
+Resources:
+  WebAppCodeBuild:
+    Type: AWS::CodeBuild::Project
+    Properties:
+      Name: stuff-web-app-code-build
+      Source:
+        Type: GITHUB
+        Location: https://github.com/johannfazakas/stuff-web-app
+      Environment:
+        Type: LINUX_CONTAINER
+        Image: aws/codebuild/amazonlinux2-x86_64-standard:4.0
+        ComputeType: BUILD_GENERAL1_SMALL
+      Artifacts:
+        Type: NO_ARTIFACTS
+      ServiceRole: !Ref WebAppCodeBuildRole
+
+  WebAppCodeBuildRole:
+    Type: AWS::IAM::Role
+    Properties:
+      Path: /
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - codebuild.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      Policies:
+        - PolicyName: code-build-policy
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 'logs:CreateLogGroup'
+                  - 'logs:CreateLogStream'
+                  - 'logs:PutLogEvents'
+                Resource: 'arn:aws:logs:*:*:*'
