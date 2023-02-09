@@ -12,13 +12,17 @@ Resources:
         Image: aws/codebuild/amazonlinux2-x86_64-standard:4.0
         ComputeType: BUILD_GENERAL1_SMALL
       Artifacts:
-        Type: NO_ARTIFACTS
+        Type: S3
+#        TODO(Johann) s3 bucket could be extracted as a nested stack
+        Location: stuff-artifacts-bucket
+        Name: stuff-web-app
+        Path: stuff-artifacts
       ServiceRole: !Ref WebAppCodeBuildRole
 
   WebAppCodeBuildRole:
     Type: AWS::IAM::Role
     Properties:
-      Path: /stuff/
+      Path: /
       AssumeRolePolicyDocument:
         Version: '2012-10-17'
         Statement:
@@ -35,7 +39,13 @@ Resources:
             Statement:
               - Effect: Allow
                 Action:
+#                  TODO(Johann) check if quotes are required
                   - 'logs:CreateLogGroup'
                   - 'logs:CreateLogStream'
                   - 'logs:PutLogEvents'
                 Resource: 'arn:aws:logs:*:*:*'
+              - Effect: Allow
+                Action:
+                  - s3:PutObject
+#                TODO(Johann) resource should be specified here. but I should add the bucket to an nested stack first
+                Resource: '*'
