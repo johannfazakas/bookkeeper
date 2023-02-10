@@ -11,10 +11,13 @@ Resources:
       IamInstanceProfile: !Ref EC2InstanceProfile
       UserData:
         Fn::Base64:
-          # TODO extract bucket name and region in mapping
+          # TODO extract codedeploy bucket name and region in mapping
           Fn::Sub: |
             #!/bin/bash
             yum -y update
+            yum -y install httpd
+            systemctl start httpd
+            systemctl enable httpd
             yum -y install ruby
             yum -y install wget
             wget https://aws-codedeploy-eu-central-1.s3.eu-central-1.amazonaws.com/latest/install
@@ -71,6 +74,10 @@ Resources:
                 Action:
                   - 's3:Get*'
                   - 's3:List*'
-                Resource: !GetAtt
-                  - ArtifactsS3Bucket
-                  - Arn
+                Resource:
+                  - !Join
+                    - ''
+                    - - !GetAtt
+                        - ArtifactsS3Bucket
+                        - Arn
+                      - '/*'
