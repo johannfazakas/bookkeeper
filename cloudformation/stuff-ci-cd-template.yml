@@ -13,11 +13,26 @@ Resources:
         ComputeType: BUILD_GENERAL1_SMALL
       Artifacts:
         Type: S3
-#        TODO(Johann) s3 bucket could be extracted as a nested stack
+#        TODO(Johann) s3 bucket could be extracted as a nested stack to depend on
         Location: stuff-artifacts-bucket
         Name: stuff-web-app
         Path: stuff-artifacts
       ServiceRole: !Ref WebAppCodeBuildRole
+
+  WebAppCodeDeployApplication:
+    Type: AWS::CodeDeploy::Application
+    Properties:
+      ApplicationName: stuff-web-app-code-deploy-application
+      ComputePlatform: Server
+
+  WebAppCodeDeployDeploymentGroup:
+    Type: AWS::CodeDeploy::DeploymentGroup
+    Properties:
+      DeploymentGroupName: stuff-web-app-code-deploy-deployment-group
+      ApplicationName: stuff-web-app-code-deploy-application
+      ServiceRoleArn: !GetAtt
+        - WebAppCodeDeployRole
+        - Arn
 
   WebAppCodeBuildRole:
     Type: AWS::IAM::Role
@@ -33,7 +48,7 @@ Resources:
             Action:
               - 'sts:AssumeRole'
       Policies:
-        - PolicyName: code-build-policy
+        - PolicyName: stuff-code-build-policy
           PolicyDocument:
             Version: "2012-10-17"
             Statement:
@@ -49,3 +64,19 @@ Resources:
                   - s3:PutObject
 #                TODO(Johann) resource should be specified here. but I should add the bucket to an nested stack first
                 Resource: '*'
+
+  WebAppCodeDeployRole:
+    Type: AWS::IAM::Role
+    Properties:
+      Path: /
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - 'codedeploy.amazonaws.com'
+            Action:
+              - 'sts:AssumeRole'
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSCodeDeployRole
