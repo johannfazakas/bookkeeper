@@ -29,11 +29,16 @@ Resources:
     Type: AWS::CodeDeploy::DeploymentGroup
     Properties:
       DeploymentGroupName: stuff-web-app-code-deploy-deployment-group
+#      TODO(Johann) reference name
       ApplicationName: stuff-web-app-code-deploy-application
       ServiceRoleArn: !GetAtt
         - WebAppCodeDeployRole
         - Arn
-
+#       TODO(Johann) could extract as parameters
+      Ec2TagFilters:
+        - Key: "service"
+          Value: "stuff-web-app"
+          Type: KEY_AND_VALUE
   WebAppCodeBuildRole:
     Type: AWS::IAM::Role
     Properties:

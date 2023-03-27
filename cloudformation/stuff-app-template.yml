@@ -23,6 +23,9 @@ Resources:
             wget https://aws-codedeploy-eu-central-1.s3.eu-central-1.amazonaws.com/latest/install
             chmod +x ./install
             ./install auto
+      Tags:
+        - Key: "service"
+          Value: "stuff-web-app"
 
   EIP:
     Type: AWS::EC2::EIP
