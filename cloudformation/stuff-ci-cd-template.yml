@@ -1,4 +1,18 @@
 ---
+Parameters:
+  GitHubOAuthToken:
+    Type: String
+    NoEcho: true
+  GitHubOwner:
+    Type: String
+    Default: johannfazakas
+  GitHubRepo:
+    Type: String
+    Default: stuff-web-app
+  GitHubBranch:
+    Type: String
+    Default: main
+
 Resources:
   WebAppCodeBuild:
     Type: AWS::CodeBuild::Project
@@ -15,8 +29,11 @@ Resources:
         Type: S3
 #        TODO(Johann) s3 bucket could be extracted as a nested stack to depend on
         Location: stuff-artifacts-bucket
-        Name: stuff-web-app
+#        TODO(Johann) is this still relevant in any way now that it is managed by CodePipeline?
+        Name: stuff-web-app.zip
         Path: stuff-artifacts
+# NOTE: ZIP packaging would not be required anymore if CodePipeline would be used
+        Packaging: ZIP
       ServiceRole: !Ref WebAppCodeBuildRole
 
   WebAppCodeDeployApplication:
@@ -36,9 +53,67 @@ Resources:
         - Arn
 #       TODO(Johann) could extract as parameters
       Ec2TagFilters:
-        - Key: "service"
-          Value: "stuff-web-app"
+        - Key: service
+          Value: stuff-web-app
           Type: KEY_AND_VALUE
+
+  WebAppCodePipeline:
+    Type: AWS::CodePipeline::Pipeline
+    Properties:
+      Name: stuff-web-app-code-pipeline
+      ArtifactStore:
+        #        TODO(Johann) s3 bucket could be extracted as a nested stack to depend on
+        Type: S3
+        Location: stuff-artifacts-bucket
+      RoleArn: !GetAtt
+        - WebAppCodePipelineRole
+        - Arn
+      Stages:
+        - Name: Source
+          Actions:
+            - Name: SourceAction
+              ActionTypeId:
+                Category: Source
+                Owner: ThirdParty
+                Provider: GitHub
+                Version: 1
+              Configuration:
+                Owner: !Ref GitHubOwner
+                Repo: !Ref GitHubRepo
+                Branch: !Ref GitHubBranch
+                PollForSourceChanges: false
+                OAuthToken: !Ref GitHubOAuthToken
+              OutputArtifacts:
+                - Name: SourceOutput
+        - Name: Build
+          Actions:
+            - Name: BuildAction
+              ActionTypeId:
+                Category: Build
+                Owner: AWS
+                Provider: CodeBuild
+                Version: 1
+              Configuration:
+                ProjectName: !Ref WebAppCodeBuild
+              InputArtifacts:
+                - Name: SourceOutput
+              OutputArtifacts:
+                - Name: BuildOutput
+
+  GitHubWebhook:
+    Type: AWS::CodePipeline::Webhook
+    Properties:
+      Authentication: GITHUB_HMAC
+      AuthenticationConfiguration:
+        SecretToken: !Ref GitHubOAuthToken
+      RegisterWithThirdParty: true
+      TargetPipeline: !Ref WebAppCodePipeline
+      TargetPipelineVersion: !GetAtt WebAppCodePipeline.Version
+      TargetAction: SourceAction
+      Filters:
+        - JsonPath: $.ref
+          MatchEquals: refs/heads/{Branch}
+
   WebAppCodeBuildRole:
     Type: AWS::IAM::Role
     Properties:
@@ -55,7 +130,7 @@ Resources:
       Policies:
         - PolicyName: stuff-code-build-policy
           PolicyDocument:
-            Version: "2012-10-17"
+            Version: 2012-10-17
             Statement:
               - Effect: Allow
                 Action:
@@ -66,9 +141,10 @@ Resources:
                 Resource: 'arn:aws:logs:*:*:*'
               - Effect: Allow
                 Action:
-                  - s3:PutObject
+#                TODO(Johann) narrow these permissions down
+                  - 's3:*'
 #                TODO(Johann) resource should be specified here. but I should add the bucket to an nested stack first
-                Resource: '*'
+                Resource: 'arn:aws:s3:::stuff-artifacts-bucket/*'
 
   WebAppCodeDeployRole:
     Type: AWS::IAM::Role
@@ -85,3 +161,31 @@ Resources:
               - 'sts:AssumeRole'
       ManagedPolicyArns:
         - arn:aws:iam::aws:policy/service-role/AWSCodeDeployRole
+
+  WebAppCodePipelineRole:
+    Type: AWS::IAM::Role
+    Properties:
+      Path: /
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - codepipeline.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AWSCodePipeline_FullAccess
+        - arn:aws:iam::aws:policy/AWSCodeBuildDeveloperAccess
+      Policies:
+        - PolicyName: stuff-web-app-pipeline-upload-artifacts-s3-policy
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+#                  TODO(Johann) narrow this further
+                  - 's3:*'
+#                   TODO(Johann) extract this hardcoded resource
+                Resource: 'arn:aws:s3:::stuff-artifacts-bucket/*'
