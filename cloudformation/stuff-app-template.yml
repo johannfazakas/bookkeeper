@@ -24,8 +24,8 @@ Resources:
             chmod +x ./install
             ./install auto
       Tags:
-        - Key: "service"
-          Value: "stuff-web-app"
+        - Key: service
+          Value: stuff-web-app
 
   EIP:
     Type: AWS::EC2::EIP
@@ -67,20 +67,20 @@ Resources:
               Service:
                 - ec2.amazonaws.com
             Action:
-              - 'sts:AssumeRole'
+              - sts:AssumeRole
       Policies:
         - PolicyName: stuff-read-artifacts-s3-policy
           PolicyDocument:
-            Version: "2012-10-17"
+            Version: 2012-10-17
             Statement:
               - Effect: Allow
                 Action:
-                  - 's3:Get*'
-                  - 's3:List*'
+                  - s3:Get*
+                  - s3:List*
                 Resource:
                   - !Join
                     - ''
                     - - !GetAtt
                         - ArtifactsS3Bucket
                         - Arn
-                      - '/*'
+                      - /*
