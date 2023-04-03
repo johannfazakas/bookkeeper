@@ -42,10 +42,12 @@ Resources:
       ServiceRoleArn: !GetAtt
         - WebAppCodeDeployRole
         - Arn
-      Ec2TagFilters:
-        - Key: service
-          Value: stuff-web-app
-          Type: KEY_AND_VALUE
+      AutoScalingGroups:
+        - stuff-web-app-auto-scaling-group
+#      Ec2TagFilters:
+#        - Key: service
+#          Value: stuff-web-app
+#          Type: KEY_AND_VALUE
 
   WebAppCodePipeline:
     Type: AWS::CodePipeline::Pipeline

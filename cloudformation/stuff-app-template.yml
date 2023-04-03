@@ -1,37 +1,56 @@
 ---
 Resources:
-  EC2Instance:
-    Type: AWS::EC2::Instance
-    Properties:
-      AvailabilityZone: eu-central-1a
-      ImageId: ami-06c39ed6b42908a36
-      InstanceType: t2.micro
-      SecurityGroups:
-        - !Ref SSHSecurityGroup
-        - !Ref HttpSecurityGroup
-      IamInstanceProfile: !Ref EC2InstanceProfile
-      UserData:
-        Fn::Base64:
-          # TODO extract codedeploy bucket name and region in mapping
-          Fn::Sub: |
-            #!/bin/bash
-            yum -y update
-            yum -y install httpd
-            systemctl start httpd
-            systemctl enable httpd
-            yum -y install ruby
-            yum -y install wget
-            wget https://aws-codedeploy-eu-central-1.s3.eu-central-1.amazonaws.com/latest/install
-            chmod +x ./install
-            ./install auto
-      Tags:
-        - Key: service
-          Value: stuff-web-app
 
-  EIP:
-    Type: AWS::EC2::EIP
+  StuffWebAppAutoScalingGroup:
+    Type: AWS::AutoScaling::AutoScalingGroup
     Properties:
-      InstanceId: !Ref EC2Instance
+      AutoScalingGroupName: stuff-web-app-auto-scaling-group
+# TODO should this be extracted to a parameter? or a mapping based on region?
+      AvailabilityZones:
+        - eu-central-1a
+        - eu-central-1b
+        - eu-central-1c
+      MinSize: 2
+      MaxSize: 2
+      DesiredCapacity: 2
+      LaunchTemplate:
+        LaunchTemplateId: !Ref StuffWebAppLaunchTemplate
+        Version: !GetAtt
+          - StuffWebAppLaunchTemplate
+          - LatestVersionNumber
+
+  StuffWebAppLaunchTemplate:
+    Type: AWS::EC2::LaunchTemplate
+    Properties:
+      LaunchTemplateName: stuff-web-app-launch-template
+      LaunchTemplateData:
+#        TODO could be set as a parameter
+        ImageId: ami-06c39ed6b42908a36
+        InstanceType: t2.micro
+        SecurityGroups:
+          - !Ref SSHSecurityGroup
+          - !Ref HttpSecurityGroup
+        IamInstanceProfile:
+          Name: !Ref StuffEC2InstanceProfile
+        UserData:
+          Fn::Base64:
+            # TODO extract codedeploy bucket name and region in mapping
+            Fn::Sub: |
+              #!/bin/bash
+              yum -y update
+              yum -y install httpd
+              systemctl start httpd
+              systemctl enable httpd
+              yum -y install ruby
+              yum -y install wget
+              wget https://aws-codedeploy-eu-central-1.s3.eu-central-1.amazonaws.com/latest/install
+              chmod +x ./install
+              ./install auto
+        TagSpecifications:
+          - ResourceType: instance
+            Tags:
+              - Key: service
+                Value: stuff-web-app
 
   SSHSecurityGroup:
     Type: AWS::EC2::SecurityGroup
@@ -60,14 +79,14 @@ Resources:
     Properties:
       BucketName: stuff-artifacts-bucket
 
-  EC2InstanceProfile:
+  StuffEC2InstanceProfile:
     Type: AWS::IAM::InstanceProfile
     Properties:
       InstanceProfileName: stuff-ec2-instance-profile
       Roles:
-        - !Ref EC2InstanceRole
+        - !Ref StuffEC2InstanceRole
 
-  EC2InstanceRole:
+  StuffEC2InstanceRole:
     Type: AWS::IAM::Role
     Properties:
       Path: /stuff/
