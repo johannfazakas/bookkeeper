@@ -18,21 +18,14 @@ Resources:
     Type: AWS::CodeBuild::Project
     Properties:
       Name: stuff-web-app-code-build
-      Source:
-        Type: GITHUB
-        Location: https://github.com/johannfazakas/stuff-web-app
       Environment:
         Type: LINUX_CONTAINER
         Image: aws/codebuild/amazonlinux2-x86_64-standard:4.0
         ComputeType: BUILD_GENERAL1_SMALL
+      Source:
+        Type: CODEPIPELINE
       Artifacts:
-        Type: S3
-        Location: stuff-artifacts-bucket
-#        TODO(Johann) is this still relevant in any way now that it is managed by CodePipeline?
-        Name: stuff-web-app.zip
-        Path: stuff-artifacts
-# NOTE: ZIP packaging would not be required anymore if CodePipeline would be used
-        Packaging: ZIP
+        Type: CODEPIPELINE
       ServiceRole: !Ref WebAppCodeBuildRole
 
   WebAppCodeDeployApplication:
@@ -45,8 +38,7 @@ Resources:
     Type: AWS::CodeDeploy::DeploymentGroup
     Properties:
       DeploymentGroupName: stuff-web-app-code-deploy-deployment-group
-#      TODO(Johann) reference name
-      ApplicationName: stuff-web-app-code-deploy-application
+      ApplicationName: !Ref WebAppCodeDeployApplication
       ServiceRoleArn: !GetAtt
         - WebAppCodeDeployRole
         - Arn
