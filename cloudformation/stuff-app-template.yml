@@ -8,6 +8,7 @@ Resources:
       InstanceType: t2.micro
       SecurityGroups:
         - !Ref SSHSecurityGroup
+        - !Ref HttpSecurityGroup
       IamInstanceProfile: !Ref EC2InstanceProfile
       UserData:
         Fn::Base64:
@@ -42,6 +43,17 @@ Resources:
           IpProtocol: tcp
           FromPort: 22
           ToPort: 22
+
+  HttpSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: stuff-http-security-group
+      GroupDescription: Allow HTTP connection
+      SecurityGroupIngress:
+        - CidrIp: 0.0.0.0/0
+          IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
 
   ArtifactsS3Bucket:
     Type: AWS::S3::Bucket
