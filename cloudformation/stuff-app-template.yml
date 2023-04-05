@@ -7,3 +7,52 @@ Resources:
       ClusterName: stuff-ecs-cluster
       CapacityProviders:
         - FARGATE_SPOT
+
+  WebAppTaskDefinition:
+    Type: AWS::ECS::TaskDefinition
+    Properties:
+      ContainerDefinitions:
+        - Name: stuff-web-app
+          # TODO(Johann) specify the image to use
+          Image: !Sub ${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/stuff/web-app:latest
+          PortMappings:
+            - ContainerPort: 80
+              Protocol: tcp
+      ExecutionRoleArn: !GetAtt WebAppExecutionRole.Arn
+      TaskRoleArn: !GetAtt WebAppTaskRole.Arn
+      Family: web-app
+      RuntimePlatform:
+        OperatingSystemFamily: LINUX
+        CpuArchitecture: X86_64
+      NetworkMode: awsvpc
+      Cpu: 256
+      Memory: 512
+
+  WebAppExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      Path: /
+      AssumeRolePolicyDocument:
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: ecs-tasks.amazonaws.com
+            Action:
+              - sts:AssumeRole
+
+  WebAppTaskRole:
+    Type: AWS::IAM::Role
+    Properties:
+      Path: /
+      AssumeRolePolicyDocument:
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: ecs-tasks.amazonaws.com
+            Action:
+              - sts:AssumeRole
+
+  StuffWebAppECRRepository:
+    Type: AWS::ECR::Repository
+    Properties:
+      RepositoryName: stuff/web-app

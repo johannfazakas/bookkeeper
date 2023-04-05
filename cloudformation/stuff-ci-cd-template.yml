@@ -117,6 +117,7 @@ Resources:
   WebAppCodeBuildRole:
     Type: AWS::IAM::Role
     Properties:
+      # TODO(Johann) should I put my roles under a specific path?
       Path: /
       AssumeRolePolicyDocument:
         Version: 2012-10-17
