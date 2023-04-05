@@ -1,0 +1,116 @@
+---
+Resources:
+  StuffWebAppAutoScalingGroup:
+    Type: AWS::AutoScaling::AutoScalingGroup
+    Properties:
+      AutoScalingGroupName: stuff-web-app-auto-scaling-group
+# TODO should this be extracted to a parameter? or a mapping based on region?
+      AvailabilityZones:
+        - eu-central-1a
+        - eu-central-1b
+        - eu-central-1c
+      MinSize: 2
+      MaxSize: 2
+      DesiredCapacity: 2
+      LaunchTemplate:
+        LaunchTemplateId: !Ref StuffWebAppLaunchTemplate
+        Version: !GetAtt
+          - StuffWebAppLaunchTemplate
+          - LatestVersionNumber
+
+  StuffWebAppLaunchTemplate:
+    Type: AWS::EC2::LaunchTemplate
+    Properties:
+      LaunchTemplateName: stuff-web-app-launch-template
+      LaunchTemplateData:
+#        TODO could be set as a parameter
+        ImageId: ami-06c39ed6b42908a36
+        InstanceType: t2.micro
+        SecurityGroups:
+          - !Ref SSHSecurityGroup
+          - !Ref HttpSecurityGroup
+        IamInstanceProfile:
+          Name: !Ref StuffEC2InstanceProfile
+        UserData:
+          Fn::Base64:
+            # TODO extract codedeploy bucket name and region in mapping
+            Fn::Sub: |
+              #!/bin/bash
+              yum -y update
+              yum -y install httpd
+              systemctl start httpd
+              systemctl enable httpd
+              yum -y install ruby
+              yum -y install wget
+              wget https://aws-codedeploy-eu-central-1.s3.eu-central-1.amazonaws.com/latest/install
+              chmod +x ./install
+              ./install auto
+        TagSpecifications:
+          - ResourceType: instance
+            Tags:
+              - Key: service
+                Value: stuff-web-app
+
+  SSHSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: stuff-ssh-security-group
+      GroupDescription: Allow SSH connection
+      SecurityGroupIngress:
+        - CidrIp: 0.0.0.0/0
+          IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+
+  HttpSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: stuff-http-security-group
+      GroupDescription: Allow HTTP connection
+      SecurityGroupIngress:
+        - CidrIp: 0.0.0.0/0
+          IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+
+  ArtifactsS3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: stuff-artifacts-bucket
+
+  StuffEC2InstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      InstanceProfileName: stuff-ec2-instance-profile
+      Roles:
+        - !Ref StuffEC2InstanceRole
+
+  StuffEC2InstanceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      Path: /stuff/
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - ec2.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Policies:
+        - PolicyName: stuff-read-artifacts-s3-policy
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - s3:Get*
+                  - s3:List*
+                Resource:
+                  - !Join
+                    - ''
+                    - - !GetAtt
+                        - ArtifactsS3Bucket
+                        - Arn
+                      - /*
