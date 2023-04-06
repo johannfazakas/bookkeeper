@@ -1,19 +1,53 @@
 ---
 Resources:
 
-  StuffEcsCluster:
+  StuffECSCluster:
     Type: AWS::ECS::Cluster
     Properties:
       ClusterName: stuff-ecs-cluster
       CapacityProviders:
         - FARGATE_SPOT
 
+  WebAppService:
+    Type: AWS::ECS::Service
+    DependsOn:
+      - WebAppLoadBalancerListener
+    Properties:
+      ServiceName: web-app
+      Cluster: !Ref StuffECSCluster
+      TaskDefinition: !Ref WebAppTaskDefinition
+      LaunchType: FARGATE
+      LoadBalancers:
+        - ContainerName: stuff-web-app
+          ContainerPort: 80
+          # TODO(codepipeline with ecs) will have to specify two target groups for CODE_DEPLOY
+          TargetGroupArn: !GetAtt WebAppLoadBalancerTargetGroup.TargetGroupArn
+      NetworkConfiguration:
+        AwsvpcConfiguration:
+          # TODO(Johann) decide not sure if it will be needed
+          AssignPublicIp: ENABLED
+          SecurityGroups:
+            - !GetAtt WebAppServiceSecurityGroup.GroupId
+          # IMPROVE pass subnets as parameters
+          Subnets:
+            - subnet-03b0f58983b5d5b8a
+            - subnet-0910d8975e3dbf48b
+            - subnet-0a55796ab32a4156e
+      DesiredCount: 2
+      SchedulingStrategy: REPLICA
+      DeploymentConfiguration:
+        MinimumHealthyPercent: 50
+        MaximumPercent: 200
+      DeploymentController:
+        # TODO(codepipeline with ecs) change to CODE_DEPLOY
+        Type: ECS
+
   WebAppTaskDefinition:
     Type: AWS::ECS::TaskDefinition
     Properties:
       ContainerDefinitions:
         - Name: stuff-web-app
-          # TODO(Johann) specify the image to use
+          # IMPROVE pass repo name and version as parameters
           Image: !Sub ${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/stuff/web-app:latest
           PortMappings:
             - ContainerPort: 80
@@ -28,9 +62,69 @@ Resources:
       Cpu: 256
       Memory: 512
 
+  WebAppLoadBalancer:
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    Properties:
+      Name: stuff-web-app-alb
+      Type: application
+      Scheme: internet-facing
+      IpAddressType: ipv4
+      SecurityGroups:
+        - !GetAtt WebAppLoadBalancerSecurityGroup.GroupId
+      # IMPROVE pass subnet ids as parameters
+      Subnets:
+        - subnet-03b0f58983b5d5b8a
+        - subnet-0910d8975e3dbf48b
+        - subnet-0a55796ab32a4156e
+
+  WebAppLoadBalancerTargetGroup:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      Name: stuff-web-app-alb-tg
+      Protocol: HTTP
+      Port: 80
+      # IMPROVE pass vpc id as parameter
+      VpcId: vpc-0ae8710521d1b1869
+      IpAddressType: ipv4
+      TargetType: ip
+
+  WebAppLoadBalancerListener:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Properties:
+      LoadBalancerArn: !Ref WebAppLoadBalancer
+      Protocol: HTTP
+      Port: 80
+      DefaultActions:
+        - Type: forward
+          TargetGroupArn: !GetAtt WebAppLoadBalancerTargetGroup.TargetGroupArn
+
+  WebAppLoadBalancerSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: stuff-web-app-alb-sg
+      GroupDescription: Security group for the web-app load balancer
+      SecurityGroupIngress:
+        - CidrIp: 0.0.0.0/0
+          IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+
+  WebAppServiceSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: stuff-web-app-service-sg
+      GroupDescription: Security group for the web-app load balancer
+      SecurityGroupIngress:
+        - CidrIp: 0.0.0.0/0
+          IpProtocol: tcp
+          # IMPROVE there should be a way to display * instead of 0-65535
+          FromPort: 0
+          ToPort: 65535
+
   WebAppExecutionRole:
     Type: AWS::IAM::Role
     Properties:
+      RoleName: stuff-web-app-task-execution-role
       Path: /
       AssumeRolePolicyDocument:
         Statement:
@@ -39,10 +133,24 @@ Resources:
               Service: ecs-tasks.amazonaws.com
             Action:
               - sts:AssumeRole
+      Policies:
+        - PolicyName: stuff-web-app-task-execution-policy
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - ecr:GetAuthorizationToken
+                  - ecr:BatchCheckLayerAvailability
+                  - ecr:GetDownloadUrlForLayer
+                  - ecr:BatchGetImage
+                  - logs:*
+                Resource: '*'
 
   WebAppTaskRole:
     Type: AWS::IAM::Role
     Properties:
+      RoleName: stuff-web-app-task-container-role
       Path: /
       AssumeRolePolicyDocument:
         Statement:
@@ -51,8 +159,34 @@ Resources:
               Service: ecs-tasks.amazonaws.com
             Action:
               - sts:AssumeRole
+      Policies:
+        - PolicyName: stuff-web-app-task-container-policy
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - logs:*
+                Resource: '*'
 
-  StuffWebAppECRRepository:
-    Type: AWS::ECR::Repository
+  WebAppServiceRole:
+    Type: AWS::IAM::Role
     Properties:
-      RepositoryName: stuff/web-app
+      RoleName: stuff-web-app-service-role
+      Path: /
+      AssumeRolePolicyDocument:
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: ecs.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Policies:
+        - PolicyName: stuff-web-app-task-container-policy
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - logs:*
+                Resource: '*'
