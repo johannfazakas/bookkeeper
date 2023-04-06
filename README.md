@@ -1,51 +1,58 @@
 # stuff-infra
 Infra stuff for Stuff!
 
+## Prerequisites
+Make scripts executable:
+```shell 
+chmod +x scripts/*.sh
+```
+
+## Stuff Artifacts
+### Create artifacts stack
+```shell
+./scripts/create-artifacts-stack.sh
+```
+
+### Update artifacts stack
+```shell
+./scripts/update-artifacts-stack.sh
+```
+
+### Delete artifacts stack
+```shell
+./scripts/update-artifacts-stack.sh
+```
+
 ## Stuff App Infrastructure
 
-### Create new App CloudFormation Stack
+### Create app stack
 ```shell
-aws cloudformation create-stack \
-  --stack-name stuff-app-stack \
-  --template-body file://cloudformation/stuff-app-template.yml \
-  --capabilities CAPABILITY_IAM CAPABILITY_NAMED_IAM
+.scripts/create-app-stack.sh
 ```
 
-### Update App Stack
+### Update app stack
 ```shell
-aws cloudformation update-stack \
-  --stack-name stuff-app-stack \
-  --template-body file://cloudformation/stuff-app-template.yml \
-  --capabilities CAPABILITY_IAM CAPABILITY_NAMED_IAM
+.scripts/update-app-stack.sh
 ```
 
-### Delete App Stack
+### Delete app stack
 ```shell
-aws cloudformation delete-stack --stack-name stuff-app-stack
+.scripts/delete-app-stack.sh
 ```
 
 ## Stuff App CI/CD
 
 ### Create new CI/CD CloudFormation Stack
 ```shell
-aws cloudformation create-stack \
-  --stack-name stuff-ci-cd-stack \
-  --template-body file://cloudformation/stuff-ci-cd-template.yml \
-  --parameters ParameterKey=GitHubOAuthToken,ParameterValue={REPLACE_ME_WITH_YOUR_TOKEN} \
-  --capabilities CAPABILITY_IAM
+./scripts/create-ci-cd-stack.sh
 ```
 
 ### Update CI/CD Stack
 ```shell
-export GITHUB_TOKEN={REPLACE_ME_WITH_YOUR_TOKEN}
-aws cloudformation update-stack \
-  --stack-name stuff-ci-cd-stack \
-  --template-body file://cloudformation/stuff-ci-cd-template.yml \
-  --parameters ParameterKey=GitHubOAuthToken,ParameterValue={REPLACE_ME_WITH_YOUR_TOKEN} \
-  --capabilities CAPABILITY_IAM
+./scripts/update-ci-cd-stack.sh
 ```
 
 ### Delete CI/CD Stack
 ```shell
-aws cloudformation delete-stack --stack-name stuff-ci-cd-stack
+./scripts/delete-ci-cd-stack.sh
 ```
