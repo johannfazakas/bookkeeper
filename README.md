@@ -27,17 +27,17 @@ chmod +x scripts/*.sh
 
 ### Create app stack
 ```shell
-.scripts/create-app-stack.sh
+./scripts/create-app-stack.sh
 ```
 
 ### Update app stack
 ```shell
-.scripts/update-app-stack.sh
+./scripts/update-app-stack.sh
 ```
 
 ### Delete app stack
 ```shell
-.scripts/delete-app-stack.sh
+./scripts/delete-app-stack.sh
 ```
 
 ## Stuff App CI/CD

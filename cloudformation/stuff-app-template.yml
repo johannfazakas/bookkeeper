@@ -47,8 +47,9 @@ Resources:
     Properties:
       ContainerDefinitions:
         - Name: stuff-web-app
-          # IMPROVE pass repo name and version as parameters
-          Image: !Sub ${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/stuff/web-app:latest
+          Image: !Sub
+            - ${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/${Repository}:latest
+            - Repository: !ImportValue StuffWebAppECRRepository
           PortMappings:
             - ContainerPort: 80
               Protocol: tcp
