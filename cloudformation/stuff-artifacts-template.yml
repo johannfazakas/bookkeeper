@@ -1,0 +1,13 @@
+---
+Outputs:
+  StuffWebAppECRRepository:
+    Description: The ECR repository for the web app
+    Value: !Ref StuffWebAppECRRepository
+    Export:
+      Name: StuffWebAppECRRepository
+Resources:
+  # TODO(Johann) this should be an output and the app stack should depend on it
+  StuffWebAppECRRepository:
+    Type: AWS::ECR::Repository
+    Properties:
+      RepositoryName: stuff/web-app
