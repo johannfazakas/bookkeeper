@@ -22,28 +22,30 @@ Resources:
         Type: LINUX_CONTAINER
         Image: aws/codebuild/amazonlinux2-x86_64-standard:4.0
         ComputeType: BUILD_GENERAL1_SMALL
+        PrivilegedMode: true
       Source:
         Type: CODEPIPELINE
       Artifacts:
         Type: CODEPIPELINE
       ServiceRole: !Ref WebAppCodeBuildRole
 
-  WebAppCodeDeployApplication:
-    Type: AWS::CodeDeploy::Application
-    Properties:
-      ApplicationName: stuff-web-app-code-deploy-application
-      ComputePlatform: Server
 
-  WebAppCodeDeployDeploymentGroup:
-    Type: AWS::CodeDeploy::DeploymentGroup
-    Properties:
-      DeploymentGroupName: stuff-web-app-code-deploy-deployment-group
-      ApplicationName: !Ref WebAppCodeDeployApplication
-      ServiceRoleArn: !GetAtt
-        - WebAppCodeDeployRole
-        - Arn
-      AutoScalingGroups:
-        - stuff-web-app-auto-scaling-group
+#  WebAppCodeDeployApplication:
+#    Type: AWS::CodeDeploy::Application
+#    Properties:
+#      ApplicationName: stuff-web-app-code-deploy-application
+#      ComputePlatform: Server
+#
+#  WebAppCodeDeployDeploymentGroup:
+#    Type: AWS::CodeDeploy::DeploymentGroup
+#    Properties:
+#      DeploymentGroupName: stuff-web-app-code-deploy-deployment-group
+#      ApplicationName: !Ref WebAppCodeDeployApplication
+#      ServiceRoleArn: !GetAtt
+#        - WebAppCodeDeployRole
+#        - Arn
+#      AutoScalingGroups:
+#        - stuff-web-app-auto-scaling-group
 
   WebAppCodePipeline:
     Type: AWS::CodePipeline::Pipeline
@@ -86,19 +88,19 @@ Resources:
                 - Name: source
               OutputArtifacts:
                 - Name: build
-        - Name: Deploy
-          Actions:
-            - Name: Deploy
-              ActionTypeId:
-                Category: Deploy
-                Owner: AWS
-                Provider: CodeDeploy
-                Version: 1
-              Configuration:
-                ApplicationName: !Ref WebAppCodeDeployApplication
-                DeploymentGroupName: !Ref WebAppCodeDeployDeploymentGroup
-              InputArtifacts:
-                - Name: build
+#        - Name: Deploy
+#          Actions:
+#            - Name: Deploy
+#              ActionTypeId:
+#                Category: Deploy
+#                Owner: AWS
+#                Provider: CodeDeploy
+#                Version: 1
+#              Configuration:
+#                ApplicationName: !Ref WebAppCodeDeployApplication
+#                DeploymentGroupName: !Ref WebAppCodeDeployDeploymentGroup
+#              InputArtifacts:
+#                - Name: build
 
   GitHubWebhook:
     Type: AWS::CodePipeline::Webhook
@@ -117,6 +119,7 @@ Resources:
   WebAppCodeBuildRole:
     Type: AWS::IAM::Role
     Properties:
+      RoleName: stuff-web-app-code-build-role
       # TODO(Johann) should I put my roles under a specific path?
       Path: /
       AssumeRolePolicyDocument:
@@ -143,26 +146,36 @@ Resources:
                 Action:
                   - s3:*
                 Resource: arn:aws:s3:::stuff-artifacts-bucket/*
+              - Effect: Allow
+                Action:
+                  - ecr:*
+                Resource: !ImportValue StuffWebAppECRRepositoryArn
+              - Effect: Allow
+                Action:
+                  - ecr:GetAuthorizationToken
+                Resource: '*'
 
-  WebAppCodeDeployRole:
-    Type: AWS::IAM::Role
-    Properties:
-      Path: /
-      AssumeRolePolicyDocument:
-        Version: 2012-10-17
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service:
-                - codedeploy.amazonaws.com
-            Action:
-              - sts:AssumeRole
-      ManagedPolicyArns:
-        - arn:aws:iam::aws:policy/service-role/AWSCodeDeployRole
+#  WebAppCodeDeployRole:
+#    Type: AWS::IAM::Role
+#    Properties:
+#      RoleName: stuff-web-app-code-deploy-role
+#      Path: /
+#      AssumeRolePolicyDocument:
+#        Version: 2012-10-17
+#        Statement:
+#          - Effect: Allow
+#            Principal:
+#              Service:
+#                - codedeploy.amazonaws.com
+#            Action:
+#              - sts:AssumeRole
+#      ManagedPolicyArns:
+#        - arn:aws:iam::aws:policy/service-role/AWSCodeDeployRole
 
   WebAppCodePipelineRole:
     Type: AWS::IAM::Role
     Properties:
+      RoleName: stuff-web-app-code-pipeline-role
       Path: /
       AssumeRolePolicyDocument:
         Version: 2012-10-17

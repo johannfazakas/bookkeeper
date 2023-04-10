@@ -5,9 +5,20 @@ Outputs:
     Value: !Ref StuffWebAppECRRepository
     Export:
       Name: StuffWebAppECRRepository
+  StuffWebAppECRRepositoryArn:
+    Description: The ECR repository ARN for the web app
+    Value: !GetAtt StuffWebAppECRRepository.Arn
+    Export:
+      Name: StuffWebAppECRRepositoryArn
+
 Resources:
-  # TODO(Johann) this should be an output and the app stack should depend on it
+
   StuffWebAppECRRepository:
     Type: AWS::ECR::Repository
     Properties:
       RepositoryName: stuff/web-app
+
+  StuffWebAppArtifactsBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: stuff-artifacts-bucket
