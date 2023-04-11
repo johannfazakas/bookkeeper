@@ -10,14 +10,18 @@ Outputs:
     Value: !GetAtt StuffWebAppECRRepository.Arn
     Export:
       Name: StuffWebAppECRRepositoryArn
+  StuffArtifactsBucketArn:
+    Value: !GetAtt StuffWebAppArtifactsBucket.Arn
+    Export:
+      Name: StuffArtifactsBucketArn
 
 Resources:
-
   StuffWebAppECRRepository:
     Type: AWS::ECR::Repository
     Properties:
       RepositoryName: stuff/web-app
 
+  # TODO(Johann) should rename this as it should be used by all pipelines
   StuffWebAppArtifactsBucket:
     Type: AWS::S3::Bucket
     Properties:

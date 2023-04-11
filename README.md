@@ -20,7 +20,7 @@ chmod +x scripts/*.sh
 
 ### Delete artifacts stack
 ```shell
-./scripts/update-artifacts-stack.sh
+./scripts/delete-artifacts-stack.sh
 ```
 
 ## Stuff App Infrastructure

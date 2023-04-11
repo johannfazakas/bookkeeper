@@ -1,6 +1,5 @@
 ---
 Resources:
-
   StuffECSCluster:
     Type: AWS::ECS::Cluster
     Properties:
@@ -13,18 +12,16 @@ Resources:
     DependsOn:
       - WebAppLoadBalancerListener
     Properties:
-      ServiceName: web-app
+      ServiceName: web-app-service
       Cluster: !Ref StuffECSCluster
       TaskDefinition: !Ref WebAppTaskDefinition
       LaunchType: FARGATE
       LoadBalancers:
         - ContainerName: stuff-web-app
           ContainerPort: 80
-          # TODO(codepipeline with ecs) will have to specify two target groups for CODE_DEPLOY
           TargetGroupArn: !GetAtt WebAppLoadBalancerTargetGroup.TargetGroupArn
       NetworkConfiguration:
         AwsvpcConfiguration:
-          # TODO(Johann) decide not sure if it will be needed
           AssignPublicIp: ENABLED
           SecurityGroups:
             - !GetAtt WebAppServiceSecurityGroup.GroupId
@@ -39,7 +36,6 @@ Resources:
         MinimumHealthyPercent: 50
         MaximumPercent: 200
       DeploymentController:
-        # TODO(codepipeline with ecs) change to CODE_DEPLOY
         Type: ECS
 
   WebAppTaskDefinition:
