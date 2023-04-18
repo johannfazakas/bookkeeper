@@ -21,6 +21,11 @@ Resources:
     Properties:
       RepositoryName: stuff/web-app
 
+  StuffPipelineRouterECRRepository:
+    Type: AWS::ECR::Repository
+    Properties:
+      RepositoryName: stuff/pipeline-router
+
   # TODO(Johann) should rename this as it should be used by all pipelines
   StuffWebAppArtifactsBucket:
     Type: AWS::S3::Bucket
