@@ -16,7 +16,7 @@ Resources:
       # TODO(Johann) replace hardcoded lambda uri
       IntegrationUri: !Sub
         - arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaFunction}/invocations
-        - LambdaFunction: arn:aws:lambda:eu-central-1:572338991617:function:ci-test-lambda
+        - LambdaFunction: arn:aws:lambda:eu-central-1:572338991617:function:stuff-pipeline-router
       IntegrationMethod: POST
       CredentialsArn: !GetAtt StuffSourceApiGatewayIntegrationRole.Arn
       PayloadFormatVersion: 2.0
@@ -70,4 +70,4 @@ Resources:
                 Action:
                   - lambda:InvokeFunction
                 # TODO(Johann) replace hardcoded lambda uri
-                Resource: arn:aws:lambda:eu-central-1:572338991617:function:ci-test-lambda
+                Resource: arn:aws:lambda:eu-central-1:572338991617:function:stuff-pipeline-router
