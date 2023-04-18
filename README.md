@@ -40,6 +40,23 @@ chmod +x scripts/*.sh
 ./scripts/delete-app-stack.sh
 ```
 
+## Stuff Source Filter
+
+### Create new Source Filter CloudFormation Stack
+```shell
+./scripts/create-source-filter-stack.sh
+```
+
+### Update Source Filter Stack
+```shell
+./scripts/update-source-filter-stack.sh
+```
+
+### Delete Source Filter Stack
+```shell
+./scripts/delete-source-filter-stack.sh
+```
+
 ## Stuff App CI/CD
 
 ### Create new CI/CD CloudFormation Stack

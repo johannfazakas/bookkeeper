@@ -1,0 +1,73 @@
+---
+Resources:
+  StuffSourceApiGateway:
+    Type: AWS::ApiGatewayV2::Api
+    Properties:
+      Name: stuff-source-api-gateway
+      Description: |
+        Api Gateway to be triggered by GitHub webhooks to pass source to Lambda deciding which pipeline to start
+      ProtocolType: HTTP
+
+  StuffSourceApiGatewayLambdaIntegration:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      ApiId: !Ref StuffSourceApiGateway
+      IntegrationType: AWS_PROXY
+      # TODO(Johann) replace hardcoded lambda uri
+      IntegrationUri: !Sub
+        - arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaFunction}/invocations
+        - LambdaFunction: arn:aws:lambda:eu-central-1:572338991617:function:ci-test-lambda
+      IntegrationMethod: POST
+      CredentialsArn: !GetAtt StuffSourceApiGatewayIntegrationRole.Arn
+      PayloadFormatVersion: 2.0
+
+  StuffSourceApiGatewayRoute:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId: !Ref StuffSourceApiGateway
+      RouteKey: POST /trigger
+      Target: !Join
+        - '/'
+        - - 'integrations'
+          - !Ref StuffSourceApiGatewayLambdaIntegration
+
+  StuffSourceApiGatewayDeployment:
+    Type: AWS::ApiGatewayV2::Deployment
+    DependsOn:
+      - StuffSourceApiGatewayStage
+      - StuffSourceApiGatewayRoute
+    Properties:
+      ApiId: !Ref StuffSourceApiGateway
+      StageName: source
+
+  StuffSourceApiGatewayStage:
+    Type: AWS::ApiGatewayV2::Stage
+    Properties:
+      StageName: source
+      ApiId: !Ref StuffSourceApiGateway
+      AutoDeploy: true
+
+  StuffSourceApiGatewayIntegrationRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: stuff-source-api-gateway-integration-role
+      Path: /
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - apigateway.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Policies:
+        - PolicyName: stuff-source-api-gateway-integration-policy
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - lambda:InvokeFunction
+                # TODO(Johann) replace hardcoded lambda uri
+                Resource: arn:aws:lambda:eu-central-1:572338991617:function:ci-test-lambda
