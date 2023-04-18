@@ -1,5 +1,19 @@
 ---
 Resources:
+  StuffPipelineRouterLambda:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: stuff-pipeline-router
+      Description: |
+        Lambda function to decide which pipeline to start based on source
+      Role: !GetAtt StuffPipelineRouterLambdaRole.Arn
+      PackageType: Image
+      Code:
+        ImageUri: !Sub
+          - ${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/${Repository}:latest
+          - Repository: !ImportValue StuffPipelineRouterECRRepository
+      MemorySize: 128
+
   StuffSourceApiGateway:
     Type: AWS::ApiGatewayV2::Api
     Properties:
@@ -46,6 +60,21 @@ Resources:
       StageName: source
       ApiId: !Ref StuffSourceApiGateway
       AutoDeploy: true
+
+  StuffPipelineRouterLambdaRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: stuff-pipeline-router-lambda-role
+      Path: /
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - sts:AssumeRole
 
   StuffSourceApiGatewayIntegrationRole:
     Type: AWS::IAM::Role

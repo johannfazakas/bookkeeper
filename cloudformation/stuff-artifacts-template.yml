@@ -10,6 +10,11 @@ Outputs:
     Value: !GetAtt StuffWebAppECRRepository.Arn
     Export:
       Name: StuffWebAppECRRepositoryArn
+  StuffPipelineRouterECRRepository:
+    Description: The ECR repository for the pipeline router
+    Value: !Ref StuffPipelineRouterECRRepository
+    Export:
+      Name: StuffPipelineRouterECRRepository
   StuffArtifactsBucketArn:
     Value: !GetAtt StuffWebAppArtifactsBucket.Arn
     Export:
