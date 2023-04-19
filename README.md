@@ -41,6 +41,7 @@ chmod +x scripts/*.sh
 ```
 
 ## Stuff Source Filter
+After deploying the Source Filter stack, the Webhook inside the GitHub repository needs to be updated to point to the URL.
 
 ### Create new Source Filter CloudFormation Stack
 ```shell
