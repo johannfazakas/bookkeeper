@@ -85,20 +85,6 @@ Resources:
               InputArtifacts:
                 - Name: build
 
-  GitHubWebhook:
-    Type: AWS::CodePipeline::Webhook
-    Properties:
-      Authentication: GITHUB_HMAC
-      AuthenticationConfiguration:
-        SecretToken: !Ref GitHubOAuthToken
-      RegisterWithThirdParty: true
-      TargetPipeline: !Ref WebAppCodePipeline
-      TargetPipelineVersion: !GetAtt WebAppCodePipeline.Version
-      TargetAction: Source
-      Filters:
-        - JsonPath: $.ref
-          MatchEquals: refs/heads/{Branch}
-
   WebAppCodeBuildRole:
     Type: AWS::IAM::Role
     Properties:
