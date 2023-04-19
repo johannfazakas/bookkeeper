@@ -16,7 +16,7 @@ class StuffPipelineRouter : RequestHandler<APIGatewayProxyRequestEvent, APIGatew
     override fun handleRequest(input: APIGatewayProxyRequestEvent, context: Context): APIGatewayProxyResponseEvent {
         val logger = context.logger
         val pipelineName = "stuff-web-app-code-pipeline"
-        logger.log("Will trigger pipeline $pipelineName. Input: ${input.body}")
+        logger.log("Will trigger pipeline $pipelineName. Input: ${input.body}.")
 
         val result = codePipelineClient.startPipelineExecution(StartPipelineExecutionRequest().withName(pipelineName))
         val response = PipelineRoutingResponse(pipelineName, result.pipelineExecutionId)
