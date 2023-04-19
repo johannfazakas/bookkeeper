@@ -9,8 +9,9 @@ repositories {
 
 dependencies {
     implementation(kotlin("stdlib"))
-    implementation("com.amazonaws:aws-lambda-java-core:1.2.1")
-    implementation("com.amazonaws:aws-lambda-java-events:3.10.0")
+    implementation("com.amazonaws:aws-lambda-java-core:1.2.2")
+    implementation("com.amazonaws:aws-lambda-java-events:3.11.1")
+    implementation("com.amazonaws:aws-java-sdk-codepipeline:1.12.450")
 }
 
 java {
