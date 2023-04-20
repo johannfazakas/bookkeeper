@@ -1,0 +1,38 @@
+version: 0.2
+
+env:
+  variables:
+    AWS_ECR_REPOSITORY_NAME: stuff/web-app
+    AWS_ECS_CONTAINER_NAME: stuff-web-app
+
+phases:
+  install:
+    runtime-versions:
+      docker: 20
+  pre_build:
+    commands:
+      - echo Pre Build started on `date`
+      - AWS_ACCOUNT_ID=`aws sts get-caller-identity --query "Account" --output text`
+      - $(aws ecr get-login --no-include-email --region $AWS_REGION)
+      - REPOSITORY_URI=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$AWS_ECR_REPOSITORY_NAME
+      - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+      - IMAGE_TAG=${COMMIT_HASH:=latest}
+      - echo Pre Build finished. repository uri = $REPOSITORY_URI, image tag = $IMAGE_TAG.
+  build:
+    commands:
+      - echo Build started on `date`
+      - ./gradlew clean browserProductionWebpack
+      - docker build -t $REPOSITORY_URI:latest .
+      - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
+  post_build:
+    commands:
+      - echo Pushing the Docker images started on `date`
+      - docker push $REPOSITORY_URI:latest
+      - docker push $REPOSITORY_URI:$IMAGE_TAG
+      - printf '[{"name":"%s","imageUri":"%s"}]' $AWS_ECS_CONTAINER_NAME $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
+      - echo Pushing the Docker images finished.
+artifacts:
+  # IMPROVE: remove old files
+  files:
+    - imagedefinitions.json
+  discard-paths: yes
