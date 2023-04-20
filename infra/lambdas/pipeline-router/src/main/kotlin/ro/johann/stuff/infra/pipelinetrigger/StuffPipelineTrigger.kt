@@ -30,7 +30,7 @@ class StuffPipelineTrigger : RequestHandler<APIGatewayProxyRequestEvent, APIGate
         val pushEvent = objectMapper.readValue<GitHubPushEvent>(input.body)
         context.logger.log("Pipeline triggering started for push event: $pushEvent.")
         val changes = pushEvent.commits.asSequence()
-            .flatMap(GitHubCommit::changedFiles)
+            .flatMap(GitHubCommit::changeset)
             .toSet()
 
         val pipelineExecutions = services
@@ -46,7 +46,7 @@ class StuffPipelineTrigger : RequestHandler<APIGatewayProxyRequestEvent, APIGate
         return APIGatewayProxyResponseEvent()
             .withStatusCode(200)
             .withHeaders(mapOf("Content-Type" to "application/json"))
-            .withBody(objectMapper.writeValueAsString(PipelineRoutingResponse(pipelineExecutions)))
+            .withBody(objectMapper.writeValueAsString(PipelineTriggerResponse(pipelineExecutions)))
     }
 }
 
@@ -68,11 +68,11 @@ private data class GitHubRepository @JsonCreator constructor(
 @JsonIgnoreProperties(ignoreUnknown = true)
 private data class GitHubCommit @JsonCreator constructor(
     @JsonProperty("id") val id: String,
-    @JsonProperty("modified") val modifiedFiles: List<String>,
-    @JsonProperty("added") val addedFiles: List<String>,
-    @JsonProperty("removed") val removedFiles: List<String>,
+    @JsonProperty("modified") private val modified: List<String>,
+    @JsonProperty("added") private val added: List<String>,
+    @JsonProperty("removed") private val removed: List<String>,
 ) {
-    val changedFiles = modifiedFiles + addedFiles + removedFiles
+    val changeset = modified + added + removed
 }
 
 private data class StuffService(
@@ -81,11 +81,11 @@ private data class StuffService(
     val pipelineName: String,
 )
 
-private data class PipelineRoutingResponse(
-    val pipelinesStarted: List<PipelineExecution>
+private data class PipelineTriggerResponse(
+    val pipelinesTriggered: List<PipelineExecution>,
 )
 
 private data class PipelineExecution(
     val pipelineName: String,
-    val executionId: String
+    val executionId: String,
 )
