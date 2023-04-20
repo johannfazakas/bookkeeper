@@ -21,6 +21,7 @@ phases:
   build:
     commands:
       - echo Build started on `date`
+      - cd web-app/
       - ./gradlew clean browserProductionWebpack
       - docker build -t $REPOSITORY_URI:latest .
       - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
@@ -32,7 +33,6 @@ phases:
       - printf '[{"name":"%s","imageUri":"%s"}]' $AWS_ECS_CONTAINER_NAME $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
       - echo Pushing the Docker images finished.
 artifacts:
-  # IMPROVE: remove old files
   files:
-    - imagedefinitions.json
+    - web-app/imagedefinitions.json
   discard-paths: yes
