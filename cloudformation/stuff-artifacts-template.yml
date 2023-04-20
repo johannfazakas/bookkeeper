@@ -10,11 +10,11 @@ Outputs:
     Value: !GetAtt StuffWebAppECRRepository.Arn
     Export:
       Name: StuffWebAppECRRepositoryArn
-  StuffPipelineRouterECRRepository:
-    Description: The ECR repository for the pipeline router
-    Value: !Ref StuffPipelineRouterECRRepository
+  StuffPipelineTriggerECRRepository:
+    Description: The ECR repository for the pipeline trigger
+    Value: !Ref StuffPipelineTriggerECRRepository
     Export:
-      Name: StuffPipelineRouterECRRepository
+      Name: StuffPipelineTriggerECRRepository
   StuffArtifactsBucketArn:
     Value: !GetAtt StuffWebAppArtifactsBucket.Arn
     Export:
@@ -26,10 +26,10 @@ Resources:
     Properties:
       RepositoryName: stuff/web-app
 
-  StuffPipelineRouterECRRepository:
+  StuffPipelineTriggerECRRepository:
     Type: AWS::ECR::Repository
     Properties:
-      RepositoryName: stuff/pipeline-router
+      RepositoryName: stuff/pipeline-trigger
 
   # TODO(Johann) should rename this as it should be used by all pipelines
   StuffWebAppArtifactsBucket:

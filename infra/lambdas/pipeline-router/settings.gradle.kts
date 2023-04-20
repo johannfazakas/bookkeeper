@@ -1,1 +1,1 @@
-rootProject.name = "stuff-pipeline-router"
+rootProject.name = "stuff-pipeline-trigger"

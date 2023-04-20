@@ -1,4 +1,4 @@
-package ro.johann.stuff.infra.pipelinerouter
+package ro.johann.stuff.infra.pipelinetrigger
 
 import com.amazonaws.services.codepipeline.AWSCodePipelineClientBuilder
 import com.amazonaws.services.codepipeline.model.StartPipelineExecutionRequest
@@ -12,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 
-class StuffPipelineRouter : RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
+class StuffPipelineTrigger : RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
 
     private companion object {
         private val codePipelineClient = AWSCodePipelineClientBuilder.defaultClient()
@@ -28,7 +28,7 @@ class StuffPipelineRouter : RequestHandler<APIGatewayProxyRequestEvent, APIGatew
 
     override fun handleRequest(input: APIGatewayProxyRequestEvent, context: Context): APIGatewayProxyResponseEvent {
         val pushEvent = objectMapper.readValue<GitHubPushEvent>(input.body)
-        context.logger.log("Pipeline router triggered by push event: $pushEvent.")
+        context.logger.log("Pipeline triggering started for push event: $pushEvent.")
         val changes = pushEvent.commits.asSequence()
             .flatMap(GitHubCommit::changedFiles)
             .toSet()
@@ -41,7 +41,7 @@ class StuffPipelineRouter : RequestHandler<APIGatewayProxyRequestEvent, APIGatew
                     codePipelineClient.startPipelineExecution(StartPipelineExecutionRequest().withName(it.pipelineName))
                 PipelineExecution(it.pipelineName, startPipelineExecution.pipelineExecutionId)
             }
-        context.logger.log("Pipeline router finished. Triggered pipelines: $pipelineExecutions.")
+        context.logger.log("Pipeline triggering finished. Triggered pipelines: $pipelineExecutions.")
 
         return APIGatewayProxyResponseEvent()
             .withStatusCode(200)

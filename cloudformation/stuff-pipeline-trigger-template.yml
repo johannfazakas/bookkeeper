@@ -1,70 +1,67 @@
 ---
 Resources:
-  StuffPipelineRouterLambda:
+  StuffPipelineTriggerLambda:
     Type: AWS::Lambda::Function
     Properties:
-      FunctionName: stuff-pipeline-router
+      FunctionName: stuff-pipeline-trigger
       Description: |
-        Lambda function to decide which pipeline to start based on source
-      Role: !GetAtt StuffPipelineRouterLambdaRole.Arn
+        Lambda function to trigger pipelines based on changeset
+      Role: !GetAtt StuffPipelineTriggerLambdaRole.Arn
       PackageType: Image
       Code:
         ImageUri: !Sub
-          - ${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/${Repository}:latest
-          - Repository: !ImportValue StuffPipelineRouterECRRepository
+          - ${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/${RepositoryName}:latest
+          - RepositoryName: !ImportValue StuffPipelineTriggerECRRepository
       MemorySize: 512
       Timeout: 10
 
-  StuffSourceApiGateway:
+  StuffPipelineTriggerApiGateway:
     Type: AWS::ApiGatewayV2::Api
     Properties:
-      Name: stuff-source-api-gateway
+      Name: stuff-pipeline-trigger-api-gateway
       Description: |
-        Api Gateway to be triggered by GitHub webhooks to pass source to Lambda deciding which pipeline to start
+        Api Gateway to be triggered by GitHub webhooks to proxy Lambda deciding which pipeline to start
       ProtocolType: HTTP
 
-  StuffSourceApiGatewayLambdaIntegration:
+  StuffPipelineTriggerApiGatewayLambdaIntegration:
     Type: AWS::ApiGatewayV2::Integration
     Properties:
-      ApiId: !Ref StuffSourceApiGateway
+      ApiId: !Ref StuffPipelineTriggerApiGateway
       IntegrationType: AWS_PROXY
       IntegrationUri: !Sub
         - arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaFunction}/invocations
-        - LambdaFunction: !GetAtt StuffPipelineRouterLambda.Arn
+        - LambdaFunction: !GetAtt StuffPipelineTriggerLambda.Arn
       IntegrationMethod: POST
-      CredentialsArn: !GetAtt StuffSourceApiGatewayIntegrationRole.Arn
+      CredentialsArn: !GetAtt StuffPipelineTriggerApiGatewayIntegrationRole.Arn
       PayloadFormatVersion: 2.0
 
-  StuffSourceApiGatewayRoute:
+  StuffPipelineTriggerApiGatewayRoute:
     Type: AWS::ApiGatewayV2::Route
     Properties:
-      ApiId: !Ref StuffSourceApiGateway
+      ApiId: !Ref StuffPipelineTriggerApiGateway
       RouteKey: POST /trigger
-      Target: !Join
-        - '/'
-        - - 'integrations'
-          - !Ref StuffSourceApiGatewayLambdaIntegration
+      Target: !Sub integrations/${StuffPipelineTriggerApiGatewayLambdaIntegration}
 
-  StuffSourceApiGatewayDeployment:
+  StuffPipelineTriggerApiGatewayDeployment:
     Type: AWS::ApiGatewayV2::Deployment
     DependsOn:
-      - StuffSourceApiGatewayStage
-      - StuffSourceApiGatewayRoute
+      - StuffPipelineTriggerApiGatewayStage
+      - StuffPipelineTriggerApiGatewayRoute
     Properties:
-      ApiId: !Ref StuffSourceApiGateway
-      StageName: source
+      ApiId: !Ref StuffPipelineTriggerApiGateway
+      StageName: ci
 
-  StuffSourceApiGatewayStage:
+  StuffPipelineTriggerApiGatewayStage:
     Type: AWS::ApiGatewayV2::Stage
     Properties:
-      StageName: source
-      ApiId: !Ref StuffSourceApiGateway
+      StageName: ci
+      ApiId: !Ref StuffPipelineTriggerApiGateway
       AutoDeploy: true
 
-  StuffPipelineRouterLambdaRole:
+  StuffPipelineTriggerLambdaRole:
     Type: AWS::IAM::Role
     Properties:
-      RoleName: stuff-pipeline-router-lambda-role
+      RoleName: stuff-pipeline-trigger-lambda-role
       Path: /
       AssumeRolePolicyDocument:
         Version: 2012-10-17
@@ -76,7 +73,7 @@ Resources:
             Action:
               - sts:AssumeRole
       Policies:
-        - PolicyName: stuff-pipeline-router-lambda-policy
+        - PolicyName: stuff-pipeline-trigger-lambda-policy
           PolicyDocument:
             Version: 2012-10-17
             Statement:
@@ -91,10 +88,10 @@ Resources:
                   - codepipeline:StartPipelineExecution
                 Resource: !Sub arn:aws:codepipeline:${AWS::Region}:${AWS::AccountId}:stuff-*-pipeline
 
-  StuffSourceApiGatewayIntegrationRole:
+  StuffPipelineTriggerApiGatewayIntegrationRole:
     Type: AWS::IAM::Role
     Properties:
-      RoleName: stuff-source-api-gateway-integration-role
+      RoleName: stuff-pipeline-trigger-api-gateway-integration-role
       Path: /
       AssumeRolePolicyDocument:
         Version: 2012-10-17
@@ -106,11 +103,11 @@ Resources:
             Action:
               - sts:AssumeRole
       Policies:
-        - PolicyName: stuff-source-api-gateway-integration-policy
+        - PolicyName: stuff-pipeline-trigger-api-gateway-integration-policy
           PolicyDocument:
             Version: 2012-10-17
             Statement:
               - Effect: Allow
                 Action:
                   - lambda:InvokeFunction
-                Resource: !GetAtt StuffPipelineRouterLambda.Arn
+                Resource: !GetAtt StuffPipelineTriggerLambda.Arn

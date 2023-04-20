@@ -40,22 +40,22 @@ chmod +x scripts/*.sh
 ./scripts/delete-app-stack.sh
 ```
 
-## Stuff Source Filter
-After deploying the Source Filter stack, the Webhook inside the GitHub repository needs to be updated to point to the URL.
+## Stuff Pipeline Trigger
+After deploying the Pipeline Trigger stack, the Webhook inside the GitHub repository needs to be updated to point to the URL.
 
-### Create new Source Filter CloudFormation Stack
+### Create new Pipeline Trigger CloudFormation Stack
 ```shell
-./scripts/create-source-filter-stack.sh
+./scripts/create-pipeline-trigger-stack.sh
 ```
 
-### Update Source Filter Stack
+### Update Pipeline Trigger Stack
 ```shell
-./scripts/update-source-filter-stack.sh
+./scripts/update-pipeline-trigger-stack.sh
 ```
 
-### Delete Source Filter Stack
+### Delete Pipeline Trigger Stack
 ```shell
-./scripts/delete-source-filter-stack.sh
+./scripts/delete-pipeline-trigger-stack.sh
 ```
 
 ## Stuff App CI/CD
