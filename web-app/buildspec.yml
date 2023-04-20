@@ -5,6 +5,10 @@ env:
     AWS_ECR_REPOSITORY_NAME: stuff/web-app
     AWS_ECS_CONTAINER_NAME: stuff-web-app
 
+cache:
+  paths:
+    - web-app/.gradle/wrapper/**/*
+
 phases:
   install:
     runtime-versions:
