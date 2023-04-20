@@ -1,3 +1,40 @@
-**/.idea/
-**/gradle/
+# Gradle files
+.gradle/
 **/build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# Kotlin build output
+*.class
+*.kotlin_metadata
+
+# IntelliJ IDE files
+*.iml
+*.ipr
+*.iws
+.idea/
+.idea_modules/
+
+# Spring Boot properties and configuration files
+# These might contain sensitive information and should be excluded
+**/src/main/resources/application*.properties
+**/src/main/resources/application*.yml
+
+# Logs and other files
+*.log
+*.swp
+*.bak
+*.tmp
+*.out
+.DS_Store
+
+# Operating system files
+Thumbs.db
+*.lnk
+
+# Test output and coverage reports
+**/test-results/
+**/out/
+**/.gradletasknamecache
+**/jacoco.exec
+**/jacoco/
+**/buildSrc/build/
