@@ -7,7 +7,7 @@ env:
 
 cache:
   paths:
-    - 'web-app/.gradle/wrapper/**/*'
+    - '/web-app/.gradle/wrapper/**/*'
 
 phases:
   install:
