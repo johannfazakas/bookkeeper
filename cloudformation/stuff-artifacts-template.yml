@@ -19,6 +19,10 @@ Outputs:
     Value: !GetAtt StuffWebAppArtifactsBucket.Arn
     Export:
       Name: StuffArtifactsBucketArn
+  StuffArtifactsBucketName:
+    Value: !Ref StuffWebAppArtifactsBucket
+    Export:
+      Name: StuffArtifactsBucketName
 
 Resources:
   StuffWebAppECRRepository:

@@ -1,4 +1,16 @@
 ---
+Outputs:
+  StuffECSClusterArn:
+    Description: The ECS cluster for the stuff app
+    Value: !GetAtt StuffECSCluster.Arn
+    Export:
+      Name: StuffECSClusterArn
+  StuffWebAppLoadBalancerArn:
+    Description: The load balancer for the web app
+    Value: !Ref WebAppLoadBalancer
+    Export:
+      Name: StuffWebAppLoadBalancerArn
+
 Resources:
   StuffECSCluster:
     Type: AWS::ECS::Cluster

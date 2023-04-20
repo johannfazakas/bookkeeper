@@ -8,7 +8,7 @@ Parameters:
     Default: johannfazakas
   GitHubRepo:
     Type: String
-    Default: stuff-web-app
+    Default: stuff-infra
   GitHubBranch:
     Type: String
     Default: main
@@ -25,6 +25,10 @@ Resources:
         PrivilegedMode: true
       Source:
         Type: CODEPIPELINE
+        BuildSpec: web-app/buildspec.yml
+      Cache:
+        Type: S3
+        Location: stuff-artifacts-bucket
       Artifacts:
         Type: CODEPIPELINE
       ServiceRole: !Ref WebAppCodeBuildRole
@@ -160,3 +164,15 @@ Resources:
                 Action:
                   - codebuild:*
                 Resource: !GetAtt WebAppCodeBuild.Arn
+              - Effect: Allow
+                Action:
+                  - ecr:*
+                Resource: !ImportValue StuffWebAppECRRepositoryArn
+              - Effect: Allow
+                Action:
+                  - ecs:*
+                Resource: '*'
+              - Effect: Allow
+                Action:
+                  - elasticloadbalancing:*
+                Resource: !ImportValue StuffWebAppLoadBalancerArn
