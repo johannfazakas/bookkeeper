@@ -1,0 +1,32 @@
+---
+Outputs:
+  StuffWebAppECRRepositoryName:
+    Description: The ECR repository for the web app
+    Value: !Ref StuffWebAppECRRepository
+    Export:
+      Name: StuffWebAppECRRepository
+  StuffPipelineTriggerECRRepositoryName:
+    Description: The ECR repository for the pipeline trigger
+    Value: !Ref StuffPipelineTriggerECRRepository
+    Export:
+      Name: StuffPipelineTriggerECRRepository
+  StuffArtifactsBucketName:
+    Value: !Ref StuffArtifactsBucket
+    Export:
+      Name: StuffArtifactsBucketName
+
+Resources:
+  StuffWebAppECRRepository:
+    Type: AWS::ECR::Repository
+    Properties:
+      RepositoryName: stuff/web-app
+
+  StuffPipelineTriggerECRRepository:
+    Type: AWS::ECR::Repository
+    Properties:
+      RepositoryName: stuff/pipeline-trigger
+
+  StuffArtifactsBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: stuff-artifacts

@@ -5,7 +5,7 @@ import react.dom.client.createRoot
 import react.dom.html.ReactHTML.h1
 
 fun main() {
-    document.bgColor = "orange"
+    document.bgColor = "blue"
     val container = document.getElementById("root") ?: error("Couldn't find root container!")
     createRoot(container).render(Fragment.create {
         h1 {
