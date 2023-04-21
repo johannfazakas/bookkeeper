@@ -6,3 +6,4 @@ source "$DIR/load-variables.sh"
 aws cloudformation create-stack \
   --stack-name $STACK_NAME \
   --template-body file://$TEMPLATE_FILE
+echo "Artifacts stack creation triggered."

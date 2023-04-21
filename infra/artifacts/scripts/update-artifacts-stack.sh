@@ -8,6 +8,7 @@ aws cloudformation create-change-set \
   --template-body file://$TEMPLATE_FILE \
   --change-set-name $CHANGE_SET_NAME \
 
+echo "Waiting for change set to be created..."
 aws cloudformation wait change-set-create-complete \
   --stack-name $STACK_NAME \
   --change-set-name $CHANGE_SET_NAME
@@ -15,3 +16,4 @@ aws cloudformation wait change-set-create-complete \
 aws cloudformation execute-change-set \
   --stack-name $STACK_NAME \
   --change-set-name $CHANGE_SET_NAME
+echo "Change set executed, artifacts stack update triggered."

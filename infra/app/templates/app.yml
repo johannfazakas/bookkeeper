@@ -2,9 +2,9 @@
 AWSTemplateFormatVersion: 2010-09-09
 
 Resources:
-  StuffECSCluster:
-    Type: AWS::ECS::Cluster
+  ECSStack:
+    Type: AWS::CloudFormation::Stack
     Properties:
-      ClusterName: stuff-app
-      CapacityProviders:
-        - FARGATE_SPOT
+      TemplateURL: !Sub
+        - "https://s3.amazonaws.com/${ArtifactsBucket}/templates/ecs-cluster.yml"
+        - ArtifactsBucket: !ImportValue StuffArtifactsBucketName
