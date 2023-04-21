@@ -1,4 +1,6 @@
 ---
+AWSTemplateFormatVersion: 2010-09-09
+
 Outputs:
   StuffWebAppECRRepositoryName:
     Description: The ECR repository for the web app

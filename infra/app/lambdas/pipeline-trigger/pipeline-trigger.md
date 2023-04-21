@@ -1,4 +1,4 @@
-# stuff-pipeline-trigger
+# Stuff Pipeline Trigger
 AWS Lambda function that triggers the appropriate pipelines in monorepo based on the changed files in the commit.
 
 ## Prerequisites

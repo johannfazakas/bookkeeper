@@ -1,0 +1,10 @@
+---
+AWSTemplateFormatVersion: 2010-09-09
+
+Resources:
+  StuffECSCluster:
+    Type: AWS::ECS::Cluster
+    Properties:
+      ClusterName: stuff-app
+      CapacityProviders:
+        - FARGATE_SPOT

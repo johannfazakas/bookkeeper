@@ -1,4 +1,4 @@
-# Stuff artifacts
+# Stuff Artifacts Infrastructure
 Resources keeping artifacts with a separate lifecycle than the app itself.
 Even if the main app is deleted due to cost concerns, the artifacts should be kept for future use.
 
@@ -16,10 +16,9 @@ Bucket used by app infra to store ci/cd artifacts and cache files.
 
 ### Prerequisites
 - AWS CLI
-- Docker
 - Make scripts executable:
 ```shell 
-chmod +x scripts/*.sh
+chmod +x ./scripts/*.sh
 ```
 
 ### Create artifacts stack
