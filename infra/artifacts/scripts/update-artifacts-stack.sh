@@ -1,9 +1,7 @@
 #!/bin/bash
 
-STACK_NAME="stuff-artifacts"
-CHANGE_SET_NAME="$STACK_NAME-$(date +%s)"
-SCRIPT_DIRECTORY="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-TEMPLATE_FILE="$SCRIPT_DIRECTORY/../templates/stuff-artifacts.yml"
+export DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$DIR/load-variables.sh"
 
 aws cloudformation create-change-set \
   --stack-name $STACK_NAME \

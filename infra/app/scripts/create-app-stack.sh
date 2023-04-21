@@ -1,8 +1,7 @@
 #!/bin/bash
 
-STACK_NAME="stuff-app"
-SCRIPT_DIRECTORY="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-TEMPLATE_FILE="$SCRIPT_DIRECTORY/../templates/stuff-app.yml"
+export DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$DIR/load-variables.sh"
 
 aws cloudformation create-stack \
 --stack-name $STACK_NAME \
