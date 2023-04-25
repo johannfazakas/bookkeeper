@@ -4,12 +4,17 @@ AWS Lambda function that triggers the appropriate pipelines in monorepo based on
 ## Prerequisites
 - Docker
 - AWS CLI
+- Make scripts executable:
+```shell 
+chmod +x ./scripts/*.sh
+```
 
-## Build and Push image to ECR
+## Build docker image
 ```shell
-./gradlew clean shadowJar
-docker build -t stuff/pipeline-trigger .
-aws ecr get-login-password --region eu-central-1 | docker login --username AWS --password-stdin 572338991617.dkr.ecr.eu-central-1.amazonaws.com
-docker tag stuff/pipeline-trigger:latest 572338991617.dkr.ecr.eu-central-1.amazonaws.com/stuff/pipeline-trigger:latest
-docker push 572338991617.dkr.ecr.eu-central-1.amazonaws.com/stuff/pipeline-trigger:latest
+./scripts/build-pipeline-trigger-image.sh
+```
+
+## Push image to ECR
+```shell
+./scripts/push-pipeline-trigger-image.sh
 ```
