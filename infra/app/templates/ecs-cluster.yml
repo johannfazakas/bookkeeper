@@ -1,10 +1,14 @@
 ---
 AWSTemplateFormatVersion: 2010-09-09
 
+Parameters:
+  ECSClusterName:
+    Type: String
+
 Resources:
-  StuffECSCluster:
+  ECSCluster:
     Type: AWS::ECS::Cluster
     Properties:
-      ClusterName: stuff-app
+      ClusterName: !Ref ECSClusterName
       CapacityProviders:
         - FARGATE_SPOT

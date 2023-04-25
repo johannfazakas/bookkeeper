@@ -1,10 +1,30 @@
 ---
 AWSTemplateFormatVersion: 2010-09-09
 
+Parameters:
+  ECSClusterName:
+    Type: String
+    Default: stuff-ecs-cluster
+  WebAppECRRepositoryName:
+    Type: String
+    Default: stuff/web-app
+
 Resources:
-  ECSStack:
+  StuffECSCluster:
     Type: AWS::CloudFormation::Stack
     Properties:
       TemplateURL: !Sub
         - "https://s3.amazonaws.com/${ArtifactsBucket}/templates/ecs-cluster.yml"
         - ArtifactsBucket: !ImportValue StuffArtifactsBucketName
+      Parameters:
+        ECSClusterName: !Ref ECSClusterName
+
+  StuffWebAppService:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: !Sub
+        - "https://s3.amazonaws.com/${ArtifactsBucket}/templates/web-app-service.yml"
+        - ArtifactsBucket: !ImportValue StuffArtifactsBucketName
+      Parameters:
+        ECSClusterName: !Ref ECSClusterName
+        WebAppECRRepositoryName: !Ref WebAppECRRepositoryName

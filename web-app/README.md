@@ -17,8 +17,9 @@ docker image build -t stuff-web-app:latest .
 
 ### Push docker image to ECR
 ```shell
-docker tag stuff-web-app:latest 668485322428.dkr.ecr.eu-central-1.amazonaws.com/stuff-web-app:latest
-docker image push 668485322428.dkr.ecr.eu-central-1.amazonaws.com/stuff-web-app:latest
+aws ecr get-login-password --region eu-central-1 | docker login --username AWS --password-stdin 572338991617.dkr.ecr.eu-central-1.amazonaws.com
+docker tag stuff-web-app:latest 572338991617.dkr.ecr.eu-central-1.amazonaws.com/stuff/web-app:latest
+docker image push 572338991617.dkr.ecr.eu-central-1.amazonaws.com/stuff/web-app:latest
 ```
 
 ### Run docker container on EC2 instance
