@@ -4,7 +4,11 @@ AWSTemplateFormatVersion: 2010-09-09
 Parameters:
   ECSClusterName:
     Type: String
-  WebAppECRRepositoryName:
+  ECSServiceName:
+    Type: String
+  LoadBalancerName:
+    Type: String
+  ECRRepositoryName:
     Type: String
 
 Resources:
@@ -13,7 +17,7 @@ Resources:
     DependsOn:
       - WebAppLoadBalancerListener
     Properties:
-      ServiceName: web-app-service
+      ServiceName: !Ref ECSServiceName
       Cluster: !Ref ECSClusterName
       TaskDefinition: !Ref WebAppTaskDefinition
       LaunchType: FARGATE
@@ -44,9 +48,7 @@ Resources:
     Properties:
       ContainerDefinitions:
         - Name: stuff-web-app
-          Image: !Sub
-            - ${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/${Repository}:latest
-            - Repository: !Ref WebAppECRRepositoryName
+          Image: !Sub ${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/${ECRRepositoryName}:latest
           PortMappings:
             - ContainerPort: 80
               Protocol: tcp
@@ -63,7 +65,7 @@ Resources:
   WebAppLoadBalancer:
     Type: AWS::ElasticLoadBalancingV2::LoadBalancer
     Properties:
-      Name: stuff-web-app-alb
+      Name: !Ref LoadBalancerName
       Type: application
       Scheme: internet-facing
       IpAddressType: ipv4

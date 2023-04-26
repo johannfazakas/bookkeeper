@@ -6,12 +6,12 @@ Outputs:
     Description: The ECR repository for the web app
     Value: !Ref StuffWebAppECRRepository
     Export:
-      Name: StuffWebAppECRRepository
+      Name: StuffWebAppECRRepositoryName
   StuffPipelineTriggerECRRepositoryName:
     Description: The ECR repository for the pipeline trigger
     Value: !Ref StuffPipelineTriggerECRRepository
     Export:
-      Name: StuffPipelineTriggerECRRepository
+      Name: StuffPipelineTriggerECRRepositoryName
   StuffArtifactsBucketName:
     Value: !Ref StuffArtifactsBucket
     Export:

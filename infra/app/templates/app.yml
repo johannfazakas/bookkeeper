@@ -5,9 +5,24 @@ Parameters:
   ECSClusterName:
     Type: String
     Default: stuff-ecs-cluster
-  WebAppECRRepositoryName:
+  WebAppServiceName:
     Type: String
-    Default: stuff/web-app
+    Default: stuff-web-app-service
+  WebAppLoadBalancerName:
+    Type: String
+    Default: stuff-web-app-alb
+  GitHubOAuthToken:
+    Type: String
+    NoEcho: true
+  GitHubOwner:
+    Type: String
+    Default: johannfazakas
+  GitHubRepo:
+    Type: String
+    Default: stuff-infra
+  GitHubBranch:
+    Type: String
+    Default: main
 
 Resources:
   StuffECSCluster:
@@ -21,10 +36,33 @@ Resources:
 
   StuffWebAppService:
     Type: AWS::CloudFormation::Stack
+    DependsOn:
+      - StuffECSCluster
     Properties:
       TemplateURL: !Sub
         - "https://s3.amazonaws.com/${ArtifactsBucket}/templates/web-app-service.yml"
         - ArtifactsBucket: !ImportValue StuffArtifactsBucketName
       Parameters:
         ECSClusterName: !Ref ECSClusterName
-        WebAppECRRepositoryName: !Ref WebAppECRRepositoryName
+        ECSServiceName: !Ref WebAppServiceName
+        ECRRepositoryName: !ImportValue StuffWebAppECRRepositoryName
+        LoadBalancerName: !Ref WebAppLoadBalancerName
+
+  StuffWebAppPipeline:
+    Type: AWS::CloudFormation::Stack
+    DependsOn:
+      - StuffECSCluster
+    Properties:
+      TemplateURL: !Sub
+        - "https://s3.amazonaws.com/${ArtifactsBucket}/templates/web-app-pipeline.yml"
+        - ArtifactsBucket: !ImportValue StuffArtifactsBucketName
+      Parameters:
+        ArtifactsBucketName: !ImportValue StuffArtifactsBucketName
+        ECSClusterName: !Ref ECSClusterName
+        ECSServiceName: !Ref WebAppServiceName
+        ECRRepositoryName: !ImportValue StuffWebAppECRRepositoryName
+        LoadBalancerName: !Ref WebAppLoadBalancerName
+        GitHubOAuthToken: !Ref GitHubOAuthToken
+        GitHubOwner: !Ref GitHubOwner
+        GitHubRepo: !Ref GitHubRepo
+        GitHubBranch: !Ref GitHubBranch

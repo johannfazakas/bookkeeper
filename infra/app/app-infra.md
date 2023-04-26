@@ -13,6 +13,7 @@ Elastic Container Service cluster with Fargate launch type to host the app conta
 - [Deploy app stack](../app/app-infra.md#deployment)
 - [Push pipeline-trigger image to ECR](./lambdas/pipeline-trigger/pipeline-trigger.md#build-and-push-image-to-ecr)
 - [Push web-app image to ECR](../../web-app/README.md#build-and-push-image-to-ecr)
+- [Review script variables](./scripts/load-variables.sh)
 - Make scripts executable:
 ```shell 
 chmod +x ./scripts/*.sh
