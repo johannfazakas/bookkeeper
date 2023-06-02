@@ -1,4 +1,4 @@
-package ro.jf.stuff.api
+package ro.jf.stuff
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication

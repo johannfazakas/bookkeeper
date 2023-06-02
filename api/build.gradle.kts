@@ -9,6 +9,7 @@ plugins {
 }
 
 val springModulithVersion = "0.1.0"
+val postgresVersion = "42.5.1"
 
 group = "ro.jf.stuff"
 version = "0.0.1-SNAPSHOT"
@@ -19,9 +20,12 @@ repositories {
 }
 
 dependencies {
-//	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.springframework.boot:spring-boot-starter-validation")
+	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.springframework.experimental:spring-modulith-core:$springModulithVersion")
+	implementation("org.postgresql:postgresql:$postgresVersion")
+//	implementation("javax.persistence:javax.persistence-api:2.2")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")

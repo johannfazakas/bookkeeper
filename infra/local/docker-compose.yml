@@ -1,0 +1,16 @@
+name: stuff-app
+
+services:
+  stuff_api_postgres:
+    image: "postgres:15"
+    ports:
+      - "5418:5432"
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: stuff
+    volumes:
+      - stuff_api_postgres:/var/lib/postgresql/data
+
+volumes:
+  stuff_api_postgres:

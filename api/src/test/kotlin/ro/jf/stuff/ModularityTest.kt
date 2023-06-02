@@ -1,4 +1,4 @@
-package ro.jf.stuff.api
+package ro.jf.stuff
 
 import org.junit.jupiter.api.Test
 import org.springframework.modulith.model.ApplicationModules
