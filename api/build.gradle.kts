@@ -10,6 +10,7 @@ plugins {
 
 val springModulithVersion = "0.1.0"
 val postgresVersion = "42.5.1"
+val assertJVersion = "3.24.2"
 
 group = "ro.jf.stuff"
 version = "0.0.1-SNAPSHOT"
@@ -25,12 +26,18 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.springframework.experimental:spring-modulith-core:$springModulithVersion")
 	implementation("org.postgresql:postgresql:$postgresVersion")
-//	implementation("javax.persistence:javax.persistence-api:2.2")
+	implementation("org.flywaydb:flyway-core:9.19.1")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.springframework.experimental:spring-modulith-test:$springModulithVersion")
+	testImplementation("org.assertj:assertj-core:$assertJVersion")
 }
+
+//noArg {
+//	annotation("javax.persistence.Entity")
+//	invokeInitializers = true
+//}
 
 tasks.withType<KotlinCompile> {
 	kotlinOptions {
