@@ -1,6 +1,6 @@
 package ro.jf.stuff.account.api.model
 
-import ro.jf.stuff.account.entity.Account
+import ro.jf.stuff.account.persistence.entity.Account
 import java.util.*
 
 data class AccountTO(
@@ -11,8 +11,8 @@ data class AccountTO(
     companion object {
         fun Account.toTO(): AccountTO = AccountTO(
                 id = this.id!!,
-                name = this.name!!,
-                currency = this.currency!!
+                name = this.name,
+                currency = this.currency
         )
     }
 }

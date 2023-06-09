@@ -5,7 +5,7 @@ import ro.jf.stuff.account.api.AccountService
 import ro.jf.stuff.account.api.model.AccountTO
 import ro.jf.stuff.account.api.model.AccountTO.Companion.toTO
 import ro.jf.stuff.account.api.model.CreateAccountTO
-import ro.jf.stuff.account.persistence.AccountRepository
+import ro.jf.stuff.account.persistence.repository.AccountRepository
 
 @Service
 class AccountServiceImpl(

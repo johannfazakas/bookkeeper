@@ -11,5 +11,4 @@ class ModularityTest {
     fun testModules() {
         modules.verify()
     }
-
 }

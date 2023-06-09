@@ -1,2 +1,2 @@
 @org.springframework.modulith.NamedInterface("api")
-package ro.jf.stuff.account.api.model;
+package ro.jf.stuff.user.api;

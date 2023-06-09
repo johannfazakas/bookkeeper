@@ -1,4 +1,4 @@
-package ro.jf.stuff.account.entity
+package ro.jf.stuff.account.persistence.entity
 
 import java.util.*
 import jakarta.persistence.*

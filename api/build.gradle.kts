@@ -34,11 +34,6 @@ dependencies {
 	testImplementation("org.assertj:assertj-core:$assertJVersion")
 }
 
-//noArg {
-//	annotation("javax.persistence.Entity")
-//	invokeInitializers = true
-//}
-
 tasks.withType<KotlinCompile> {
 	kotlinOptions {
 		freeCompilerArgs = listOf("-Xjsr305=strict")

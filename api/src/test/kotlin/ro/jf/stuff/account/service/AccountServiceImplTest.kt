@@ -4,8 +4,8 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.*
 import ro.jf.stuff.account.api.model.CreateAccountTO
-import ro.jf.stuff.account.entity.Account
-import ro.jf.stuff.account.persistence.AccountRepository
+import ro.jf.stuff.account.persistence.entity.Account
+import ro.jf.stuff.account.persistence.repository.AccountRepository
 import java.util.UUID.randomUUID
 
 class AccountServiceImplTest {
