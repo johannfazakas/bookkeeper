@@ -1,1 +1,1 @@
-rootProject.name = "stuff-pipeline-trigger"
+rootProject.name = "bookkeeper-pipeline-trigger"

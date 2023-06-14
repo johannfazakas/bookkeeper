@@ -2,33 +2,33 @@
 AWSTemplateFormatVersion: 2010-09-09
 
 Outputs:
-  StuffWebAppECRRepositoryName:
+  BookkeeperWebAppECRRepositoryName:
     Description: The ECR repository for the web app
-    Value: !Ref StuffWebAppECRRepository
+    Value: !Ref BookkeeperWebAppECRRepository
     Export:
-      Name: StuffWebAppECRRepositoryName
-  StuffPipelineTriggerECRRepositoryName:
+      Name: BookkeeperWebAppECRRepositoryName
+  BookkeeperPipelineTriggerECRRepositoryName:
     Description: The ECR repository for the pipeline trigger
-    Value: !Ref StuffPipelineTriggerECRRepository
+    Value: !Ref BookkeeperPipelineTriggerECRRepository
     Export:
-      Name: StuffPipelineTriggerECRRepositoryName
-  StuffArtifactsBucketName:
-    Value: !Ref StuffArtifactsBucket
+      Name: BookkeeperPipelineTriggerECRRepositoryName
+  BookkeeperArtifactsBucketName:
+    Value: !Ref BookkeeperArtifactsBucket
     Export:
-      Name: StuffArtifactsBucketName
+      Name: BookkeeperArtifactsBucketName
 
 Resources:
-  StuffWebAppECRRepository:
+  BookkeeperWebAppECRRepository:
     Type: AWS::ECR::Repository
     Properties:
-      RepositoryName: stuff/web-app
+      RepositoryName: bookkeeper/web-app
 
-  StuffPipelineTriggerECRRepository:
+  BookkeeperPipelineTriggerECRRepository:
     Type: AWS::ECR::Repository
     Properties:
-      RepositoryName: stuff/pipeline-trigger
+      RepositoryName: bookkeeper/pipeline-trigger
 
-  StuffArtifactsBucket:
+  BookkeeperArtifactsBucket:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: stuff-artifacts
+      BucketName: bookkeeper-artifacts

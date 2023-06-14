@@ -1,1 +1,1 @@
-rootProject.name = "stuff-web-app"
+rootProject.name = "bookkeeper-web-app"

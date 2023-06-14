@@ -22,7 +22,7 @@ Resources:
       TaskDefinition: !Ref WebAppTaskDefinition
       LaunchType: FARGATE
       LoadBalancers:
-        - ContainerName: stuff-web-app
+        - ContainerName: bookkeeper-web-app
           ContainerPort: 80
           TargetGroupArn: !GetAtt WebAppLoadBalancerTargetGroup.TargetGroupArn
       NetworkConfiguration:
@@ -47,7 +47,7 @@ Resources:
     Type: AWS::ECS::TaskDefinition
     Properties:
       ContainerDefinitions:
-        - Name: stuff-web-app
+        - Name: bookkeeper-web-app
           Image: !Sub ${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/${ECRRepositoryName}:latest
           PortMappings:
             - ContainerPort: 80
@@ -80,7 +80,7 @@ Resources:
   WebAppLoadBalancerTargetGroup:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
     Properties:
-      Name: stuff-web-app-alb-tg
+      Name: bookkeeper-web-app-alb-tg
       Protocol: HTTP
       Port: 80
       # IMPROVE pass vpc id as parameter
@@ -101,7 +101,7 @@ Resources:
   WebAppLoadBalancerSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
-      GroupName: stuff-web-app-alb-sg
+      GroupName: bookkeeper-web-app-alb-sg
       GroupDescription: Security group for the web-app load balancer
       SecurityGroupIngress:
         - CidrIp: 0.0.0.0/0
@@ -112,7 +112,7 @@ Resources:
   WebAppServiceSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
-      GroupName: stuff-web-app-service-sg
+      GroupName: bookkeeper-web-app-service-sg
       GroupDescription: Security group for the web-app service
       SecurityGroupIngress:
         - SourceSecurityGroupId: !GetAtt WebAppLoadBalancerSecurityGroup.GroupId
@@ -124,7 +124,7 @@ Resources:
   WebAppExecutionRole:
     Type: AWS::IAM::Role
     Properties:
-      RoleName: stuff-web-app-task-execution-role
+      RoleName: bookkeeper-web-app-task-execution-role
       Path: /
       AssumeRolePolicyDocument:
         Statement:
@@ -134,7 +134,7 @@ Resources:
             Action:
               - sts:AssumeRole
       Policies:
-        - PolicyName: stuff-web-app-task-execution-policy
+        - PolicyName: bookkeeper-web-app-task-execution-policy
           PolicyDocument:
             Version: 2012-10-17
             Statement:
@@ -154,7 +154,7 @@ Resources:
   WebAppTaskRole:
     Type: AWS::IAM::Role
     Properties:
-      RoleName: stuff-web-app-task-container-role
+      RoleName: bookkeeper-web-app-task-container-role
       Path: /
       AssumeRolePolicyDocument:
         Statement:
@@ -164,7 +164,7 @@ Resources:
             Action:
               - sts:AssumeRole
       Policies:
-        - PolicyName: stuff-web-app-task-container-policy
+        - PolicyName: bookkeeper-web-app-task-container-policy
           PolicyDocument:
             Version: 2012-10-17
             Statement:
@@ -177,7 +177,7 @@ Resources:
   WebAppServiceRole:
     Type: AWS::IAM::Role
     Properties:
-      RoleName: stuff-web-app-service-role
+      RoleName: bookkeeper-web-app-service-role
       Path: /
       AssumeRolePolicyDocument:
         Statement:
@@ -187,7 +187,7 @@ Resources:
             Action:
               - sts:AssumeRole
       Policies:
-        - PolicyName: stuff-web-app-task-container-policy
+        - PolicyName: bookkeeper-web-app-task-container-policy
           PolicyDocument:
             Version: 2012-10-17
             Statement:

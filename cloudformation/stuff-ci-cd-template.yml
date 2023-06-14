@@ -8,7 +8,7 @@ Parameters:
     Default: johannfazakas
   GitHubRepo:
     Type: String
-    Default: stuff-infra
+    Default: bookkeeper-infra
   GitHubBranch:
     Type: String
     Default: main
@@ -17,7 +17,7 @@ Resources:
   WebAppCodeBuild:
     Type: AWS::CodeBuild::Project
     Properties:
-      Name: stuff-web-app-code-build
+      Name: bookkeeper-web-app-code-build
       Environment:
         Type: LINUX_CONTAINER
         Image: aws/codebuild/amazonlinux2-x86_64-standard:4.0
@@ -28,7 +28,7 @@ Resources:
         BuildSpec: web-app/buildspec.yml
       Cache:
         Type: S3
-        Location: stuff-artifacts-bucket
+        Location: bookkeeper-artifacts-bucket
       Artifacts:
         Type: CODEPIPELINE
       ServiceRole: !Ref WebAppCodeBuildRole
@@ -36,10 +36,10 @@ Resources:
   WebAppCodePipeline:
     Type: AWS::CodePipeline::Pipeline
     Properties:
-      Name: stuff-web-app-code-pipeline
+      Name: bookkeeper-web-app-code-pipeline
       ArtifactStore:
         Type: S3
-        Location: stuff-artifacts-bucket
+        Location: bookkeeper-artifacts-bucket
       RoleArn: !GetAtt
         - WebAppCodePipelineRole
         - Arn
@@ -83,7 +83,7 @@ Resources:
                 Provider: ECS
                 Version: 1
               Configuration:
-                ClusterName: stuff-ecs-cluster
+                ClusterName: bookkeeper-ecs-cluster
                 ServiceName: web-app-service
                 FileName: imagedefinitions.json
               InputArtifacts:
@@ -92,7 +92,7 @@ Resources:
   WebAppCodeBuildRole:
     Type: AWS::IAM::Role
     Properties:
-      RoleName: stuff-web-app-code-build-role
+      RoleName: bookkeeper-web-app-code-build-role
       # TODO(Johann) should I put my roles under a specific path?
       Path: /
       AssumeRolePolicyDocument:
@@ -105,7 +105,7 @@ Resources:
             Action:
               - sts:AssumeRole
       Policies:
-        - PolicyName: stuff-code-build-policy
+        - PolicyName: bookkeeper-code-build-policy
           PolicyDocument:
             Version: 2012-10-17
             Statement:
@@ -118,11 +118,11 @@ Resources:
               - Effect: Allow
                 Action:
                   - s3:*
-                Resource: arn:aws:s3:::stuff-artifacts-bucket/*
+                Resource: arn:aws:s3:::bookkeeper-artifacts-bucket/*
               - Effect: Allow
                 Action:
                   - ecr:*
-                Resource: !ImportValue StuffWebAppECRRepositoryArn
+                Resource: !ImportValue BookkeeperWebAppECRRepositoryArn
               - Effect: Allow
                 Action:
                   - ecr:GetAuthorizationToken
@@ -131,7 +131,7 @@ Resources:
   WebAppCodePipelineRole:
     Type: AWS::IAM::Role
     Properties:
-      RoleName: stuff-web-app-code-pipeline-role
+      RoleName: bookkeeper-web-app-code-pipeline-role
       Path: /
       AssumeRolePolicyDocument:
         Version: 2012-10-17
@@ -143,7 +143,7 @@ Resources:
             Action:
               - sts:AssumeRole
       Policies:
-        - PolicyName: stuff-web-app-code-pipeline-policy
+        - PolicyName: bookkeeper-web-app-code-pipeline-policy
           PolicyDocument:
             Version: 2012-10-17
             Statement:
@@ -152,7 +152,7 @@ Resources:
                   - s3:*
                 Resource: !Sub
                   - ${BucketArn}/*
-                  - BucketArn: !ImportValue StuffArtifactsBucketArn
+                  - BucketArn: !ImportValue BookkeeperArtifactsBucketArn
               - Effect: Allow
                 Action:
                   - iam:PassRole
@@ -167,7 +167,7 @@ Resources:
               - Effect: Allow
                 Action:
                   - ecr:*
-                Resource: !ImportValue StuffWebAppECRRepositoryArn
+                Resource: !ImportValue BookkeeperWebAppECRRepositoryArn
               - Effect: Allow
                 Action:
                   - ecs:*
@@ -175,4 +175,4 @@ Resources:
               - Effect: Allow
                 Action:
                   - elasticloadbalancing:*
-                Resource: !ImportValue StuffWebAppLoadBalancerArn
+                Resource: !ImportValue BookkeeperWebAppLoadBalancerArn

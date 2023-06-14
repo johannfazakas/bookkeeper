@@ -1,5 +1,5 @@
-# stuff-web-app
-Web App for Stuff. To manage your stuff! You name it.
+# bookkeeper-web-app
+Web App for Bookkeeping.
 
 ## Prerequisites
 - Docker

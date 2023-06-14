@@ -2,8 +2,8 @@ version: 0.2
 
 env:
   variables:
-    AWS_ECR_REPOSITORY_NAME: stuff/web-app
-    AWS_ECS_CONTAINER_NAME: stuff-web-app
+    AWS_ECR_REPOSITORY_NAME: bookkeeper/web-app
+    AWS_ECS_CONTAINER_NAME: bookkeeper-web-app
 
 cache:
   paths:

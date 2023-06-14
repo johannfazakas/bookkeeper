@@ -1,2 +1,3 @@
-# stuff-infra
-Infra stuff for Stuff!
+# Bookkeeper
+
+[//]: # (TODO: Add description)

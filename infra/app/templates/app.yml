@@ -4,13 +4,13 @@ AWSTemplateFormatVersion: 2010-09-09
 Parameters:
   ECSClusterName:
     Type: String
-    Default: stuff-ecs-cluster
+    Default: bookkeeper-ecs-cluster
   WebAppServiceName:
     Type: String
-    Default: stuff-web-app-service
+    Default: bookkeeper-web-app-service
   WebAppLoadBalancerName:
     Type: String
-    Default: stuff-web-app-alb
+    Default: bookkeeper-web-app-alb
   GitHubOAuthToken:
     Type: String
     NoEcho: true
@@ -19,48 +19,48 @@ Parameters:
     Default: johannfazakas
   GitHubRepo:
     Type: String
-    Default: stuff-infra
+    Default: bookkeeper
   GitHubBranch:
     Type: String
     Default: main
 
 Resources:
-  StuffECSCluster:
+  BookkeeperECSCluster:
     Type: AWS::CloudFormation::Stack
     Properties:
       TemplateURL: !Sub
         - "https://s3.amazonaws.com/${ArtifactsBucket}/templates/ecs-cluster.yml"
-        - ArtifactsBucket: !ImportValue StuffArtifactsBucketName
+        - ArtifactsBucket: !ImportValue BookkeeperArtifactsBucketName
       Parameters:
         ECSClusterName: !Ref ECSClusterName
 
-  StuffWebAppService:
+  BookkeeperWebAppService:
     Type: AWS::CloudFormation::Stack
     DependsOn:
-      - StuffECSCluster
+      - BookkeeperECSCluster
     Properties:
       TemplateURL: !Sub
         - "https://s3.amazonaws.com/${ArtifactsBucket}/templates/web-app-service.yml"
-        - ArtifactsBucket: !ImportValue StuffArtifactsBucketName
+        - ArtifactsBucket: !ImportValue BookkeeperArtifactsBucketName
       Parameters:
         ECSClusterName: !Ref ECSClusterName
         ECSServiceName: !Ref WebAppServiceName
-        ECRRepositoryName: !ImportValue StuffWebAppECRRepositoryName
+        ECRRepositoryName: !ImportValue BookkeeperWebAppECRRepositoryName
         LoadBalancerName: !Ref WebAppLoadBalancerName
 
-  StuffWebAppPipeline:
+  BookkeeperWebAppPipeline:
     Type: AWS::CloudFormation::Stack
     DependsOn:
-      - StuffECSCluster
+      - BookkeeperECSCluster
     Properties:
       TemplateURL: !Sub
         - "https://s3.amazonaws.com/${ArtifactsBucket}/templates/web-app-pipeline.yml"
-        - ArtifactsBucket: !ImportValue StuffArtifactsBucketName
+        - ArtifactsBucket: !ImportValue BookkeeperArtifactsBucketName
       Parameters:
-        ArtifactsBucketName: !ImportValue StuffArtifactsBucketName
+        ArtifactsBucketName: !ImportValue BookkeeperArtifactsBucketName
         ECSClusterName: !Ref ECSClusterName
         ECSServiceName: !Ref WebAppServiceName
-        ECRRepositoryName: !ImportValue StuffWebAppECRRepositoryName
+        ECRRepositoryName: !ImportValue BookkeeperWebAppECRRepositoryName
         LoadBalancerName: !Ref WebAppLoadBalancerName
         GitHubOAuthToken: !Ref GitHubOAuthToken
         GitHubOwner: !Ref GitHubOwner

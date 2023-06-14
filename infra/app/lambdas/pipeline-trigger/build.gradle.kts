@@ -17,6 +17,7 @@ dependencies {
 
 java {
     toolchain {
+        // TODO(Johann) try to bump version
         languageVersion.set(JavaLanguageVersion.of(11))
     }
 }

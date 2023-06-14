@@ -26,7 +26,7 @@ Resources:
   WebAppCodeBuild:
     Type: AWS::CodeBuild::Project
     Properties:
-      Name: stuff-web-app-code-build
+      Name: bookkeeper-web-app-code-build
       Environment:
         Type: LINUX_CONTAINER
         Image: aws/codebuild/amazonlinux2-x86_64-standard:4.0
@@ -45,7 +45,7 @@ Resources:
   WebAppCodePipeline:
     Type: AWS::CodePipeline::Pipeline
     Properties:
-      Name: stuff-web-app-code-pipeline
+      Name: bookkeeper-web-app-code-pipeline
       ArtifactStore:
         Type: S3
         Location: !Ref ArtifactsBucketName
@@ -101,7 +101,7 @@ Resources:
   WebAppCodeBuildRole:
     Type: AWS::IAM::Role
     Properties:
-      RoleName: stuff-web-app-code-build-role
+      RoleName: bookkeeper-web-app-code-build-role
       Path: /
       AssumeRolePolicyDocument:
         Version: 2012-10-17
@@ -113,7 +113,7 @@ Resources:
             Action:
               - sts:AssumeRole
       Policies:
-        - PolicyName: stuff-code-build-policy
+        - PolicyName: bookkeeper-code-build-policy
           PolicyDocument:
             Version: 2012-10-17
             Statement:
@@ -139,7 +139,7 @@ Resources:
   WebAppCodePipelineRole:
     Type: AWS::IAM::Role
     Properties:
-      RoleName: stuff-web-app-code-pipeline-role
+      RoleName: bookkeeper-web-app-code-pipeline-role
       Path: /
       AssumeRolePolicyDocument:
         Version: 2012-10-17
@@ -151,7 +151,7 @@ Resources:
             Action:
               - sts:AssumeRole
       Policies:
-        - PolicyName: stuff-web-app-code-pipeline-policy
+        - PolicyName: bookkeeper-web-app-code-pipeline-policy
           PolicyDocument:
             Version: 2012-10-17
             Statement:

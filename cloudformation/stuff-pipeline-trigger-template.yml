@@ -1,67 +1,67 @@
 ---
 Resources:
-  StuffPipelineTriggerLambda:
+  BookkeeperPipelineTriggerLambda:
     Type: AWS::Lambda::Function
     Properties:
-      FunctionName: stuff-pipeline-trigger
+      FunctionName: bookkeeper-pipeline-trigger
       Description: |
         Lambda function to trigger pipelines based on changeset
-      Role: !GetAtt StuffPipelineTriggerLambdaRole.Arn
+      Role: !GetAtt BookkeeperPipelineTriggerLambdaRole.Arn
       PackageType: Image
       Code:
         ImageUri: !Sub
           - ${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/${RepositoryName}:latest
-          - RepositoryName: !ImportValue StuffPipelineTriggerECRRepository
+          - RepositoryName: !ImportValue BookkeeperPipelineTriggerECRRepository
       MemorySize: 512
       Timeout: 10
 
-  StuffPipelineTriggerApiGateway:
+  BookkeeperPipelineTriggerApiGateway:
     Type: AWS::ApiGatewayV2::Api
     Properties:
-      Name: stuff-pipeline-trigger-api-gateway
+      Name: bookkeeper-pipeline-trigger-api-gateway
       Description: |
         Api Gateway to be triggered by GitHub webhooks to proxy Lambda deciding which pipeline to start
       ProtocolType: HTTP
 
-  StuffPipelineTriggerApiGatewayLambdaIntegration:
+  BookkeeperPipelineTriggerApiGatewayLambdaIntegration:
     Type: AWS::ApiGatewayV2::Integration
     Properties:
-      ApiId: !Ref StuffPipelineTriggerApiGateway
+      ApiId: !Ref BookkeeperPipelineTriggerApiGateway
       IntegrationType: AWS_PROXY
       IntegrationUri: !Sub
         - arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaFunction}/invocations
-        - LambdaFunction: !GetAtt StuffPipelineTriggerLambda.Arn
+        - LambdaFunction: !GetAtt BookkeeperPipelineTriggerLambda.Arn
       IntegrationMethod: POST
-      CredentialsArn: !GetAtt StuffPipelineTriggerApiGatewayIntegrationRole.Arn
+      CredentialsArn: !GetAtt BookkeeperPipelineTriggerApiGatewayIntegrationRole.Arn
       PayloadFormatVersion: 2.0
 
-  StuffPipelineTriggerApiGatewayRoute:
+  BookkeeperPipelineTriggerApiGatewayRoute:
     Type: AWS::ApiGatewayV2::Route
     Properties:
-      ApiId: !Ref StuffPipelineTriggerApiGateway
+      ApiId: !Ref BookkeeperPipelineTriggerApiGateway
       RouteKey: POST /trigger
-      Target: !Sub integrations/${StuffPipelineTriggerApiGatewayLambdaIntegration}
+      Target: !Sub integrations/${BookkeeperPipelineTriggerApiGatewayLambdaIntegration}
 
-  StuffPipelineTriggerApiGatewayDeployment:
+  BookkeeperPipelineTriggerApiGatewayDeployment:
     Type: AWS::ApiGatewayV2::Deployment
     DependsOn:
-      - StuffPipelineTriggerApiGatewayStage
-      - StuffPipelineTriggerApiGatewayRoute
+      - BookkeeperPipelineTriggerApiGatewayStage
+      - BookkeeperPipelineTriggerApiGatewayRoute
     Properties:
-      ApiId: !Ref StuffPipelineTriggerApiGateway
+      ApiId: !Ref BookkeeperPipelineTriggerApiGateway
       StageName: ci
 
-  StuffPipelineTriggerApiGatewayStage:
+  BookkeeperPipelineTriggerApiGatewayStage:
     Type: AWS::ApiGatewayV2::Stage
     Properties:
       StageName: ci
-      ApiId: !Ref StuffPipelineTriggerApiGateway
+      ApiId: !Ref BookkeeperPipelineTriggerApiGateway
       AutoDeploy: true
 
-  StuffPipelineTriggerLambdaRole:
+  BookkeeperPipelineTriggerLambdaRole:
     Type: AWS::IAM::Role
     Properties:
-      RoleName: stuff-pipeline-trigger-lambda-role
+      RoleName: bookkeeper-pipeline-trigger-lambda-role
       Path: /
       AssumeRolePolicyDocument:
         Version: 2012-10-17
@@ -73,7 +73,7 @@ Resources:
             Action:
               - sts:AssumeRole
       Policies:
-        - PolicyName: stuff-pipeline-trigger-lambda-policy
+        - PolicyName: bookkeeper-pipeline-trigger-lambda-policy
           PolicyDocument:
             Version: 2012-10-17
             Statement:
@@ -86,12 +86,12 @@ Resources:
               - Effect: Allow
                 Action:
                   - codepipeline:StartPipelineExecution
-                Resource: !Sub arn:aws:codepipeline:${AWS::Region}:${AWS::AccountId}:stuff-*-pipeline
+                Resource: !Sub arn:aws:codepipeline:${AWS::Region}:${AWS::AccountId}:bookkeeper-*-pipeline
 
-  StuffPipelineTriggerApiGatewayIntegrationRole:
+  BookkeeperPipelineTriggerApiGatewayIntegrationRole:
     Type: AWS::IAM::Role
     Properties:
-      RoleName: stuff-pipeline-trigger-api-gateway-integration-role
+      RoleName: bookkeeper-pipeline-trigger-api-gateway-integration-role
       Path: /
       AssumeRolePolicyDocument:
         Version: 2012-10-17
@@ -103,11 +103,11 @@ Resources:
             Action:
               - sts:AssumeRole
       Policies:
-        - PolicyName: stuff-pipeline-trigger-api-gateway-integration-policy
+        - PolicyName: bookkeeper-pipeline-trigger-api-gateway-integration-policy
           PolicyDocument:
             Version: 2012-10-17
             Statement:
               - Effect: Allow
                 Action:
                   - lambda:InvokeFunction
-                Resource: !GetAtt StuffPipelineTriggerLambda.Arn
+                Resource: !GetAtt BookkeeperPipelineTriggerLambda.Arn
