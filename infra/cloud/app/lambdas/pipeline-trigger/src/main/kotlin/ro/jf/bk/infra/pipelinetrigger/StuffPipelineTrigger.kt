@@ -1,4 +1,4 @@
-package ro.jf.bk.api.api.infra.pipelinetrigger
+package ro.jf.bk.infra.pipelinetrigger
 
 import com.amazonaws.services.codepipeline.AWSCodePipelineClientBuilder
 import com.amazonaws.services.codepipeline.model.StartPipelineExecutionRequest

@@ -31,4 +31,4 @@ Resources:
   BookkeeperArtifactsBucket:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: bookkeeper-artifacts
+      BucketName: bookkeeper-app-artifacts

@@ -3,7 +3,7 @@
 export GITHUB_TOKEN='REPLACE_ME'
 
 export STACK_NAME="bookkeeper-app"
-export BOOKKEEPER_ARTIFACTS_BUCKET="bookkeeper-artifacts"
+export BOOKKEEPER_ARTIFACTS_BUCKET="bookkeeper-app-artifacts"
 export CHANGE_SET_NAME="$STACK_NAME-$(date +%s)"
 export SCRIPTS_DIRECTORY="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 export TEMPLATES_DIRECTORY="$SCRIPTS_DIRECTORY/../templates/"

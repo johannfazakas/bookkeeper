@@ -2,6 +2,11 @@
 
 Cloud resources required for Bookkeeper app to run.
 
+## Prerequisites
+
+- artifacts stack deployed
+- images present in ECR repositories
+
 ## Components
 
 ### ECS Cluster
@@ -13,10 +18,10 @@ Elastic Container Service cluster with Fargate launch type to host the app conta
 ### Prerequisites
 
 - AWS CLI
-- [Deploy app stack](../app/app-infra.md#deployment)
-- [Push pipeline-trigger image to ECR](./lambdas/pipeline-trigger/pipeline-trigger.md#build-and-push-image-to-ecr)
+- [Deploy app stack](/app-infra.md#deployment)
+- [Push pipeline-trigger image to ECR](lambdas/pipeline-trigger/pipeline-trigger.md#build-and-push-image-to-ecr)
 - [Push web-app image to ECR](../../web-app/README.md#build-and-push-image-to-ecr)
-- [Review script variables](./scripts/load-variables.sh)
+- [Review script variables](scripts/load-variables.sh)
 - Make scripts executable:
 
 ```shell 
