@@ -1,0 +1,17 @@
+---
+AWSTemplateFormatVersion: 2010-09-09
+
+Resources:
+  BookkeeperRDSDatabase:
+    Type: AWS::RDS::DBInstance
+    Properties:
+      DBInstanceIdentifier: bookkeeper-db
+      DBName: bookkeeper
+      DBInstanceClass: db.t2.micro
+      Engine: postgres
+      EngineVersion: 12.15
+      AllocatedStorage: 20
+      MasterUsername: bookkeeper
+      MasterUserPassword: bookkeeper
+      PubliclyAccessible: true
+      EnableIAMDatabaseAuthentication: true
