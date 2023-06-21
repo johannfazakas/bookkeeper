@@ -15,3 +15,16 @@ Resources:
       MasterUserPassword: bookkeeper
       PubliclyAccessible: true
       EnableIAMDatabaseAuthentication: true
+      VPCSecurityGroups:
+        - !GetAtt RDSDatabaseSecurityGroup.GroupId
+
+  RDSDatabaseSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: bookkeeper-db-sg
+      GroupDescription: Security group for the database
+      SecurityGroupIngress:
+        - CidrIp: 0.0.0.0/0
+          IpProtocol: tcp
+          FromPort: 5432
+          ToPort: 5432
