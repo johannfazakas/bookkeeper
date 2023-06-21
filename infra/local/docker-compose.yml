@@ -3,6 +3,7 @@ name: bookkeeper-app
 services:
   bookkeeper_api_postgres:
     image: "postgres:15"
+    container_name: bookkeeper_postgres
     ports:
       - "5418:5432"
     environment:
