@@ -18,6 +18,10 @@ Outputs:
       Name: BookkeeperArtifactsBucketName
 
 Resources:
+  BookkeeperApiECRRepository:
+    Type: AWS::ECR::Repository
+    Properties:
+      RepositoryName: bookkeeper/api
   BookkeeperWebAppECRRepository:
     Type: AWS::ECR::Repository
     Properties:
