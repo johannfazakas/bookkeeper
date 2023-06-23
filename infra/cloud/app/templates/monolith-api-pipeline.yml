@@ -1,0 +1,184 @@
+---
+AWSTemplateFormatVersion: 2010-09-09
+
+Parameters:
+  ArtifactsBucketName:
+    Type: String
+  ECSClusterName:
+    Type: String
+  ECSServiceName:
+    Type: String
+  LoadBalancerName:
+    Type: String
+  ECRRepositoryName:
+    Type: String
+  GitHubOAuthToken:
+    Type: String
+    NoEcho: true
+  GitHubOwner:
+    Type: String
+  GitHubRepo:
+    Type: String
+  GitHubBranch:
+    Type: String
+
+Resources:
+  MonolithApiCodeBuild:
+    Type: AWS::CodeBuild::Project
+    Properties:
+      Name: bookkeeper-monolith-api-code-build
+      Environment:
+        Type: LINUX_CONTAINER
+        Image: aws/codebuild/amazonlinux2-x86_64-standard:4.0
+        ComputeType: BUILD_GENERAL1_SMALL
+        PrivilegedMode: true
+      Source:
+        Type: CODEPIPELINE
+        BuildSpec: monolith-api/buildspec.yml
+      Cache:
+        Type: S3
+        Location: !Ref ArtifactsBucketName
+      Artifacts:
+        Type: CODEPIPELINE
+      ServiceRole: !Ref MonolithApiCodeBuildRole
+
+  MonolithApiCodePipeline:
+    Type: AWS::CodePipeline::Pipeline
+    Properties:
+      Name: bookkeeper-monolith-api-code-pipeline
+      ArtifactStore:
+        Type: S3
+        Location: !Ref ArtifactsBucketName
+      RoleArn: !GetAtt
+        - MonolithApiCodePipelineRole
+        - Arn
+      Stages:
+        - Name: Source
+          Actions:
+            - Name: Source
+              ActionTypeId:
+                Category: Source
+                Owner: ThirdParty
+                Provider: GitHub
+                Version: 1
+              Configuration:
+                Owner: !Ref GitHubOwner
+                Repo: !Ref GitHubRepo
+                Branch: !Ref GitHubBranch
+                PollForSourceChanges: false
+                OAuthToken: !Ref GitHubOAuthToken
+              OutputArtifacts:
+                - Name: source
+        - Name: Build
+          Actions:
+            - Name: Build
+              ActionTypeId:
+                Category: Build
+                Owner: AWS
+                Provider: CodeBuild
+                Version: 1
+              Configuration:
+                ProjectName: !Ref MonolithApiCodeBuild
+              InputArtifacts:
+                - Name: source
+              OutputArtifacts:
+                - Name: build
+        - Name: Deploy
+          Actions:
+            - Name: Deploy
+              ActionTypeId:
+                Category: Deploy
+                Owner: AWS
+                Provider: ECS
+                Version: 1
+              Configuration:
+                ClusterName: !Ref ECSClusterName
+                ServiceName: !Ref ECSServiceName
+                FileName: imagedefinitions.json
+              InputArtifacts:
+                - Name: build
+
+  MonolithApiCodeBuildRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: bookkeeper-monolith-api-code-build-role
+      Path: /
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - codebuild.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Policies:
+        - PolicyName: bookkeeper-code-build-policy
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Resource: arn:aws:logs:*:*:*
+              - Effect: Allow
+                Action:
+                  - s3:*
+                Resource: !Sub arn:aws:s3:::${ArtifactsBucketName}/*
+              - Effect: Allow
+                Action:
+                  - ecr:*
+                Resource: !Sub arn:aws:ecr:${AWS::Region}:${AWS::AccountId}:repository/${ECRRepositoryName}
+              - Effect: Allow
+                Action:
+                  - ecr:GetAuthorizationToken
+                Resource: '*'
+
+  MonolithApiCodePipelineRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: bookkeeper-monolith-api-code-pipeline-role
+      Path: /
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - codepipeline.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Policies:
+        - PolicyName: bookkeeper-monolith-api-code-pipeline-policy
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - s3:*
+                Resource: !Sub arn:aws:s3:::${ArtifactsBucketName}/*
+              - Effect: Allow
+                Action:
+                  - iam:PassRole
+                Resource: '*'
+                Condition:
+                  StringEqualsIfExists:
+                    iam:PassedToService: ecs-tasks.amazonaws.com
+              - Effect: Allow
+                Action:
+                  - codebuild:*
+                Resource: !GetAtt MonolithApiCodeBuild.Arn
+              - Effect: Allow
+                Action:
+                  - ecr:*
+                Resource: !Sub arn:aws:ecr:${AWS::Region}:${AWS::AccountId}:repository/${ECRRepositoryName}
+              - Effect: Allow
+                Action:
+                  - ecs:*
+                Resource: '*'
+              - Effect: Allow
+                Action:
+                  - elasticloadbalancing:*
+                Resource: !Sub arn:aws:elasticloadbalancing:${AWS::Region}:${AWS::AccountId}:loadbalancer/app/${LoadBalancerName}/*

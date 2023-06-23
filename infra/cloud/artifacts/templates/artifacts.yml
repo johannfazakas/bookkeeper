@@ -7,6 +7,11 @@ Outputs:
     Value: !Ref BookkeeperWebAppECRRepository
     Export:
       Name: BookkeeperWebAppECRRepositoryName
+  BookkeeperMonolithApiECRRepositoryName:
+    Description: The ECR repository for the monolith api
+    Value: !Ref BookkeeperApiECRRepository
+    Export:
+      Name: BookkeeperMonolithApiECRRepositoryName
   BookkeeperPipelineTriggerECRRepositoryName:
     Description: The ECR repository for the pipeline trigger
     Value: !Ref BookkeeperPipelineTriggerECRRepository
@@ -22,6 +27,7 @@ Resources:
     Type: AWS::ECR::Repository
     Properties:
       RepositoryName: bookkeeper/api
+
   BookkeeperWebAppECRRepository:
     Type: AWS::ECR::Repository
     Properties:

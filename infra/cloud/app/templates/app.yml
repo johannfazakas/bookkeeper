@@ -11,6 +11,12 @@ Parameters:
   WebAppLoadBalancerName:
     Type: String
     Default: bookkeeper-web-app-alb
+  MonolithApiServiceName:
+    Type: String
+    Default: bookkeeper-monolith-api-service
+  MonolithApiLoadBalancerName:
+    Type: String
+    Default: bookkeeper-monolith-api-alb
   GitHubOAuthToken:
     Type: String
     NoEcho: true
@@ -62,6 +68,39 @@ Resources:
         ECSServiceName: !Ref WebAppServiceName
         ECRRepositoryName: !ImportValue BookkeeperWebAppECRRepositoryName
         LoadBalancerName: !Ref WebAppLoadBalancerName
+        GitHubOAuthToken: !Ref GitHubOAuthToken
+        GitHubOwner: !Ref GitHubOwner
+        GitHubRepo: !Ref GitHubRepo
+        GitHubBranch: !Ref GitHubBranch
+
+  BookkeeperMonolithApiService:
+    Type: AWS::CloudFormation::Stack
+    DependsOn:
+      - BookkeeperECSCluster
+    Properties:
+      TemplateURL: !Sub
+        - "https://s3.amazonaws.com/${ArtifactsBucket}/templates/monolith-api-service.yml"
+        - ArtifactsBucket: !ImportValue BookkeeperArtifactsBucketName
+      Parameters:
+        ECSClusterName: !Ref ECSClusterName
+        ECSServiceName: !Ref MonolithApiServiceName
+        ECRRepositoryName: !ImportValue BookkeeperMonolithApiECRRepositoryName
+        LoadBalancerName: !Ref MonolithApiLoadBalancerName
+
+  BookkeeperMonolithApiPipeline:
+    Type: AWS::CloudFormation::Stack
+    DependsOn:
+      - BookkeeperECSCluster
+    Properties:
+      TemplateURL: !Sub
+        - "https://s3.amazonaws.com/${ArtifactsBucket}/templates/monolith-api-pipeline.yml"
+        - ArtifactsBucket: !ImportValue BookkeeperArtifactsBucketName
+      Parameters:
+        ArtifactsBucketName: !ImportValue BookkeeperArtifactsBucketName
+        ECSClusterName: !Ref ECSClusterName
+        ECSServiceName: !Ref MonolithApiServiceName
+        ECRRepositoryName: !ImportValue BookkeeperMonolithApiECRRepositoryName
+        LoadBalancerName: !Ref MonolithApiLoadBalancerName
         GitHubOAuthToken: !Ref GitHubOAuthToken
         GitHubOwner: !Ref GitHubOwner
         GitHubRepo: !Ref GitHubRepo

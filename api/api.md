@@ -25,3 +25,8 @@ chmod +x ./scripts/*.sh
 ```shell
 ./scripts/push-api-image.sh
 ```
+
+## Run docker image locally
+```shell
+docker container run -p 8136:8136 -e JAVA_OPTS="-Dspring.profiles.active=local" bookkeeper/api:latest
+```
