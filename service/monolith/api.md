@@ -4,7 +4,7 @@ Web App for Bookkeeping.
 ## Prerequisites
 - Docker
 - AWS CLI
-- [Start local infrastructure services](../infra/local/docker-compose.yml)
+- [Start local infrastructure services](../../infra/local/docker-compose.yml)
 - Make scripts executable:
 ```shell 
 chmod +x ./scripts/*.sh

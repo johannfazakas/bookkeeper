@@ -1,7 +1,6 @@
 package ro.jf.bk.account.config
 
 import org.flywaydb.core.Flyway
-import org.postgresql.ds.PGConnectionPoolDataSource
 import org.postgresql.ds.PGSimpleDataSource
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.boot.autoconfigure.flyway.FlywayMigrationInitializer

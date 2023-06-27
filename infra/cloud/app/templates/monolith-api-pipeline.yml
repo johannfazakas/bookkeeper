@@ -34,7 +34,7 @@ Resources:
         PrivilegedMode: true
       Source:
         Type: CODEPIPELINE
-        BuildSpec: monolith-api/buildspec.yml
+        BuildSpec: service/monolith/buildspec.yml
       Cache:
         Type: S3
         Location: !Ref ArtifactsBucketName
