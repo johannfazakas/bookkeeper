@@ -38,5 +38,5 @@ phases:
       - echo Pushing the Docker images finished.
 artifacts:
   files:
-    - monolith-api/imagedefinitions.json
+    - service/monolith/imagedefinitions.json
   discard-paths: yes
