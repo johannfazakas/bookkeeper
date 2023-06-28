@@ -105,3 +105,12 @@ Resources:
         GitHubOwner: !Ref GitHubOwner
         GitHubRepo: !Ref GitHubRepo
         GitHubBranch: !Ref GitHubBranch
+
+  BookkeeperPipelineTrigger:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: !Sub
+        - "https://s3.amazonaws.com/${ArtifactsBucket}/templates/pipeline-trigger.yml"
+        - ArtifactsBucket: !ImportValue BookkeeperArtifactsBucketName
+      Parameters:
+        ECRRepositoryName: !ImportValue BookkeeperWebAppECRRepositoryName

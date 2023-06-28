@@ -1,0 +1,117 @@
+---
+AWSTemplateFormatVersion: 2010-09-09
+
+Parameters:
+  ECRRepositoryName:
+    Type: String
+
+Resources:
+  BookkeeperPipelineTriggerLambda:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: bookkeeper-pipeline-trigger
+      Description: |
+        Lambda function to trigger pipelines based on changeset
+      Role: !GetAtt BookkeeperPipelineTriggerLambdaRole.Arn
+      PackageType: Image
+      Code:
+        ImageUri: !Sub ${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/${ECRRepositoryName}:latest
+      MemorySize: 512
+      Timeout: 10
+
+  BookkeeperPipelineTriggerApiGateway:
+    Type: AWS::ApiGatewayV2::Api
+    Properties:
+      Name: bookkeeper-pipeline-trigger-api-gateway
+      Description: |
+        Api Gateway to be triggered by GitHub webhooks to proxy Lambda deciding which pipeline to start
+      ProtocolType: HTTP
+
+  BookkeeperPipelineTriggerApiGatewayLambdaIntegration:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      ApiId: !Ref BookkeeperPipelineTriggerApiGateway
+      IntegrationType: AWS_PROXY
+      IntegrationUri: !Sub
+        - arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaFunction}/invocations
+        - LambdaFunction: !GetAtt BookkeeperPipelineTriggerLambda.Arn
+      IntegrationMethod: POST
+      CredentialsArn: !GetAtt BookkeeperPipelineTriggerApiGatewayIntegrationRole.Arn
+      PayloadFormatVersion: 2.0
+
+  BookkeeperPipelineTriggerApiGatewayRoute:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId: !Ref BookkeeperPipelineTriggerApiGateway
+      RouteKey: POST /trigger
+      Target: !Sub integrations/${BookkeeperPipelineTriggerApiGatewayLambdaIntegration}
+
+  BookkeeperPipelineTriggerApiGatewayDeployment:
+    Type: AWS::ApiGatewayV2::Deployment
+    DependsOn:
+      - BookkeeperPipelineTriggerApiGatewayStage
+      - BookkeeperPipelineTriggerApiGatewayRoute
+    Properties:
+      ApiId: !Ref BookkeeperPipelineTriggerApiGateway
+      StageName: ci
+
+  BookkeeperPipelineTriggerApiGatewayStage:
+    Type: AWS::ApiGatewayV2::Stage
+    Properties:
+      StageName: ci
+      ApiId: !Ref BookkeeperPipelineTriggerApiGateway
+      AutoDeploy: true
+
+  BookkeeperPipelineTriggerLambdaRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: bookkeeper-pipeline-trigger-lambda-role
+      Path: /
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Policies:
+        - PolicyName: bookkeeper-pipeline-trigger-lambda-policy
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Resource: arn:aws:logs:*:*:*
+              - Effect: Allow
+                Action:
+                  - codepipeline:StartPipelineExecution
+                Resource: !Sub arn:aws:codepipeline:${AWS::Region}:${AWS::AccountId}:bookkeeper-*-pipeline
+
+  BookkeeperPipelineTriggerApiGatewayIntegrationRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: bookkeeper-pipeline-trigger-api-gateway-integration-role
+      Path: /
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - apigateway.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Policies:
+        - PolicyName: bookkeeper-pipeline-trigger-api-gateway-integration-policy
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - lambda:InvokeFunction
+                Resource: !GetAtt BookkeeperPipelineTriggerLambda.Arn
