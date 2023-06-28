@@ -14,11 +14,6 @@
 .idea/
 .idea_modules/
 
-# Spring Boot properties and configuration files
-# These might contain sensitive information and should be excluded
-**/src/main/resources/application*.properties
-**/src/main/resources/application*.yml
-
 # Logs and other files
 *.log
 *.swp
