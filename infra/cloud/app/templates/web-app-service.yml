@@ -69,7 +69,6 @@ Resources:
       Type: application
       Scheme: internet-facing
       IpAddressType: ipv4
-      HealthCheckPath: /actuator/health
       SecurityGroups:
         - !GetAtt WebAppLoadBalancerSecurityGroup.GroupId
       # IMPROVE pass subnet ids as parameters

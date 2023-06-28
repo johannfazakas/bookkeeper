@@ -55,6 +55,12 @@ Resources:
           Environment:
             - Name: SPRING_PROFILES_ACTIVE
               Value: prod
+          LogConfiguration:
+            LogDriver: awslogs
+            Options:
+              awslogs-group: /bookkeeper/ecs/monolith-api
+              awslogs-region: !Ref AWS::Region
+              awslogs-stream-prefix: bookkeeper-prefix
       ExecutionRoleArn: !GetAtt MonolithApiExecutionRole.Arn
       TaskRoleArn: !GetAtt MonolithApiTaskRole.Arn
       Family: monolith-api
@@ -86,6 +92,7 @@ Resources:
       Name: bookkeeper-monolith-api-alb-tg
       Protocol: HTTP
       Port: 80
+      HealthCheckPath: /actuator/health
       # IMPROVE pass vpc id as parameter
       VpcId: vpc-0ae8710521d1b1869
       IpAddressType: ipv4
