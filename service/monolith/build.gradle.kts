@@ -1,5 +1,5 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import org.springframework.boot.gradle.tasks.bundling.BootBuildImage
+import java.time.Instant
 
 plugins {
     id("org.springframework.boot") version "3.1.0"
@@ -7,6 +7,7 @@ plugins {
     kotlin("jvm") version "1.8.21"
     kotlin("plugin.spring") version "1.8.21"
     kotlin("plugin.jpa") version "1.8.21"
+    id("com.google.cloud.tools.jib") version "3.1.4"
 }
 
 val springModulithVersion = "0.1.0"
@@ -47,6 +48,15 @@ tasks.withType<Test> {
     useJUnitPlatform()
 }
 
-tasks.withType<BootBuildImage> {
-    imageName.set("bookkeeper/api:latest")
+jib {
+    from {
+        image = "openjdk:17-jdk-slim"
+    }
+    to {
+        image = "bookkeeper/api"
+    }
+    container {
+        mainClass = "ro.jf.bk.BookkeeperApplicationKt"
+        creationTime = Instant.now().toString()
+    }
 }

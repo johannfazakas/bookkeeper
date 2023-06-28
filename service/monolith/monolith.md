@@ -26,7 +26,7 @@ chmod +x ./scripts/*.sh
 ./scripts/push-api-image.sh
 ```
 
-## Run docker image locally
+## Run docker image locally with prod db connection
 ```shell
-docker container run -p 8136:8136 -e JAVA_OPTS="-Dspring.profiles.active=local" bookkeeper/api:latest
+docker container run -p 8136:8236 -e SPRING_PROFILES_ACTIVE=local-prod bookkeeper/api:latest
 ```
