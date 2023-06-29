@@ -1,7 +1,11 @@
 server:
   port: 8136
 
-bk.persistence.postgres:
-  url: jdbc:postgresql://bookkeeper_postgres:5432/bookkeeper
-  username: root
-  password: admin
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5418/bookkeeper?currentSchema=account
+    username: root
+    password: admin
+  flyway:
+    enabled: true
+    baseline-on-migrate: true

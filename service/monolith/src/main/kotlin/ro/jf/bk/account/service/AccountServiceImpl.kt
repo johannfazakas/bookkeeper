@@ -9,7 +9,7 @@ import ro.jf.bk.account.persistence.repository.AccountRepository
 
 @Service
 class AccountServiceImpl(
-        private val accountRepository: AccountRepository
+    private val accountRepository: AccountRepository
 ) : AccountService {
     override fun getAccounts(): List<AccountTO> {
         return accountRepository.findAll().map { it.toTO() }
