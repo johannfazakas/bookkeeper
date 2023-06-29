@@ -3,6 +3,7 @@ package ro.jf.bk.user.api
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 import ro.jf.bk.user.api.transfer.CreateUserTO
+import ro.jf.bk.user.api.transfer.ListTO
 import ro.jf.bk.user.api.transfer.UserTO
 import ro.jf.bk.user.domain.service.UserService
 
@@ -13,9 +14,10 @@ class UserController(
 ) {
 
     @GetMapping
-    fun getUsers(): List<UserTO> {
+    fun getUsers(): ListTO<UserTO> {
         return userService.getUsers()
             .map(UserTO::fromDomain)
+            .let(::ListTO)
     }
 
     @GetMapping("/{username}")
