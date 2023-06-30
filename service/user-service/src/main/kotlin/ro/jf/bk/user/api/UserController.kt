@@ -2,10 +2,11 @@ package ro.jf.bk.user.api
 
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
+import org.springframework.web.server.ResponseStatusException
 import ro.jf.bk.user.api.transfer.CreateUserTO
 import ro.jf.bk.user.api.transfer.ListTO
 import ro.jf.bk.user.api.transfer.UserTO
-import ro.jf.bk.user.domain.service.UserService
+import ro.jf.bk.user.service.UserService
 
 @RestController
 @RequestMapping("/user/v1/users")
@@ -23,7 +24,8 @@ class UserController(
     @GetMapping("/{username}")
     fun getUser(@PathVariable("username") username: String): UserTO {
         return userService.getUser(username)
-            .let(UserTO::fromDomain)
+            ?.let(UserTO::fromDomain)
+            ?: throw ResponseStatusException(HttpStatus.NOT_FOUND)
     }
 
     @PostMapping

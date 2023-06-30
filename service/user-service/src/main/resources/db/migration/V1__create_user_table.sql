@@ -1,5 +1,5 @@
-create table if not exists "user"
+create table if not exists "app_user"
 (
     id uuid primary key,
-    email varchar(255) not null
+    username varchar(255) not null
 );

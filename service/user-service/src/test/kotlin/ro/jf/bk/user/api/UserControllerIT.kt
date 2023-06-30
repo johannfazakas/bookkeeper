@@ -11,6 +11,8 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 import ro.jf.bk.user.api.transfer.CreateUserTO
+import ro.jf.bk.user.model.User
+import ro.jf.bk.user.repository.UserRepository
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -21,6 +23,9 @@ class UserControllerIT(
 
     @Autowired
     private lateinit var objectMapper: ObjectMapper
+
+    @Autowired
+    private lateinit var userRepository: UserRepository
 
     @Test
     fun `should get users`() {
@@ -36,10 +41,21 @@ class UserControllerIT(
     @Test
     fun `should get user`() {
         val username = "user"
+        val user = User(username = username)
+        userRepository.save(user)
+
         mockMvc.perform(get("/user/v1/users/$username"))
             .andExpect(status().isOk)
-            .andExpect(jsonPath("$.id").exists())
+            .andExpect(jsonPath("$.id").value(user.id.toString()))
             .andExpect(jsonPath("$.username").value(username))
+    }
+
+    @Test
+    fun `should return not found on get user when it does not exist`() {
+        val username = "userx"
+
+        mockMvc.perform(get("/user/v1/users/$username"))
+            .andExpect(status().isNotFound)
     }
 
     @Test

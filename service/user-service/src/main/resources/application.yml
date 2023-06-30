@@ -3,7 +3,7 @@ server:
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5418/bookkeeper?currentSchema=user
+    url: jdbc:postgresql://localhost:5418/bookkeeper?currentSchema=bk_user
     username: root
     password: admin
   flyway:
