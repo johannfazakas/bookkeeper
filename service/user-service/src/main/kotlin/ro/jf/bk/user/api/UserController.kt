@@ -6,6 +6,8 @@ import org.springframework.web.server.ResponseStatusException
 import ro.jf.bk.user.api.transfer.CreateUserTO
 import ro.jf.bk.user.api.transfer.ListTO
 import ro.jf.bk.user.api.transfer.UserTO
+import ro.jf.bk.user.exception.UserAlreadyExistsException
+import ro.jf.bk.user.exception.UserNotFoundException
 import ro.jf.bk.user.service.UserService
 
 @RestController
@@ -22,17 +24,19 @@ class UserController(
     }
 
     @GetMapping("/{username}")
-    fun getUser(@PathVariable("username") username: String): UserTO {
-        return userService.getUser(username)
-            ?.let(UserTO::fromDomain)
-            ?: throw ResponseStatusException(HttpStatus.NOT_FOUND)
+    fun getUser(@PathVariable("username") username: String): UserTO = try {
+        userService.getUser(username).let(UserTO::fromDomain)
+    } catch (e: UserNotFoundException) {
+        throw ResponseStatusException(HttpStatus.NOT_FOUND, e.message)
     }
 
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
-    fun createUser(@RequestBody createUser: CreateUserTO): UserTO {
-        return userService.createUser(createUser.username)
+    fun createUser(@RequestBody createUser: CreateUserTO): UserTO = try {
+        userService.createUser(createUser.username)
             .let(UserTO::fromDomain)
+    } catch (e: UserAlreadyExistsException) {
+        throw ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, e.message)
     }
 
     @DeleteMapping("/{username}")
