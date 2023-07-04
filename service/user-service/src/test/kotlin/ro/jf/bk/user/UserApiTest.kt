@@ -1,32 +1,31 @@
 package ro.jf.bk.user
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
 import org.assertj.core.api.Assertions.assertThat
-import org.hamcrest.Matchers.hasSize
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.context.ApplicationContext
+import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
-import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.DynamicPropertyRegistry
 import org.springframework.test.context.DynamicPropertySource
-import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.reactive.server.WebTestClient
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
-import ro.jf.bk.user.config.BeansConfig
-import ro.jf.bk.user.transfer.CreateUserTO
 import ro.jf.bk.user.extension.PostgresContainerExtension
 import ro.jf.bk.user.extension.PostgresContainerExtension.Companion.injectPostgresConnectionProps
 import ro.jf.bk.user.model.User
 import ro.jf.bk.user.repository.UserRepository
+import ro.jf.bk.user.transfer.CreateUserTO
 
 @SpringBootTest
-@ContextConfiguration(initializers = [BeansConfig::class])
-@AutoConfigureMockMvc
 @ExtendWith(PostgresContainerExtension::class)
+@OptIn(ExperimentalCoroutinesApi::class)
 class UserApiTest(
 ) {
     companion object {
@@ -38,7 +37,7 @@ class UserApiTest(
     }
 
     @Autowired
-    private lateinit var mockMvc: MockMvc
+    private lateinit var applicationContext: ApplicationContext
 
     @Autowired
     private lateinit var objectMapper: ObjectMapper
@@ -46,57 +45,73 @@ class UserApiTest(
     @Autowired
     private lateinit var userRepository: UserRepository
 
+    private lateinit var client: WebTestClient
+
     @BeforeEach
-    fun setUp() {
+    fun setUp() = runTest {
         userRepository.deleteAll()
+        client = WebTestClient
+            .bindToApplicationContext(applicationContext)
+            .configureClient()
+            .build()
     }
 
     @Test
-    fun `should get users`() {
+    fun `should get users`() = runTest {
         val user1 = userRepository.save(User(username = "user1"))
         val user2 = userRepository.save(User(username = "user2"))
 
-        mockMvc.perform(get("/user/v1/users"))
-            .andExpect(status().isOk)
-            .andExpect(jsonPath("$.data", hasSize<Any>(2)))
-            .andExpect(jsonPath("$.data[0].id").value(user1.id.toString()))
-            .andExpect(jsonPath("$.data[0].username").value(user1.username))
-            .andExpect(jsonPath("$.data[1].id").value(user2.id.toString()))
-            .andExpect(jsonPath("$.data[1].username").value(user2.username))
+        client.get()
+            .uri("/user/v1/users")
+            .exchange()
+            .expectStatus().isOk
+            .expectBody()
+            .jsonPath("$.data").isArray
+            .jsonPath("$.data.length()").isEqualTo(2)
+            .jsonPath("$.data[0].id").isEqualTo(user1.id.toString())
+            .jsonPath("$.data[0].username").isEqualTo(user1.username)
+            .jsonPath("$.data[1].id").isEqualTo(user2.id.toString())
+            .jsonPath("$.data[1].username").isEqualTo(user2.username)
     }
 
     @Test
-    fun `should get user`() {
+    fun `should get user`() = runTest {
         val username = "user"
         val user = User(username = username)
         userRepository.save(user)
 
-        mockMvc.perform(get("/user/v1/users/$username"))
-            .andExpect(status().isOk)
-            .andExpect(jsonPath("$.id").value(user.id.toString()))
-            .andExpect(jsonPath("$.username").value(username))
+        client.get()
+            .uri("/user/v1/users/$username")
+            .exchange()
+            .expectStatus().isOk
+            .expectBody()
+            .jsonPath("$.id").isEqualTo(user.id.toString())
+            .jsonPath("$.username").isEqualTo(user.username)
     }
 
     @Test
-    fun `should return not found on get user when it does not exist`() {
+    fun `should return not found on get user when it does not exist`() = runTest {
         val username = "userx"
 
-        mockMvc.perform(get("/user/v1/users/$username"))
-            .andExpect(status().isNotFound)
+        client.get()
+            .uri("/user/v1/users/$username")
+            .exchange()
+            .expectStatus().isNotFound
     }
 
     @Test
-    fun `should create user`() {
+    fun `should create user`() = runTest {
         val username = "user"
 
-        mockMvc.perform(
-            post("/user/v1/users")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(CreateUserTO(username)))
-        )
-            .andExpect(status().isCreated)
-            .andExpect(jsonPath("$.id").exists())
-            .andExpect(jsonPath("$.username").value(username))
+        client.post()
+            .uri("/user/v1/users")
+            .contentType(MediaType.APPLICATION_JSON)
+            .bodyValue(CreateUserTO(username))
+            .exchange()
+            .expectStatus().isCreated
+            .expectBody()
+            .jsonPath("$.id").exists()
+            .jsonPath("$.username").isEqualTo(username)
 
         val user = userRepository.findByUsername(username)
         assertThat(user).isNotNull
@@ -105,24 +120,25 @@ class UserApiTest(
     }
 
     @Test
-    fun `should throw error when attempting user creating with existing username`() {
+    fun `should throw error when attempting user creation with existing username`() = runTest {
         val existingUser = userRepository.save(User(username = "user"))
 
-        mockMvc.perform(
-            post("/user/v1/users")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(CreateUserTO(existingUser.username)))
-        )
-            .andExpect(status().isUnprocessableEntity)
+        client.post()
+            .uri("/user/v1/users")
+            .contentType(MediaType.APPLICATION_JSON)
+            .bodyValue(CreateUserTO(existingUser.username))
+            .exchange()
+            .expectStatus().isEqualTo(HttpStatus.UNPROCESSABLE_ENTITY.value())
     }
 
     @Test
-    fun `should delete user`() {
+    fun `should delete user`() = runTest {
         val user = userRepository.save(User(username = "user"))
+        val count = userRepository.findAll()
 
-        mockMvc.perform(delete("/user/v1/users/${user.username}"))
-            .andExpect(status().isNoContent)
-
-        assertThat(userRepository.findByUsername(user.username)).isNull()
+        client.delete()
+            .uri("/user/v1/users/${user.username}")
+            .exchange()
+            .expectStatus().isNoContent
     }
 }

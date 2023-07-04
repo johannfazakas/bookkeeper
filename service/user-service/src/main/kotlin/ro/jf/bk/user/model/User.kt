@@ -1,13 +1,12 @@
 package ro.jf.bk.user.model
 
-import jakarta.persistence.*
+import org.springframework.data.annotation.Id
+import org.springframework.data.relational.core.mapping.Table
 import java.util.*
 
-@Entity
 @Table(name = "app_user")
 data class User(
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     var id: UUID? = null,
     var username: String,
 )

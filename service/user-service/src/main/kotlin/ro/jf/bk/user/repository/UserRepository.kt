@@ -1,11 +1,10 @@
 package ro.jf.bk.user.repository
 
-import org.springframework.data.repository.CrudRepository
-import org.springframework.stereotype.Repository
+import org.springframework.data.repository.kotlin.CoroutineCrudRepository
 import ro.jf.bk.user.model.User
 import java.util.*
 
-@Repository
-interface UserRepository : CrudRepository<User, UUID> {
-    fun findByUsername(username: String): User?
+interface UserRepository : CoroutineCrudRepository<User, UUID> {
+    suspend fun findByUsername(username: String): User?
+    suspend fun deleteByUsername(username: String)
 }

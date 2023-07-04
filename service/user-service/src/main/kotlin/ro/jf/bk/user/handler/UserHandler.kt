@@ -1,41 +1,43 @@
 package ro.jf.bk.user.handler
 
-import jakarta.transaction.Transactional
-import org.springframework.web.servlet.function.ServerRequest
-import org.springframework.web.servlet.function.ServerResponse
+import kotlinx.coroutines.flow.map
+import org.springframework.stereotype.Component
+import org.springframework.web.reactive.function.server.*
+import ro.jf.bk.user.repository.UserRepository
 import ro.jf.bk.user.transfer.CreateUserTO
 import ro.jf.bk.user.transfer.ListTO.Companion.toListTO
 import ro.jf.bk.user.transfer.UserTO.Companion.toTO
-import ro.jf.bk.user.repository.UserRepository
 import java.net.URI
 
+@Component
 class UserHandler(
     private val userRepository: UserRepository
 ) {
-    fun getUsers(request: ServerRequest): ServerResponse {
-        val users = userRepository.findAll().toList()
-        return ServerResponse.ok().body(users.toListTO())
+    suspend fun getUsers(request: ServerRequest): ServerResponse {
+        val users = userRepository.findAll()
+            .map { it.toTO() }
+            .toListTO()
+        return ServerResponse.ok().bodyValueAndAwait(users)
     }
 
-    fun getUser(request: ServerRequest): ServerResponse {
+    suspend fun getUser(request: ServerRequest): ServerResponse {
         val username = request.pathVariable("username")
         val user = userRepository.findByUsername(username)
-            ?: return ServerResponse.notFound().build()
-        return ServerResponse.ok().body(user.toTO())
+            ?: return ServerResponse.notFound().buildAndAwait()
+        return ServerResponse.ok().bodyValueAndAwait(user.toTO())
     }
 
-    fun deleteUser(request: ServerRequest): ServerResponse {
+    suspend fun deleteUser(request: ServerRequest): ServerResponse {
         val username = request.pathVariable("username")
-        userRepository.findByUsername(username)
-            ?.let { userRepository.delete(it) }
-        return ServerResponse.noContent().build()
+        userRepository.deleteByUsername(username)
+        return ServerResponse.noContent().buildAndAwait()
     }
 
-    fun createUser(request: ServerRequest): ServerResponse {
-        val createUserRequest = request.body(CreateUserTO::class.java)
+    suspend fun createUser(request: ServerRequest): ServerResponse {
+        val createUserRequest = request.awaitBody<CreateUserTO>()
         if (userRepository.findByUsername(createUserRequest.username) != null)
-            return ServerResponse.unprocessableEntity().build()
+            return ServerResponse.unprocessableEntity().buildAndAwait()
         val user = userRepository.save(createUserRequest.toModel())
-        return ServerResponse.created(URI.create("/user/v1/users/${user.username}")).body(user.toTO())
+        return ServerResponse.created(URI.create("/user/v1/users/${user.username}")).bodyValueAndAwait(user.toTO())
     }
 }

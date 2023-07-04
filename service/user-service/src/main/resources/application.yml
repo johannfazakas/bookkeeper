@@ -2,10 +2,10 @@ server:
   port: 8132
 
 spring:
-  datasource:
-    url: jdbc:postgresql://localhost:5418/bookkeeper?currentSchema=bk_user
+  r2dbc:
+    url: r2dbc:postgresql://localhost:5418/bookkeeper?currentSchema=bk_user
     username: root
     password: admin
   flyway:
-    enabled: true
-    baseline-on-migrate: true
+    url: jdbc:postgresql://localhost:5418/bookkeeper?currentSchema=bk_user
+    locations: classpath:db/migration
