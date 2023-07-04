@@ -1,1 +1,1 @@
-rootProject.name = "bookkeeper-api"
+rootProject.name = "bk-account-service"

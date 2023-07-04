@@ -1,4 +1,4 @@
-package ro.jf.bk
+package ro.jf.bk.account
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan
@@ -6,8 +6,8 @@ import org.springframework.boot.runApplication
 
 @SpringBootApplication
 @ConfigurationPropertiesScan
-class BookkeeperApplication
+class BookkeeperAccountService
 
 fun main(args: Array<String>) {
-    runApplication<BookkeeperApplication>(*args)
+    runApplication<BookkeeperAccountService>(*args)
 }

@@ -10,7 +10,6 @@ plugins {
     id("com.google.cloud.tools.jib") version "3.1.4"
 }
 
-val springModulithVersion = "0.1.0"
 val postgresVersion = "42.5.1"
 val assertJVersion = "3.24.2"
 
@@ -27,13 +26,15 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-    implementation("org.springframework.experimental:spring-modulith-core:$springModulithVersion")
     implementation("org.postgresql:postgresql:$postgresVersion")
     implementation("org.flywaydb:flyway-core:9.19.1")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation("org.springframework.experimental:spring-modulith-test:$springModulithVersion")
+    testImplementation("org.testcontainers:testcontainers-bom:1.18.3")
+    testImplementation("org.testcontainers:testcontainers")
+    testImplementation("org.testcontainers:postgresql")
+    testImplementation("org.testcontainers:junit-jupiter")
     testImplementation("org.assertj:assertj-core:$assertJVersion")
 }
 
