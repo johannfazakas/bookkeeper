@@ -12,24 +12,24 @@ Parameters:
     Type: String
 
 Resources:
-  MonolithApiService:
+  AccountServiceService:
     Type: AWS::ECS::Service
     DependsOn:
-      - MonolithApiLoadBalancerListener
+      - AccountServiceLoadBalancerListener
     Properties:
       ServiceName: !Ref ECSServiceName
       Cluster: !Ref ECSClusterName
-      TaskDefinition: !Ref MonolithApiTaskDefinition
+      TaskDefinition: !Ref AccountServiceTaskDefinition
       LaunchType: FARGATE
       LoadBalancers:
-        - ContainerName: bookkeeper-monolith-api
+        - ContainerName: bookkeeper-account-service
           ContainerPort: 80
-          TargetGroupArn: !GetAtt MonolithApiLoadBalancerTargetGroup.TargetGroupArn
+          TargetGroupArn: !GetAtt AccountServiceLoadBalancerTargetGroup.TargetGroupArn
       NetworkConfiguration:
         AwsvpcConfiguration:
           AssignPublicIp: ENABLED
           SecurityGroups:
-            - !GetAtt MonolithApiServiceSecurityGroup.GroupId
+            - !GetAtt AccountServiceServiceSecurityGroup.GroupId
           # IMPROVE pass subnets as parameters
           Subnets:
             - subnet-03b0f58983b5d5b8a
@@ -43,11 +43,11 @@ Resources:
       DeploymentController:
         Type: ECS
 
-  MonolithApiTaskDefinition:
+  AccountServiceTaskDefinition:
     Type: AWS::ECS::TaskDefinition
     Properties:
       ContainerDefinitions:
-        - Name: bookkeeper-monolith-api
+        - Name: bookkeeper-account-service
           Image: !Sub ${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/${ECRRepositoryName}:latest
           PortMappings:
             - ContainerPort: 80
@@ -58,12 +58,12 @@ Resources:
           LogConfiguration:
             LogDriver: awslogs
             Options:
-              awslogs-group: /bookkeeper/ecs/monolith-api
+              awslogs-group: /bookkeeper/ecs/account-service
               awslogs-region: !Ref AWS::Region
               awslogs-stream-prefix: bookkeeper-prefix
-      ExecutionRoleArn: !GetAtt MonolithApiExecutionRole.Arn
-      TaskRoleArn: !GetAtt MonolithApiTaskRole.Arn
-      Family: monolith-api
+      ExecutionRoleArn: !GetAtt AccountServiceExecutionRole.Arn
+      TaskRoleArn: !GetAtt AccountServiceTaskRole.Arn
+      Family: account-service
       RuntimePlatform:
         OperatingSystemFamily: LINUX
         CpuArchitecture: X86_64
@@ -71,7 +71,7 @@ Resources:
       Cpu: 256
       Memory: 512
 
-  MonolithApiLoadBalancer:
+  AccountServiceLoadBalancer:
     Type: AWS::ElasticLoadBalancingV2::LoadBalancer
     Properties:
       Name: !Ref LoadBalancerName
@@ -79,17 +79,17 @@ Resources:
       Scheme: internet-facing
       IpAddressType: ipv4
       SecurityGroups:
-        - !GetAtt MonolithApiLoadBalancerSecurityGroup.GroupId
+        - !GetAtt AccountServiceLoadBalancerSecurityGroup.GroupId
       # IMPROVE pass subnet ids as parameters
       Subnets:
         - subnet-03b0f58983b5d5b8a
         - subnet-0910d8975e3dbf48b
         - subnet-0a55796ab32a4156e
 
-  MonolithApiLoadBalancerTargetGroup:
+  AccountServiceLoadBalancerTargetGroup:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
     Properties:
-      Name: bookkeeper-monolith-api-alb-tg
+      Name: bookkeeper-account-service-alb-tg
       Protocol: HTTP
       Port: 80
       HealthCheckPath: /actuator/health
@@ -98,43 +98,43 @@ Resources:
       IpAddressType: ipv4
       TargetType: ip
 
-  MonolithApiLoadBalancerListener:
+  AccountServiceLoadBalancerListener:
     Type: AWS::ElasticLoadBalancingV2::Listener
     Properties:
-      LoadBalancerArn: !Ref MonolithApiLoadBalancer
+      LoadBalancerArn: !Ref AccountServiceLoadBalancer
       Protocol: HTTP
       Port: 80
       DefaultActions:
         - Type: forward
-          TargetGroupArn: !GetAtt MonolithApiLoadBalancerTargetGroup.TargetGroupArn
+          TargetGroupArn: !GetAtt AccountServiceLoadBalancerTargetGroup.TargetGroupArn
 
-  MonolithApiLoadBalancerSecurityGroup:
+  AccountServiceLoadBalancerSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
-      GroupName: bookkeeper-monolith-api-alb-sg
-      GroupDescription: Security group for the monolith-api load balancer
+      GroupName: bookkeeper-account-service-alb-sg
+      GroupDescription: Security group for the account-service load balancer
       SecurityGroupIngress:
         - CidrIp: 0.0.0.0/0
           IpProtocol: tcp
           FromPort: 80
           ToPort: 80
 
-  MonolithApiServiceSecurityGroup:
+  AccountServiceServiceSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
-      GroupName: bookkeeper-monolith-api-service-sg
-      GroupDescription: Security group for the monolith-api service
+      GroupName: bookkeeper-account-service-service-sg
+      GroupDescription: Security group for the account-service service
       SecurityGroupIngress:
-        - SourceSecurityGroupId: !GetAtt MonolithApiLoadBalancerSecurityGroup.GroupId
+        - SourceSecurityGroupId: !GetAtt AccountServiceLoadBalancerSecurityGroup.GroupId
           IpProtocol: tcp
           # IMPROVE there should be a way to display * instead of 0-65535
           FromPort: 0
           ToPort: 65535
 
-  MonolithApiExecutionRole:
+  AccountServiceExecutionRole:
     Type: AWS::IAM::Role
     Properties:
-      RoleName: bookkeeper-monolith-api-task-execution-role
+      RoleName: bookkeeper-account-service-task-execution-role
       Path: /
       AssumeRolePolicyDocument:
         Statement:
@@ -144,7 +144,7 @@ Resources:
             Action:
               - sts:AssumeRole
       Policies:
-        - PolicyName: bookkeeper-monolith-api-task-execution-policy
+        - PolicyName: bookkeeper-account-service-task-execution-policy
           PolicyDocument:
             Version: 2012-10-17
             Statement:
@@ -161,10 +161,10 @@ Resources:
                   - logs:PutLogEvents
                 Resource: '*'
 
-  MonolithApiTaskRole:
+  AccountServiceTaskRole:
     Type: AWS::IAM::Role
     Properties:
-      RoleName: bookkeeper-monolith-api-task-container-role
+      RoleName: bookkeeper-account-service-task-container-role
       Path: /
       AssumeRolePolicyDocument:
         Statement:
@@ -174,7 +174,7 @@ Resources:
             Action:
               - sts:AssumeRole
       Policies:
-        - PolicyName: bookkeeper-monolith-api-task-container-policy
+        - PolicyName: bookkeeper-account-service-task-container-policy
           PolicyDocument:
             Version: 2012-10-17
             Statement:
@@ -184,10 +184,10 @@ Resources:
                   - logs:PutLogEvents
                 Resource: '*'
 
-  MonolithApiServiceRole:
+  AccountServiceServiceRole:
     Type: AWS::IAM::Role
     Properties:
-      RoleName: bookkeeper-monolith-api-service-role
+      RoleName: bookkeeper-account-service-service-role
       Path: /
       AssumeRolePolicyDocument:
         Statement:
@@ -197,7 +197,7 @@ Resources:
             Action:
               - sts:AssumeRole
       Policies:
-        - PolicyName: bookkeeper-monolith-api-task-container-policy
+        - PolicyName: bookkeeper-account-service-task-container-policy
           PolicyDocument:
             Version: 2012-10-17
             Statement:

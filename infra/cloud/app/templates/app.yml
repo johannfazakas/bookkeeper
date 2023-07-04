@@ -11,12 +11,12 @@ Parameters:
   WebAppLoadBalancerName:
     Type: String
     Default: bookkeeper-web-app-alb
-  MonolithApiServiceName:
+  AccountServiceServiceName:
     Type: String
-    Default: bookkeeper-monolith-api-service
-  MonolithApiLoadBalancerName:
+    Default: bookkeeper-account-service-service
+  AccountServiceLoadBalancerName:
     Type: String
-    Default: bookkeeper-monolith-api-alb
+    Default: bookkeeper-account-service-alb
   GitHubOAuthToken:
     Type: String
     NoEcho: true
@@ -73,34 +73,34 @@ Resources:
         GitHubRepo: !Ref GitHubRepo
         GitHubBranch: !Ref GitHubBranch
 
-  BookkeeperMonolithApiService:
+  BookkeeperAccountServiceService:
     Type: AWS::CloudFormation::Stack
     DependsOn:
       - BookkeeperECSCluster
     Properties:
       TemplateURL: !Sub
-        - "https://s3.amazonaws.com/${ArtifactsBucket}/templates/monolith-api-service.yml"
+        - "https://s3.amazonaws.com/${ArtifactsBucket}/templates/account-service-service.yml"
         - ArtifactsBucket: !ImportValue BookkeeperArtifactsBucketName
       Parameters:
         ECSClusterName: !Ref ECSClusterName
-        ECSServiceName: !Ref MonolithApiServiceName
-        ECRRepositoryName: !ImportValue BookkeeperMonolithApiECRRepositoryName
-        LoadBalancerName: !Ref MonolithApiLoadBalancerName
+        ECSServiceName: !Ref AccountServiceServiceName
+        ECRRepositoryName: !ImportValue BookkeeperAccountServiceECRRepositoryName
+        LoadBalancerName: !Ref AccountServiceLoadBalancerName
 
-  BookkeeperMonolithApiPipeline:
+  BookkeeperAccountServicePipeline:
     Type: AWS::CloudFormation::Stack
     DependsOn:
       - BookkeeperECSCluster
     Properties:
       TemplateURL: !Sub
-        - "https://s3.amazonaws.com/${ArtifactsBucket}/templates/monolith-api-pipeline.yml"
+        - "https://s3.amazonaws.com/${ArtifactsBucket}/templates/account-service-pipeline.yml"
         - ArtifactsBucket: !ImportValue BookkeeperArtifactsBucketName
       Parameters:
         ArtifactsBucketName: !ImportValue BookkeeperArtifactsBucketName
         ECSClusterName: !Ref ECSClusterName
-        ECSServiceName: !Ref MonolithApiServiceName
-        ECRRepositoryName: !ImportValue BookkeeperMonolithApiECRRepositoryName
-        LoadBalancerName: !Ref MonolithApiLoadBalancerName
+        ECSServiceName: !Ref AccountServiceServiceName
+        ECRRepositoryName: !ImportValue BookkeeperAccountServiceECRRepositoryName
+        LoadBalancerName: !Ref AccountServiceLoadBalancerName
         GitHubOAuthToken: !Ref GitHubOAuthToken
         GitHubOwner: !Ref GitHubOwner
         GitHubRepo: !Ref GitHubRepo

@@ -24,9 +24,9 @@ class BookkeeperPipelineTrigger : RequestHandler<APIGatewayProxyRequestEvent, AP
                 rootFolder = "web-app/"
             ),
             BookkeeperService(
-                name = "bookkeeper-monolith",
-                pipelineName = "bookkeeper-monolith-api-code-pipeline",
-                rootFolder = "service/monolith/"
+                name = "bookkeeper-account-service",
+                pipelineName = "bookkeeper-account-service-code-pipeline",
+                rootFolder = "service/account-service/"
             )
         )
     }

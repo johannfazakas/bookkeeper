@@ -23,10 +23,10 @@ Parameters:
     Type: String
 
 Resources:
-  MonolithApiCodeBuild:
+  AccountServiceCodeBuild:
     Type: AWS::CodeBuild::Project
     Properties:
-      Name: bookkeeper-monolith-api-code-build
+      Name: bookkeeper-account-service-code-build
       Environment:
         Type: LINUX_CONTAINER
         Image: aws/codebuild/amazonlinux2-x86_64-standard:4.0
@@ -34,23 +34,23 @@ Resources:
         PrivilegedMode: true
       Source:
         Type: CODEPIPELINE
-        BuildSpec: service/monolith/buildspec.yml
+        BuildSpec: service/account-service/buildspec.yml
       Cache:
         Type: S3
         Location: !Ref ArtifactsBucketName
       Artifacts:
         Type: CODEPIPELINE
-      ServiceRole: !Ref MonolithApiCodeBuildRole
+      ServiceRole: !Ref AccountServiceCodeBuildRole
 
-  MonolithApiCodePipeline:
+  AccountServiceCodePipeline:
     Type: AWS::CodePipeline::Pipeline
     Properties:
-      Name: bookkeeper-monolith-api-code-pipeline
+      Name: bookkeeper-account-service-code-pipeline
       ArtifactStore:
         Type: S3
         Location: !Ref ArtifactsBucketName
       RoleArn: !GetAtt
-        - MonolithApiCodePipelineRole
+        - AccountServiceCodePipelineRole
         - Arn
       Stages:
         - Name: Source
@@ -78,7 +78,7 @@ Resources:
                 Provider: CodeBuild
                 Version: 1
               Configuration:
-                ProjectName: !Ref MonolithApiCodeBuild
+                ProjectName: !Ref AccountServiceCodeBuild
               InputArtifacts:
                 - Name: source
               OutputArtifacts:
@@ -98,10 +98,10 @@ Resources:
               InputArtifacts:
                 - Name: build
 
-  MonolithApiCodeBuildRole:
+  AccountServiceCodeBuildRole:
     Type: AWS::IAM::Role
     Properties:
-      RoleName: bookkeeper-monolith-api-code-build-role
+      RoleName: bookkeeper-account-service-code-build-role
       Path: /
       AssumeRolePolicyDocument:
         Version: 2012-10-17
@@ -136,10 +136,10 @@ Resources:
                   - ecr:GetAuthorizationToken
                 Resource: '*'
 
-  MonolithApiCodePipelineRole:
+  AccountServiceCodePipelineRole:
     Type: AWS::IAM::Role
     Properties:
-      RoleName: bookkeeper-monolith-api-code-pipeline-role
+      RoleName: bookkeeper-account-service-code-pipeline-role
       Path: /
       AssumeRolePolicyDocument:
         Version: 2012-10-17
@@ -151,7 +151,7 @@ Resources:
             Action:
               - sts:AssumeRole
       Policies:
-        - PolicyName: bookkeeper-monolith-api-code-pipeline-policy
+        - PolicyName: bookkeeper-account-service-code-pipeline-policy
           PolicyDocument:
             Version: 2012-10-17
             Statement:
@@ -169,7 +169,7 @@ Resources:
               - Effect: Allow
                 Action:
                   - codebuild:*
-                Resource: !GetAtt MonolithApiCodeBuild.Arn
+                Resource: !GetAtt AccountServiceCodeBuild.Arn
               - Effect: Allow
                 Action:
                   - ecr:*
