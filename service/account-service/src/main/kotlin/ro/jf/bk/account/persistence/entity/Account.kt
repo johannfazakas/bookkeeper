@@ -8,7 +8,7 @@ import jakarta.persistence.*
 data class Account(
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    var id: UUID?,
+    var id: UUID? = null,
     var name: String,
     var currency: String
 )
