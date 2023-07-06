@@ -4,15 +4,14 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.Test
-import org.mockito.Mockito.mock
-import org.mockito.Mockito.times
-import org.mockito.kotlin.doReturn
-import org.mockito.kotlin.verify
-import org.mockito.kotlin.whenever
+import org.junit.jupiter.api.assertThrows
+import org.mockito.kotlin.*
+import ro.jf.bk.user.domain.model.CreateUserCommand
+import ro.jf.bk.user.domain.model.User
+import ro.jf.bk.user.domain.service.UserRepository
 import ro.jf.bk.user.domain.service.UserService
-import ro.jf.bk.user.persistence.model.User
-import ro.jf.bk.user.persistence.repository.UserRepository
 import java.util.UUID.randomUUID
 
 class UserServiceTest {
@@ -54,13 +53,26 @@ class UserServiceTest {
 
     @Test
     fun `should create user`(): Unit = runBlocking {
-        val user = User(randomUUID(), "user")
-        whenever(userRepository.save(User(username = "user"))).thenReturn(user)
+        val username = "user"
+        val user = User(randomUUID(), username)
+        val command = CreateUserCommand(username)
+        whenever(userRepository.save(command)).thenReturn(user)
 
-        val result = userService.createUser("user")
+        val result = userService.createUser(command)
 
         assertThat(result).isEqualTo(user)
-        verify(userRepository, times(1)).save(User(username = "user"))
+        verify(userRepository, times(1)).save(command)
+    }
+
+    @Test
+    fun `should throw exception on create user when it exists`(): Unit = runBlocking {
+        val username = "user"
+        val user = User(randomUUID(), username)
+        val command = CreateUserCommand(username)
+        whenever(userRepository.findByUsername(username)).thenReturn(user)
+
+        assertThrows<UserExistsException> { userService.createUser(command) }
+        verify(userRepository, never()).save(any())
     }
 
     @Test

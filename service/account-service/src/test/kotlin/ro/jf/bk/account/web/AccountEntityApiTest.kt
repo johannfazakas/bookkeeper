@@ -18,13 +18,13 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 import ro.jf.bk.account.web.transfer.CreateAccountTO
 import ro.jf.bk.account.extension.PostgresContainerExtension
 import ro.jf.bk.account.extension.PostgresContainerExtension.Companion.injectPostgresConnectionProps
-import ro.jf.bk.account.persistence.model.Account
-import ro.jf.bk.account.persistence.repository.AccountRepository
+import ro.jf.bk.account.persistence.entity.AccountEntity
+import ro.jf.bk.account.persistence.repository.AccountEntityRepository
 
 @SpringBootTest
 @AutoConfigureMockMvc
 @ExtendWith(PostgresContainerExtension::class)
-class AccountApiTest {
+class AccountEntityApiTest {
     companion object {
         @JvmStatic
         @DynamicPropertySource
@@ -37,28 +37,28 @@ class AccountApiTest {
     private lateinit var mockMvc: MockMvc
 
     @Autowired
-    private lateinit var accountRepository: AccountRepository
+    private lateinit var accountEntityRepository: AccountEntityRepository
 
     @Autowired
     private lateinit var objectMapper: ObjectMapper
 
     @BeforeEach
     fun setUp() {
-        accountRepository.deleteAll()
+        accountEntityRepository.deleteAll()
     }
 
     @Test
     fun `should get accounts`() {
-        val account1 = accountRepository.save(Account(null, "account-1", "RON"))
-        val account2 = accountRepository.save(Account(null, "account-2", "EUR"))
+        val accountEntity1 = accountEntityRepository.save(AccountEntity(null, "account-1", "RON"))
+        val accountEntity2 = accountEntityRepository.save(AccountEntity(null, "account-2", "EUR"))
 
         mockMvc.perform(get("/account/v1/accounts"))
             .andExpect(status().isOk)
             .andExpect(jsonPath("$.data", hasSize<Any>(2)))
-            .andExpect(jsonPath("$.data[0].id").value(account1.id.toString()))
-            .andExpect(jsonPath("$.data[0].name").value(account1.name))
-            .andExpect(jsonPath("$.data[0].currency").value(account1.currency))
-            .andExpect(jsonPath("$.data[1].id").value(account2.id.toString()))
+            .andExpect(jsonPath("$.data[0].id").value(accountEntity1.id.toString()))
+            .andExpect(jsonPath("$.data[0].name").value(accountEntity1.name))
+            .andExpect(jsonPath("$.data[0].currency").value(accountEntity1.currency))
+            .andExpect(jsonPath("$.data[1].id").value(accountEntity2.id.toString()))
     }
 
     @Test
@@ -75,7 +75,7 @@ class AccountApiTest {
             .andExpect(jsonPath("$.name").value(request.name))
             .andExpect(jsonPath("$.currency").value(request.currency))
 
-        val account = accountRepository.findByName(request.name)
+        val account = accountEntityRepository.findByName(request.name)
         assertThat(account).isNotNull
         assertThat(account!!.currency).isEqualTo(request.currency)
     }

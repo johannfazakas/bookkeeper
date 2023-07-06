@@ -2,23 +2,25 @@ package ro.jf.bk.account.domain
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import org.mockito.Mockito.*
+import org.mockito.kotlin.any
+import org.mockito.kotlin.mock
+import org.mockito.kotlin.whenever
+import ro.jf.bk.account.domain.model.Account
+import ro.jf.bk.account.domain.model.CreateAccountCommand
+import ro.jf.bk.account.domain.service.AccountRepository
 import ro.jf.bk.account.domain.service.AccountService
-import ro.jf.bk.account.web.transfer.CreateAccountTO
-import ro.jf.bk.account.persistence.model.Account
-import ro.jf.bk.account.persistence.repository.AccountRepository
 import java.util.UUID.randomUUID
 
 class AccountServiceTest {
 
-    private val accountRepository = mock(AccountRepository::class.java)
+    private val accountRepository = mock<AccountRepository>()
     private val accountService = AccountService(accountRepository)
 
     @Test
     fun shouldRetrieveAccounts() {
         val account1 = Account(randomUUID(), "account-name-1", "RON")
         val account2 = Account(randomUUID(), "account-name-2", "EUR")
-        `when`(accountRepository.findAll()).thenReturn(listOf(account1, account2))
+        whenever(accountRepository.findAll()).thenReturn(listOf(account1, account2))
 
         val accounts = accountService.getAccounts()
 
@@ -31,14 +33,18 @@ class AccountServiceTest {
     @Test
     fun shouldCreateAccount() {
         val accountId = randomUUID()
-        `when`(accountRepository.save(any(Account::class.java)))
-                .thenAnswer { it.getArgument<Account>(0).apply { id = accountId } }
-        val createAccountTO = CreateAccountTO("account-name", "RON")
+        val createCommand = CreateAccountCommand("account-name", "RON")
+        whenever(accountRepository.save(any<CreateAccountCommand>()))
+            .thenAnswer {
+                it.getArgument<CreateAccountCommand>(0).let { command ->
+                    Account(accountId, command.name, command.currency)
+                }
+            }
 
-        val account = accountService.createAccount(createAccountTO)
+        val account = accountService.createAccount(createCommand)
 
         assertThat(account.id).isEqualTo(accountId)
-        assertThat(account.name).isEqualTo(createAccountTO.name)
-        assertThat(account.currency).isEqualTo(createAccountTO.currency)
+        assertThat(account.name).isEqualTo(createCommand.name)
+        assertThat(account.currency).isEqualTo(createCommand.currency)
     }
 }

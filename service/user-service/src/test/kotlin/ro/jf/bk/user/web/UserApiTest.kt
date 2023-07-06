@@ -19,8 +19,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 import ro.jf.bk.user.extension.PostgresContainerExtension
 import ro.jf.bk.user.extension.PostgresContainerExtension.Companion.injectPostgresConnectionProps
-import ro.jf.bk.user.persistence.model.User
-import ro.jf.bk.user.persistence.repository.UserRepository
+import ro.jf.bk.user.persistence.entity.UserEntity
+import ro.jf.bk.user.persistence.repository.UserEntityRepository
 import ro.jf.bk.user.web.transfer.CreateUserTO
 
 @SpringBootTest
@@ -43,13 +43,13 @@ class UserApiTest(
     private lateinit var objectMapper: ObjectMapper
 
     @Autowired
-    private lateinit var userRepository: UserRepository
+    private lateinit var userEntityRepository: UserEntityRepository
 
     private lateinit var client: WebTestClient
 
     @BeforeEach
     fun setUp() = runTest {
-        userRepository.deleteAll()
+        userEntityRepository.deleteAll()
         client = WebTestClient
             .bindToApplicationContext(applicationContext)
             .configureClient()
@@ -58,8 +58,8 @@ class UserApiTest(
 
     @Test
     fun `should get users`() = runTest {
-        val user1 = userRepository.save(User(username = "user1"))
-        val user2 = userRepository.save(User(username = "user2"))
+        val userEntity1 = userEntityRepository.save(UserEntity(username = "user1"))
+        val userEntity2 = userEntityRepository.save(UserEntity(username = "user2"))
 
         client.get()
             .uri("/user/v1/users")
@@ -68,25 +68,25 @@ class UserApiTest(
             .expectBody()
             .jsonPath("$.data").isArray
             .jsonPath("$.data.length()").isEqualTo(2)
-            .jsonPath("$.data[0].id").isEqualTo(user1.id.toString())
-            .jsonPath("$.data[0].username").isEqualTo(user1.username)
-            .jsonPath("$.data[1].id").isEqualTo(user2.id.toString())
-            .jsonPath("$.data[1].username").isEqualTo(user2.username)
+            .jsonPath("$.data[0].id").isEqualTo(userEntity1.id.toString())
+            .jsonPath("$.data[0].username").isEqualTo(userEntity1.username)
+            .jsonPath("$.data[1].id").isEqualTo(userEntity2.id.toString())
+            .jsonPath("$.data[1].username").isEqualTo(userEntity2.username)
     }
 
     @Test
     fun `should get user`() = runTest {
         val username = "user"
-        val user = User(username = username)
-        userRepository.save(user)
+        val userEntity = UserEntity(username = username)
+        userEntityRepository.save(userEntity)
 
         client.get()
             .uri("/user/v1/users/$username")
             .exchange()
             .expectStatus().isOk
             .expectBody()
-            .jsonPath("$.id").isEqualTo(user.id.toString())
-            .jsonPath("$.username").isEqualTo(user.username)
+            .jsonPath("$.id").isEqualTo(userEntity.id.toString())
+            .jsonPath("$.username").isEqualTo(userEntity.username)
     }
 
     @Test
@@ -113,7 +113,7 @@ class UserApiTest(
             .jsonPath("$.id").exists()
             .jsonPath("$.username").isEqualTo(username)
 
-        val user = userRepository.findByUsername(username)
+        val user = userEntityRepository.findByUsername(username)
         assertThat(user).isNotNull
         assertThat(user?.id).isNotNull
         assertThat(user?.username).isEqualTo(username)
@@ -121,23 +121,23 @@ class UserApiTest(
 
     @Test
     fun `should throw error when attempting user creation with existing username`() = runTest {
-        val existingUser = userRepository.save(User(username = "user"))
+        val existingUserEntity = userEntityRepository.save(UserEntity(username = "user"))
 
         client.post()
             .uri("/user/v1/users")
             .contentType(MediaType.APPLICATION_JSON)
-            .bodyValue(CreateUserTO(existingUser.username))
+            .bodyValue(CreateUserTO(existingUserEntity.username))
             .exchange()
             .expectStatus().isEqualTo(HttpStatus.UNPROCESSABLE_ENTITY.value())
     }
 
     @Test
     fun `should delete user`() = runTest {
-        val user = userRepository.save(User(username = "user"))
-        val count = userRepository.findAll()
+        val userEntity = userEntityRepository.save(UserEntity(username = "user"))
+        val count = userEntityRepository.findAll()
 
         client.delete()
-            .uri("/user/v1/users/${user.username}")
+            .uri("/user/v1/users/${userEntity.username}")
             .exchange()
             .expectStatus().isNoContent
     }

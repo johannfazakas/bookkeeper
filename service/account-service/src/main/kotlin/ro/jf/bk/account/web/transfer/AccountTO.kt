@@ -1,6 +1,7 @@
 package ro.jf.bk.account.web.transfer
 
-import ro.jf.bk.account.persistence.model.Account
+import ro.jf.bk.account.domain.model.Account
+import ro.jf.bk.account.persistence.entity.AccountEntity
 import java.util.*
 
 data class AccountTO(
@@ -10,7 +11,7 @@ data class AccountTO(
 ) {
     companion object {
         fun Account.toTO(): AccountTO = AccountTO(
-            id = this.id!!,
+            id = this.id,
             name = this.name,
             currency = this.currency
         )

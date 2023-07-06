@@ -1,9 +1,9 @@
 package ro.jf.bk.user.web.transfer
 
-import ro.jf.bk.user.persistence.model.User
+import ro.jf.bk.user.domain.model.CreateUserCommand
 
 data class CreateUserTO(
     val username: String,
 ) {
-    fun toModel() = User(username = username)
+    fun toCommand() = CreateUserCommand(username = username)
 }
