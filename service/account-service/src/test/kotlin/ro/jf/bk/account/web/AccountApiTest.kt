@@ -13,6 +13,7 @@ import org.springframework.http.MediaType
 import org.springframework.test.context.DynamicPropertyRegistry
 import org.springframework.test.context.DynamicPropertySource
 import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 import ro.jf.bk.account.web.transfer.CreateAccountTO
@@ -20,11 +21,13 @@ import ro.jf.bk.account.extension.PostgresContainerExtension
 import ro.jf.bk.account.extension.PostgresContainerExtension.Companion.injectPostgresConnectionProps
 import ro.jf.bk.account.persistence.entity.AccountEntity
 import ro.jf.bk.account.persistence.repository.AccountEntityRepository
+import java.util.*
+import java.util.UUID.randomUUID
 
 @SpringBootTest
 @AutoConfigureMockMvc
 @ExtendWith(PostgresContainerExtension::class)
-class AccountEntityApiTest {
+class AccountApiTest {
     companion object {
         @JvmStatic
         @DynamicPropertySource
@@ -48,11 +51,15 @@ class AccountEntityApiTest {
     }
 
     @Test
-    fun `should get accounts`() {
+    fun `should list accounts`() {
+        val userId = randomUUID()
         val accountEntity1 = accountEntityRepository.save(AccountEntity(null, "account-1", "RON"))
         val accountEntity2 = accountEntityRepository.save(AccountEntity(null, "account-2", "EUR"))
 
-        mockMvc.perform(get("/account/v1/accounts"))
+        mockMvc.perform(
+            get("/account/v1/accounts")
+                .userIdHeader(userId)
+        )
             .andExpect(status().isOk)
             .andExpect(jsonPath("$.data", hasSize<Any>(2)))
             .andExpect(jsonPath("$.data[0].id").value(accountEntity1.id.toString()))
@@ -63,10 +70,12 @@ class AccountEntityApiTest {
 
     @Test
     fun `should create account`() {
+        val userId = randomUUID()
         val request = CreateAccountTO("account-name", "USD")
 
         mockMvc.perform(
             post("/account/v1/accounts")
+                .userIdHeader(userId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request))
         )
@@ -80,4 +89,12 @@ class AccountEntityApiTest {
         assertThat(account!!.currency).isEqualTo(request.currency)
     }
 
+    @Test
+    fun `should return unauthorized when user id is not sent`() {
+        mockMvc.perform(get("/account/v1/accounts"))
+            .andExpect(status().isUnauthorized)
+    }
+
+    private fun MockHttpServletRequestBuilder.userIdHeader(userId: UUID) =
+        this.header("BK_USER_ID", userId)
 }
