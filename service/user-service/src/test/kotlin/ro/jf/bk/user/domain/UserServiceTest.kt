@@ -4,7 +4,6 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import org.assertj.core.api.Assertions.assertThat
-import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.mockito.kotlin.*
@@ -24,28 +23,51 @@ class UserServiceTest {
         val user2 = User(randomUUID(), "user2")
         whenever(userRepository.findAll()).thenReturn(flowOf(user1, user2))
 
-        val result = userService.getUsers()
+        val result = userService.list()
 
         assertThat(result.toList()).contains(user1, user2)
         verify(userRepository, times(1)).findAll()
     }
 
     @Test
-    fun `should get user`(): Unit = runBlocking {
+    fun `should get user by id`(): Unit = runBlocking {
+        val userId = randomUUID()
+        val user = User(userId, "user")
+        whenever(userRepository.findById(userId)).thenReturn(user)
+
+        val result = userService.findById(userId)
+
+        assertThat(result).isEqualTo(user)
+        verify(userRepository, times(1)).findById(userId)
+    }
+
+    @Test
+    fun `should retrieve empty on get user by id when missing`(): Unit = runBlocking {
+        val userId = randomUUID()
+        whenever(userRepository.findById(userId)).thenReturn(null)
+
+        val result = userService.findById(userId)
+
+        assertThat(result).isNull()
+        verify(userRepository, times(1)).findById(userId)
+    }
+
+    @Test
+    fun `should get user by username`(): Unit = runBlocking {
         val user = User(randomUUID(), "user")
         whenever(userRepository.findByUsername("user")).thenReturn(user)
 
-        val result = userService.getUser("user")
+        val result = userService.findByUsername("user")
 
         assertThat(result).isEqualTo(user)
         verify(userRepository, times(1)).findByUsername("user")
     }
 
     @Test
-    fun `should retrieve empty on get user when missing`(): Unit = runBlocking {
+    fun `should retrieve empty on get user by username when missing`(): Unit = runBlocking {
         whenever(userRepository.findByUsername("user")).thenReturn(null)
 
-        val result = userService.getUser("user")
+        val result = userService.findByUsername("user")
 
         assertThat(result).isNull()
         verify(userRepository, times(1)).findByUsername("user")
@@ -58,7 +80,7 @@ class UserServiceTest {
         val command = CreateUserCommand(username)
         whenever(userRepository.save(command)).thenReturn(user)
 
-        val result = userService.createUser(command)
+        val result = userService.create(command)
 
         assertThat(result).isEqualTo(user)
         verify(userRepository, times(1)).save(command)
@@ -71,14 +93,15 @@ class UserServiceTest {
         val command = CreateUserCommand(username)
         whenever(userRepository.findByUsername(username)).thenReturn(user)
 
-        assertThrows<UserExistsException> { userService.createUser(command) }
+        assertThrows<UserExistsException> { userService.create(command) }
         verify(userRepository, never()).save(any())
     }
 
     @Test
     fun `should delete user`(): Unit = runBlocking {
-        userService.deleteUser("user")
+        val userId = randomUUID()
+        userService.removeById(userId)
 
-        verify(userRepository, times(1)).deleteByUsername("user")
+        verify(userRepository, times(1)).deleteById(userId)
     }
 }

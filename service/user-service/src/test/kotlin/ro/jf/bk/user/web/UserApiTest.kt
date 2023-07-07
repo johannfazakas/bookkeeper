@@ -22,6 +22,7 @@ import ro.jf.bk.user.extension.PostgresContainerExtension.Companion.injectPostgr
 import ro.jf.bk.user.persistence.entity.UserEntity
 import ro.jf.bk.user.persistence.repository.UserEntityRepository
 import ro.jf.bk.user.web.transfer.CreateUserTO
+import java.util.UUID.randomUUID
 
 @SpringBootTest
 @ExtendWith(PostgresContainerExtension::class)
@@ -57,7 +58,7 @@ class UserApiTest(
     }
 
     @Test
-    fun `should get users`() = runTest {
+    fun `should list users`() = runTest {
         val userEntity1 = userEntityRepository.save(UserEntity(username = "user1"))
         val userEntity2 = userEntityRepository.save(UserEntity(username = "user2"))
 
@@ -75,13 +76,12 @@ class UserApiTest(
     }
 
     @Test
-    fun `should get user`() = runTest {
+    fun `should find user by`() = runTest {
         val username = "user"
-        val userEntity = UserEntity(username = username)
-        userEntityRepository.save(userEntity)
+        val userEntity = userEntityRepository.save(UserEntity(username = username))
 
         client.get()
-            .uri("/user/v1/users/$username")
+            .uri("/user/v1/users/${userEntity.id}")
             .exchange()
             .expectStatus().isOk
             .expectBody()
@@ -90,11 +90,35 @@ class UserApiTest(
     }
 
     @Test
-    fun `should return not found on get user when it does not exist`() = runTest {
+    fun `should return not found on find user by id when it does not exist`() = runTest {
+        val userId = randomUUID()
+
+        client.get()
+            .uri("/user/v1/users/$userId")
+            .exchange()
+            .expectStatus().isNotFound
+    }
+
+    @Test
+    fun `should find user by username`() = runTest {
+        val username = "user"
+        val userEntity = userEntityRepository.save(UserEntity(username = username))
+
+        client.get()
+            .uri("/user/v1/users/username/$username")
+            .exchange()
+            .expectStatus().isOk
+            .expectBody()
+            .jsonPath("$.id").isEqualTo(userEntity.id.toString())
+            .jsonPath("$.username").isEqualTo(userEntity.username)
+    }
+
+    @Test
+    fun `should return not found on find user by username when it does not exist`() = runTest {
         val username = "userx"
 
         client.get()
-            .uri("/user/v1/users/$username")
+            .uri("/user/v1/users/username/$username")
             .exchange()
             .expectStatus().isNotFound
     }
@@ -132,13 +156,18 @@ class UserApiTest(
     }
 
     @Test
-    fun `should delete user`() = runTest {
-        val userEntity = userEntityRepository.save(UserEntity(username = "user"))
-        val count = userEntityRepository.findAll()
+    fun `should delete user`() {
+        val username = "user"
+        runTest {
+            val userEntity = userEntityRepository.save(UserEntity(username = username))
 
-        client.delete()
-            .uri("/user/v1/users/${userEntity.username}")
-            .exchange()
-            .expectStatus().isNoContent
+            client.delete()
+                .uri("/user/v1/users/${userEntity.id}")
+                .exchange()
+                .expectStatus().isNoContent
+            userEntityRepository.findByUsername(username).let {
+                assertThat(it).isNull()
+            }
+        }
     }
 }

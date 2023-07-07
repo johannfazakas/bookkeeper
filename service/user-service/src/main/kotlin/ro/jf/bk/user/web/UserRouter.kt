@@ -7,17 +7,18 @@ import org.springframework.web.reactive.function.server.coRouter
 import ro.jf.bk.user.web.handler.UserHandler
 
 @Configuration
-class RouterConfig {
+class UserRouter {
     @Bean
     fun router(
         userHandler: UserHandler
     ) = coRouter {
         accept(MediaType.APPLICATION_JSON).nest {
             "/user/v1/users".nest {
-                GET("", userHandler::getUsers)
-                GET("/{username}", userHandler::getUser)
-                POST("", userHandler::createUser)
-                DELETE("/{username}", userHandler::deleteUser)
+                GET("", userHandler::list)
+                GET("/{userId}", userHandler::findById)
+                GET("/username/{username}", userHandler::findByUsername)
+                POST("", userHandler::create)
+                DELETE("/{userId}", userHandler::deleteById)
             }
         }
     }

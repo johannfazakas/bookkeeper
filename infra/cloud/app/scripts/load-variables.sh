@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export GITHUB_TOKEN='REPLACE_ME'
+export GITHUB_TOKEN='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'
 
 export STACK_NAME="bookkeeper-app"
 export BOOKKEEPER_ARTIFACTS_BUCKET="bookkeeper-app-artifacts"

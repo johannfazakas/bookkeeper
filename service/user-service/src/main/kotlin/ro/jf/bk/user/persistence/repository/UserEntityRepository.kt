@@ -12,7 +12,6 @@ import java.util.*
 
 interface UserEntityRepository : CoroutineCrudRepository<UserEntity, UUID> {
     suspend fun findByUsername(username: String): UserEntity?
-    suspend fun deleteByUsername(username: String)
 }
 
 @Component
@@ -22,12 +21,15 @@ class UserRepositoryAdapter(
     override suspend fun findAll(): Flow<User> =
         userEntityRepository.findAll().map(UserEntity::toDomain)
 
+    override suspend fun findById(userId: UUID): User? =
+        userEntityRepository.findById(userId)?.toDomain()
+
     override suspend fun findByUsername(username: String): User? =
         userEntityRepository.findByUsername(username)?.toDomain()
 
     override suspend fun save(command: CreateUserCommand): User =
         userEntityRepository.save(UserEntity(username = command.username)).toDomain()
 
-    override suspend fun deleteByUsername(username: String) =
-        userEntityRepository.deleteByUsername(username)
+    override suspend fun deleteById(userId: UUID) =
+        userEntityRepository.deleteById(userId)
 }

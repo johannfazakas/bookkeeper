@@ -22,7 +22,7 @@ class AccountServiceTest {
         val account2 = Account(randomUUID(), "account-name-2", "EUR")
         whenever(accountRepository.findAll()).thenReturn(listOf(account1, account2))
 
-        val accounts = accountService.getAccounts()
+        val accounts = accountService.list()
 
         assertThat(accounts).hasSize(2)
         assertThat(accounts[0].id).isEqualTo(account1.id)
@@ -41,7 +41,7 @@ class AccountServiceTest {
                 }
             }
 
-        val account = accountService.createAccount(createCommand)
+        val account = accountService.create(createCommand)
 
         assertThat(account.id).isEqualTo(accountId)
         assertThat(account.name).isEqualTo(createCommand.name)

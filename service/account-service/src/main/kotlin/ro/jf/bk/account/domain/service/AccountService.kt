@@ -8,11 +8,11 @@ import ro.jf.bk.account.domain.model.CreateAccountCommand
 class AccountService(
     private val accountRepository: AccountRepository
 ) {
-    fun getAccounts(): List<Account> {
+    fun list(): List<Account> {
         return accountRepository.findAll()
     }
 
-    fun createAccount(command: CreateAccountCommand): Account {
+    fun create(command: CreateAccountCommand): Account {
         return accountRepository.save(command)
     }
 }

@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration
     R2dbcProperties::class,
     FlywayProperties::class
 )
-internal class DatabaseConfig {
+internal class PersistenceConfig {
     @Bean(initMethod = "migrate")
     fun flyway(flywayProperties: FlywayProperties, r2dbcProperties: R2dbcProperties): Flyway {
         return Flyway.configure()

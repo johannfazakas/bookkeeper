@@ -16,12 +16,12 @@ class AccountController(
 ) {
     @GetMapping
     fun getAccounts(): ListTO<AccountTO> {
-        return accountService.getAccounts().map { it.toTO() }.toListTO()
+        return accountService.list().map { it.toTO() }.toListTO()
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     fun createAccount(@RequestBody request: CreateAccountTO): AccountTO {
-        return accountService.createAccount(request.toCommand()).toTO()
+        return accountService.create(request.toCommand()).toTO()
     }
 }
