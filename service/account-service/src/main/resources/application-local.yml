@@ -9,3 +9,8 @@ spring:
   flyway:
     enabled: true
     baseline-on-migrate: true
+
+bookkeeper.account:
+  integration:
+    user-service:
+      url: http://localhost:8132

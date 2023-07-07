@@ -6,6 +6,7 @@ import org.hamcrest.Matchers.hasSize
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
+import org.mockserver.client.MockServerClient
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
@@ -14,25 +15,35 @@ import org.springframework.test.context.DynamicPropertyRegistry
 import org.springframework.test.context.DynamicPropertySource
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
-import ro.jf.bk.account.web.transfer.CreateAccountTO
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import ro.jf.bk.account.extension.PostgresContainerExtension
 import ro.jf.bk.account.extension.PostgresContainerExtension.Companion.injectPostgresConnectionProps
+import ro.jf.bk.account.extension.UserMockIntegrationExtension
+import ro.jf.bk.account.extension.UserMockIntegrationExtension.Companion.injectUserIntegrationProps
+import ro.jf.bk.account.extension.givenExistingUser
+import ro.jf.bk.account.extension.givenNonExistingUser
 import ro.jf.bk.account.persistence.entity.AccountEntity
 import ro.jf.bk.account.persistence.repository.AccountEntityRepository
+import ro.jf.bk.account.web.transfer.CreateAccountTO
 import java.util.*
 import java.util.UUID.randomUUID
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@ExtendWith(PostgresContainerExtension::class)
+@ExtendWith(
+    PostgresContainerExtension::class,
+    UserMockIntegrationExtension::class
+)
 class AccountApiTest {
     companion object {
         @JvmStatic
         @DynamicPropertySource
         fun properties(registry: DynamicPropertyRegistry) {
             registry.injectPostgresConnectionProps()
+            registry.injectUserIntegrationProps()
         }
     }
 
@@ -51,8 +62,9 @@ class AccountApiTest {
     }
 
     @Test
-    fun `should list accounts`() {
+    fun `should list accounts`(mockServerClient: MockServerClient) {
         val userId = randomUUID()
+        mockServerClient.givenExistingUser(userId)
         val accountEntity1 = accountEntityRepository.save(AccountEntity(null, "account-1", "RON"))
         val accountEntity2 = accountEntityRepository.save(AccountEntity(null, "account-2", "EUR"))
 
@@ -69,8 +81,9 @@ class AccountApiTest {
     }
 
     @Test
-    fun `should create account`() {
+    fun `should create account`(mockServerClient: MockServerClient) {
         val userId = randomUUID()
+        mockServerClient.givenExistingUser(userId)
         val request = CreateAccountTO("account-name", "USD")
 
         mockMvc.perform(
@@ -92,6 +105,14 @@ class AccountApiTest {
     @Test
     fun `should return unauthorized when user id is not sent`() {
         mockMvc.perform(get("/account/v1/accounts"))
+            .andExpect(status().isUnauthorized)
+    }
+
+    @Test
+    fun `should return unauthorized when not found user id id sent`(mockServerClient: MockServerClient) {
+        val userId = randomUUID()
+        mockServerClient.givenNonExistingUser(userId)
+        mockMvc.perform(get("/account/v1/accounts").userIdHeader(userId))
             .andExpect(status().isUnauthorized)
     }
 

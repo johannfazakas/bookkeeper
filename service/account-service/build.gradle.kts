@@ -26,6 +26,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("com.squareup.okhttp3:okhttp:4.11.0")
     implementation("org.postgresql:postgresql:$postgresVersion")
     implementation("org.flywaydb:flyway-core:9.19.1")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
@@ -35,6 +36,8 @@ dependencies {
     testImplementation("org.testcontainers:testcontainers")
     testImplementation("org.testcontainers:postgresql")
     testImplementation("org.testcontainers:junit-jupiter")
+    testImplementation("org.testcontainers:mockserver")
+    testImplementation("org.mock-server:mockserver-client-java:5.15.0")
     testImplementation("org.assertj:assertj-core:$assertJVersion")
     testImplementation("org.mockito.kotlin:mockito-kotlin:3.2.0")
 }

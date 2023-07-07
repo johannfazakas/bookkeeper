@@ -7,9 +7,14 @@ import org.springframework.test.context.DynamicPropertyRegistry
 import org.springframework.test.context.DynamicPropertySource
 import ro.jf.bk.account.extension.PostgresContainerExtension
 import ro.jf.bk.account.extension.PostgresContainerExtension.Companion.injectPostgresConnectionProps
+import ro.jf.bk.account.extension.UserMockIntegrationExtension
+import ro.jf.bk.account.extension.UserMockIntegrationExtension.Companion.injectUserIntegrationProps
 
 @SpringBootTest
-@ExtendWith(PostgresContainerExtension::class)
+@ExtendWith(
+    PostgresContainerExtension::class,
+    UserMockIntegrationExtension::class
+)
 class BookkeeperApplicationTest {
 
     companion object {
@@ -17,6 +22,7 @@ class BookkeeperApplicationTest {
         @DynamicPropertySource
         fun properties(registry: DynamicPropertyRegistry) {
             registry.injectPostgresConnectionProps()
+            registry.injectUserIntegrationProps()
         }
     }
 
