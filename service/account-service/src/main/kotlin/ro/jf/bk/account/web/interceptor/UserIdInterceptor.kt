@@ -8,6 +8,8 @@ import org.springframework.web.servlet.HandlerInterceptor
 import ro.jf.bk.account.domain.service.UserService
 import java.util.*
 
+const val USER_ID_HEADER_KEY = "BK_USER_ID"
+
 @Component
 class UserIdInterceptor(
     private val userService: UserService
@@ -15,7 +17,7 @@ class UserIdInterceptor(
     // just a very trustful way of authorizing requests and creating a context
     override fun preHandle(request: HttpServletRequest, response: HttpServletResponse, handler: Any): Boolean {
         val userId = try {
-            request.getHeader("BK_USER_ID")?.let(UUID::fromString)
+            request.getHeader(USER_ID_HEADER_KEY)?.let(UUID::fromString)
         } catch (e: Exception) {
             null
         }

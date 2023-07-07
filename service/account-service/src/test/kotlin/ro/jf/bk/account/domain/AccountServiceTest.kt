@@ -18,32 +18,37 @@ class AccountServiceTest {
 
     @Test
     fun shouldRetrieveAccounts() {
-        val account1 = Account(randomUUID(), "account-name-1", "RON")
-        val account2 = Account(randomUUID(), "account-name-2", "EUR")
-        whenever(accountRepository.findAll()).thenReturn(listOf(account1, account2))
+        val userId = randomUUID()
+        val account1 = Account(randomUUID(), userId, "account-name-1", "RON")
+        val account2 = Account(randomUUID(), userId, "account-name-2", "EUR")
+        whenever(accountRepository.findAll(userId)).thenReturn(listOf(account1, account2))
 
-        val accounts = accountService.list()
+        val accounts = accountService.list(userId)
 
         assertThat(accounts).hasSize(2)
         assertThat(accounts[0].id).isEqualTo(account1.id)
+        assertThat(accounts[0].userId).isEqualTo(userId)
         assertThat(accounts[0].name).isEqualTo(account1.name)
         assertThat(accounts[0].currency).isEqualTo(account1.currency)
+        assertThat(accounts[1].id).isEqualTo(account2.id)
     }
 
     @Test
     fun shouldCreateAccount() {
+        val userId = randomUUID()
         val accountId = randomUUID()
-        val createCommand = CreateAccountCommand("account-name", "RON")
+        val createCommand = CreateAccountCommand(userId, "account-name", "RON")
         whenever(accountRepository.save(any<CreateAccountCommand>()))
             .thenAnswer {
                 it.getArgument<CreateAccountCommand>(0).let { command ->
-                    Account(accountId, command.name, command.currency)
+                    Account(accountId, userId, command.name, command.currency)
                 }
             }
 
         val account = accountService.create(createCommand)
 
         assertThat(account.id).isEqualTo(accountId)
+        assertThat(account.userId).isEqualTo(userId)
         assertThat(account.name).isEqualTo(createCommand.name)
         assertThat(account.currency).isEqualTo(createCommand.currency)
     }

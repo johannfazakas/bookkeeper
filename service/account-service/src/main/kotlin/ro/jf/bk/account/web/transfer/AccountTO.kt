@@ -1,17 +1,20 @@
 package ro.jf.bk.account.web.transfer
 
+import com.fasterxml.jackson.annotation.JsonProperty
 import ro.jf.bk.account.domain.model.Account
-import ro.jf.bk.account.persistence.entity.AccountEntity
 import java.util.*
 
 data class AccountTO(
     val id: UUID,
+    @JsonProperty("user_id")
+    val userId: UUID,
     val name: String,
     val currency: String
 ) {
     companion object {
         fun Account.toTO(): AccountTO = AccountTO(
             id = this.id,
+            userId = this.userId,
             name = this.name,
             currency = this.currency
         )

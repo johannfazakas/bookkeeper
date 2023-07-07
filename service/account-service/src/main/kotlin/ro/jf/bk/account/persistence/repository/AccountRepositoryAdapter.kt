@@ -9,16 +9,23 @@ import ro.jf.bk.account.persistence.entity.AccountEntity
 import java.util.*
 
 interface AccountEntityRepository : CrudRepository<AccountEntity, UUID> {
-    fun findByName(name: String): AccountEntity?
+    fun findByUserId(userId: UUID): List<AccountEntity>
+    fun findByUserIdAndName(userId: UUID, name: String): AccountEntity?
 }
 
 @Component
 class AccountRepositoryAdapter(
     private val accountEntityRepository: AccountEntityRepository
 ) : AccountRepository {
-    override fun findAll(): List<Account> =
-        accountEntityRepository.findAll().map(AccountEntity::toDomain)
+    override fun findAll(userId: UUID): List<Account> =
+        accountEntityRepository.findByUserId(userId).map(AccountEntity::toDomain)
 
     override fun save(command: CreateAccountCommand): Account =
-        accountEntityRepository.save(AccountEntity(name = command.name, currency = command.currency)).toDomain()
+        accountEntityRepository.save(
+            AccountEntity(
+                userId = command.userId,
+                name = command.name,
+                currency = command.currency
+            )
+        ).toDomain()
 }

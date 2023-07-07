@@ -15,7 +15,7 @@ import ro.jf.bk.account.extension.UserMockIntegrationExtension.Companion.injectU
     PostgresContainerExtension::class,
     UserMockIntegrationExtension::class
 )
-class BookkeeperApplicationTest {
+class AccountServiceApplicationTest {
 
     companion object {
         @JvmStatic

@@ -10,6 +10,7 @@ data class AccountEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     var id: UUID? = null,
+    var userId: UUID,
     var name: String,
     var currency: String
 ) {
@@ -17,6 +18,7 @@ data class AccountEntity(
         if (id == null) throw IllegalStateException("Account Entity id is null.")
         return Account(
             id = id!!,
+            userId = userId,
             name = name,
             currency = currency
         )

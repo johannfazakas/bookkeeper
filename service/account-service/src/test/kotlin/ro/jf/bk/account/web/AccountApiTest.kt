@@ -65,8 +65,9 @@ class AccountApiTest {
     fun `should list accounts`(mockServerClient: MockServerClient) {
         val userId = randomUUID()
         mockServerClient.givenExistingUser(userId)
-        val accountEntity1 = accountEntityRepository.save(AccountEntity(null, "account-1", "RON"))
-        val accountEntity2 = accountEntityRepository.save(AccountEntity(null, "account-2", "EUR"))
+        val accountEntity1 = accountEntityRepository.save(AccountEntity(null, userId, "account-1", "RON"))
+        val accountEntity2 = accountEntityRepository.save(AccountEntity(null, userId, "account-2", "EUR"))
+        accountEntityRepository.save(AccountEntity(null, randomUUID(), "account-2", "EUR"))
 
         mockMvc.perform(
             get("/account/v1/accounts")
@@ -75,6 +76,7 @@ class AccountApiTest {
             .andExpect(status().isOk)
             .andExpect(jsonPath("$.data", hasSize<Any>(2)))
             .andExpect(jsonPath("$.data[0].id").value(accountEntity1.id.toString()))
+            .andExpect(jsonPath("$.data[0].user_id").value(userId.toString()))
             .andExpect(jsonPath("$.data[0].name").value(accountEntity1.name))
             .andExpect(jsonPath("$.data[0].currency").value(accountEntity1.currency))
             .andExpect(jsonPath("$.data[1].id").value(accountEntity2.id.toString()))
@@ -84,7 +86,7 @@ class AccountApiTest {
     fun `should create account`(mockServerClient: MockServerClient) {
         val userId = randomUUID()
         mockServerClient.givenExistingUser(userId)
-        val request = CreateAccountTO("account-name", "USD")
+        val request = CreateAccountTO(userId, "account-name", "USD")
 
         mockMvc.perform(
             post("/account/v1/accounts")
@@ -94,11 +96,13 @@ class AccountApiTest {
         )
             .andExpect(status().isCreated)
             .andExpect(jsonPath("$.id").exists())
+            .andExpect(jsonPath("$.user_id").value(userId.toString()))
             .andExpect(jsonPath("$.name").value(request.name))
             .andExpect(jsonPath("$.currency").value(request.currency))
 
-        val account = accountEntityRepository.findByName(request.name)
+        val account = accountEntityRepository.findByUserIdAndName(userId, request.name)
         assertThat(account).isNotNull
+        assertThat(account!!.userId).isEqualTo(request.userId)
         assertThat(account!!.currency).isEqualTo(request.currency)
     }
 
