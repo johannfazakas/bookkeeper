@@ -16,8 +16,17 @@ import java.util.*
 class AccountController(
     private val accountService: AccountService
 ) {
+    @GetMapping("/{accountId}")
+    fun getAccount(
+        @RequestHeader(USER_ID_HEADER_KEY) userId: UUID,
+        @PathVariable("accountId") accountId: UUID
+    ): AccountTO {
+        return accountService.find(userId, accountId)?.toTO() ?: throw RuntimeException("Account not found")
+    }
+
+
     @GetMapping
-    fun getAccounts(
+    fun listAccounts(
         @RequestHeader(USER_ID_HEADER_KEY) userId: UUID
     ): ListTO<AccountTO> {
         return accountService.list(userId).map { it.toTO() }.toListTO()
@@ -30,5 +39,14 @@ class AccountController(
         @RequestBody request: CreateAccountTO
     ): AccountTO {
         return accountService.create(request.toCommand()).toTO()
+    }
+
+    @DeleteMapping("/{accountId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    fun deleteAccount(
+        @RequestHeader(USER_ID_HEADER_KEY) userId: UUID,
+        @PathVariable("accountId") accountId: UUID
+    ) {
+        accountService.delete(userId, accountId)
     }
 }

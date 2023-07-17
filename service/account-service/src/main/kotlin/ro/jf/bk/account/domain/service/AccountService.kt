@@ -9,11 +9,19 @@ import java.util.*
 class AccountService(
     private val accountRepository: AccountRepository
 ) {
+    fun find(userId: UUID, accountId: UUID): Account? {
+        return accountRepository.find(userId, accountId)
+    }
+
     fun list(userId: UUID): List<Account> {
         return accountRepository.findAll(userId)
     }
 
     fun create(command: CreateAccountCommand): Account {
         return accountRepository.save(command)
+    }
+
+    fun delete(userId: UUID, accountId: UUID) {
+        accountRepository.delete(userId, accountId)
     }
 }

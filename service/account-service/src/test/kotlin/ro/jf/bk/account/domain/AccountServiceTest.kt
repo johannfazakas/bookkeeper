@@ -4,6 +4,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.mockito.kotlin.any
 import org.mockito.kotlin.mock
+import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
 import ro.jf.bk.account.domain.model.Account
 import ro.jf.bk.account.domain.model.CreateAccountCommand
@@ -15,6 +16,22 @@ class AccountServiceTest {
 
     private val accountRepository = mock<AccountRepository>()
     private val accountService = AccountService(accountRepository)
+
+    @Test
+    fun shouldGetAccount() {
+        val userId = randomUUID()
+        val accountId = randomUUID()
+        val account = Account(accountId, userId, "account-name", "RON")
+        whenever(accountRepository.find(userId, accountId)).thenReturn(account)
+
+        val retrievedAccount = accountService.find(userId, accountId)
+
+        assertThat(retrievedAccount).isNotNull()
+        assertThat(retrievedAccount?.id).isEqualTo(accountId)
+        assertThat(retrievedAccount?.userId).isEqualTo(userId)
+        assertThat(retrievedAccount?.name).isEqualTo(account.name)
+        assertThat(retrievedAccount?.currency).isEqualTo(account.currency)
+    }
 
     @Test
     fun shouldRetrieveAccounts() {
@@ -51,5 +68,15 @@ class AccountServiceTest {
         assertThat(account.userId).isEqualTo(userId)
         assertThat(account.name).isEqualTo(createCommand.name)
         assertThat(account.currency).isEqualTo(createCommand.currency)
+    }
+
+    @Test
+    fun shouldDeleteAccount() {
+        val userId = randomUUID()
+        val accountId = randomUUID()
+
+        accountService.delete(userId, accountId)
+
+        verify(accountRepository).delete(userId, accountId)
     }
 }

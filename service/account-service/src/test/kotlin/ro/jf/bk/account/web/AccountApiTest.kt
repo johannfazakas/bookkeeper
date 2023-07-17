@@ -15,8 +15,7 @@ import org.springframework.test.context.DynamicPropertyRegistry
 import org.springframework.test.context.DynamicPropertySource
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import ro.jf.bk.account.extension.PostgresContainerExtension
@@ -62,6 +61,23 @@ class AccountApiTest {
     }
 
     @Test
+    fun `should get account`(mockServerClient: MockServerClient) {
+        val userId = randomUUID()
+        mockServerClient.givenExistingUser(userId)
+        val accountEntity = accountEntityRepository.save(AccountEntity(null, userId, "account-1", "RON"))
+
+        mockMvc.perform(
+            get("/account/v1/accounts/{id}", accountEntity.id)
+                .userIdHeader(userId)
+        )
+            .andExpect(status().isOk)
+            .andExpect(jsonPath("$.id").value(accountEntity.id.toString()))
+            .andExpect(jsonPath("$.user_id").value(userId.toString()))
+            .andExpect(jsonPath("$.name").value(accountEntity.name))
+            .andExpect(jsonPath("$.currency").value(accountEntity.currency))
+    }
+
+    @Test
     fun `should list accounts`(mockServerClient: MockServerClient) {
         val userId = randomUUID()
         mockServerClient.givenExistingUser(userId)
@@ -104,6 +120,21 @@ class AccountApiTest {
         assertThat(account).isNotNull
         assertThat(account!!.userId).isEqualTo(request.userId)
         assertThat(account!!.currency).isEqualTo(request.currency)
+    }
+
+    @Test
+    fun `should delete account`(mockServerClient: MockServerClient) {
+        val userId = randomUUID()
+        mockServerClient.givenExistingUser(userId)
+        val accountEntity = accountEntityRepository.save(AccountEntity(null, userId, "account-1", "RON"))
+
+        mockMvc.perform(
+            delete("/account/v1/accounts/{id}", accountEntity.id)
+                .userIdHeader(userId)
+        )
+            .andExpect(status().isNoContent)
+
+        accountEntityRepository.findById(accountEntity.id!!).isEmpty
     }
 
     @Test
