@@ -26,7 +26,7 @@ Resources:
   BookkeeperApiECRRepository:
     Type: AWS::ECR::Repository
     Properties:
-      RepositoryName: bookkeeper/api
+      RepositoryName: bookkeeper/account-service
 
   BookkeeperWebAppECRRepository:
     Type: AWS::ECR::Repository

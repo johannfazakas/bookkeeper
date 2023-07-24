@@ -36,5 +36,5 @@ chmod +x ./scripts/*.sh
 ## Run docker image locally with prod db connection
 
 ```shell
-docker container run -p 8136:8236 -e SPRING_PROFILES_ACTIVE=local-prod bookkeeper/api:latest
+docker container run -p 8136:8236 -e SPRING_PROFILES_ACTIVE=local-prod bookkeeper/account-service:latest
 ```

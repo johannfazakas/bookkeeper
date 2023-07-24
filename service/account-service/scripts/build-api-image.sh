@@ -5,6 +5,6 @@ export AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query 'Account' --output t
 
 cd $DIR/../
 ./gradlew clean jibDockerBuild
-docker tag bookkeeper/api:latest $AWS_ACCOUNT_ID.dkr.ecr.eu-central-1.amazonaws.com/bookkeeper/api:latest
+docker tag bookkeeper/account-service:latest $AWS_ACCOUNT_ID.dkr.ecr.eu-central-1.amazonaws.com/bookkeeper/account-service:latest
 
 echo "Api image built."

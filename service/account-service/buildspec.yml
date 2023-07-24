@@ -2,7 +2,7 @@ version: 0.2
 
 env:
   variables:
-    AWS_ECR_REPOSITORY_NAME: bookkeeper/api
+    AWS_ECR_REPOSITORY_NAME: bookkeeper/account-service
     AWS_ECS_CONTAINER_NAME: bookkeeper-account-service
 
 cache:

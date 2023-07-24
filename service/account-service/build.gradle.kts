@@ -58,7 +58,7 @@ jib {
         image = "openjdk:17-jdk-slim"
     }
     to {
-        image = "bookkeeper/api"
+        image = "bookkeeper/account-service"
     }
     container {
         mainClass = "ro.jf.bk.BookkeeperApplicationKt"
