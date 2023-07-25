@@ -1,7 +1,0 @@
-server:
-  port: 80
-
-bk.persistence.postgres:
-  url: jdbc:postgresql://bookkeeper-db.c1ghfwrfzqmg.eu-central-1.rds.amazonaws.com:5432/bookkeeper
-  username: bookkeeper
-  password: bookkeeper

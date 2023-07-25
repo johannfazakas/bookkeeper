@@ -61,7 +61,7 @@ jib {
         image = "bookkeeper/account-service"
     }
     container {
-        mainClass = "ro.jf.bk.BookkeeperApplicationKt"
+        mainClass = "ro.jf.bk.account.BookkeeperAccountServiceKt"
         creationTime = Instant.now().toString()
     }
 }

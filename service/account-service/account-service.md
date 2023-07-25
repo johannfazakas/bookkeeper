@@ -1,6 +1,6 @@
-# bookkeeper-web-app
+# bookkeeper-account-service
 
-Web App for Bookkeeping.
+Bookkeeper account service.
 
 ## Prerequisites
 
@@ -16,12 +16,10 @@ chmod +x ./scripts/*.sh
 ## Local development
 
 ```shell
-./gradlew clean bootRun --args='--spring.profiles.active=local'
+./gradlew clean bootRun
 ```
 
 ## Build docker image
-
-- [ ] have Dockerfile handle webpack distribution creation
 
 ```shell
 ./scripts/build-api-image.sh
@@ -31,10 +29,4 @@ chmod +x ./scripts/*.sh
 
 ```shell
 ./scripts/push-api-image.sh
-```
-
-## Run docker image locally with prod db connection
-
-```shell
-docker container run -p 8136:8236 -e SPRING_PROFILES_ACTIVE=local-prod bookkeeper/account-service:latest
 ```

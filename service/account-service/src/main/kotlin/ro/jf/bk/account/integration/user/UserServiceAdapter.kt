@@ -11,7 +11,7 @@ import java.util.*
 @Component
 class UserServiceAdapter(
     private val client: OkHttpClient,
-    @Value("\${bookkeeper.account.integration.user-service.url}") private val userServiceUrl: String
+    @Value("\${bookkeeper.integration.user-service.url}") private val userServiceUrl: String
 ) : UserService {
     override fun userExistsById(userId: UUID): Boolean {
         val request = Request.Builder()

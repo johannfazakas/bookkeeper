@@ -1,9 +1,9 @@
 name: bookkeeper-app
 
 services:
-  bookkeeper_api_postgres:
+  bk_postgres:
     image: "postgres:15"
-    container_name: bookkeeper_postgres
+    container_name: bk_postgres
     ports:
       - "5418:5432"
     environment:
@@ -13,6 +13,24 @@ services:
     volumes:
       - bookkeeper_api_postgres:/var/lib/postgresql/data
       - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+    networks:
+      - bookkeeper_network
+
+  bk_account_service:
+    container_name: bk_account_service
+    depends_on:
+      - bk_postgres
+    image: "bookkeeper/account-service:latest"
+    ports:
+      - "8136:8136"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://bk_postgres:5432/bookkeeper?currentSchema=bk_account
+    networks:
+      - bookkeeper_network
 
 volumes:
   bookkeeper_api_postgres:
+
+networks:
+  bookkeeper_network:
+    driver: bridge

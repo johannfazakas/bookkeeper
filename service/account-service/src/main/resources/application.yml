@@ -1,0 +1,16 @@
+server:
+  port: 8136
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5418/bookkeeper?currentSchema=bk_account
+    username: root
+    password: admin
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+
+bookkeeper:
+  integration:
+    user-service:
+      url: http://localhost:8132
