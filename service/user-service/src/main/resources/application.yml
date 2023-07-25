@@ -3,9 +3,9 @@ server:
 
 spring:
   r2dbc:
-    url: r2dbc:postgresql://localhost:5418/bookkeeper?currentSchema=bk_user
+    url: r2dbc:postgresql://localhost:5432/bookkeeper?currentSchema=bk_user
     username: root
     password: admin
   flyway:
-    url: jdbc:postgresql://localhost:5418/bookkeeper?currentSchema=bk_user
+    url: jdbc:postgresql://localhost:5432/bookkeeper?currentSchema=bk_user
     locations: classpath:db/migration

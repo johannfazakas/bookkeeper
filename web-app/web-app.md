@@ -15,7 +15,6 @@ chmod +x ./scripts/*.sh
 ```
 
 ## Build docker image
-- [ ] have Dockerfile handle webpack distribution creation
 ```shell
 ./scripts/build-web-app-image.sh
 ```

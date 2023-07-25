@@ -2,10 +2,7 @@ package ro.jf.bk.account.domain
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import org.mockito.kotlin.any
-import org.mockito.kotlin.mock
-import org.mockito.kotlin.verify
-import org.mockito.kotlin.whenever
+import org.mockito.kotlin.*
 import ro.jf.bk.account.domain.model.Account
 import ro.jf.bk.account.domain.model.CreateAccountCommand
 import ro.jf.bk.account.domain.service.AccountRepository
@@ -54,15 +51,15 @@ class AccountServiceTest {
     fun shouldCreateAccount() {
         val userId = randomUUID()
         val accountId = randomUUID()
-        val createCommand = CreateAccountCommand(userId, "account-name", "RON")
-        whenever(accountRepository.save(any<CreateAccountCommand>()))
+        val createCommand = CreateAccountCommand("account-name", "RON")
+        whenever(accountRepository.save(eq(userId), any<CreateAccountCommand>()))
             .thenAnswer {
-                it.getArgument<CreateAccountCommand>(0).let { command ->
+                it.getArgument<CreateAccountCommand>(1).let { command ->
                     Account(accountId, userId, command.name, command.currency)
                 }
             }
 
-        val account = accountService.create(createCommand)
+        val account = accountService.create(userId, createCommand)
 
         assertThat(account.id).isEqualTo(accountId)
         assertThat(account.userId).isEqualTo(userId)

@@ -38,7 +38,7 @@ class AccountController(
         @RequestHeader(USER_ID_HEADER_KEY) userId: UUID,
         @RequestBody request: CreateAccountTO
     ): AccountTO {
-        return accountService.create(request.toCommand()).toTO()
+        return accountService.create(userId, request.toCommand()).toTO()
     }
 
     @DeleteMapping("/{accountId}")

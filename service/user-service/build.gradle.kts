@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import java.time.Instant
 
 plugins {
     id("org.springframework.boot") version "3.1.1"
@@ -6,6 +7,7 @@ plugins {
     kotlin("jvm") version "1.8.22"
     kotlin("plugin.spring") version "1.8.22"
     kotlin("plugin.jpa") version "1.8.22"
+    id("com.google.cloud.tools.jib") version "3.1.4"
 }
 
 group = "ro.jf.bk"
@@ -48,4 +50,17 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+}
+
+jib {
+    from {
+        image = "openjdk:17-jdk-slim"
+    }
+    to {
+        image = "bookkeeper/user-service"
+    }
+    container {
+        mainClass = "ro.jf.bk.user.BookkeeperUserServiceKt"
+        creationTime = Instant.now().toString()
+    }
 }

@@ -17,8 +17,8 @@ class AccountService(
         return accountRepository.findAll(userId)
     }
 
-    fun create(command: CreateAccountCommand): Account {
-        return accountRepository.save(command)
+    fun create(userId: UUID, command: CreateAccountCommand): Account {
+        return accountRepository.save(userId, command)
     }
 
     fun delete(userId: UUID, accountId: UUID) {

@@ -1,6 +1,6 @@
-# bookkeeper-account-service
+# bookkeeper-user-service
 
-Bookkeeper account service.
+Bookkeeper user service.
 
 ## Prerequisites
 
@@ -22,11 +22,11 @@ chmod +x ./scripts/*.sh
 ## Build docker image
 
 ```shell
-./scripts/build-account-service-image.sh
+./scripts/build-user-service-image.sh
 ```
 
 ## Push docker image to ECR
 
 ```shell
-./scripts/push-account-service-image.sh
+./scripts/push-user-service-image.sh
 ```

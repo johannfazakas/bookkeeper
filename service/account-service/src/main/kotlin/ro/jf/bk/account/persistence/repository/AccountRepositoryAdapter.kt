@@ -28,10 +28,10 @@ class AccountRepositoryAdapter(
     override fun findAll(userId: UUID): List<Account> =
         accountEntityRepository.findByUserId(userId).map(AccountEntity::toDomain)
 
-    override fun save(command: CreateAccountCommand): Account =
+    override fun save(userId: UUID, command: CreateAccountCommand): Account =
         accountEntityRepository.save(
             AccountEntity(
-                userId = command.userId,
+                userId = userId,
                 name = command.name,
                 currency = command.currency
             )

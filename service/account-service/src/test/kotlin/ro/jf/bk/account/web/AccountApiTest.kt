@@ -102,7 +102,7 @@ class AccountApiTest {
     fun `should create account`(mockServerClient: MockServerClient) {
         val userId = randomUUID()
         mockServerClient.givenExistingUser(userId)
-        val request = CreateAccountTO(userId, "account-name", "USD")
+        val request = CreateAccountTO("account-name", "USD")
 
         mockMvc.perform(
             post("/account/v1/accounts")
@@ -117,8 +117,9 @@ class AccountApiTest {
             .andExpect(jsonPath("$.currency").value(request.currency))
 
         val account = accountEntityRepository.findByUserIdAndName(userId, request.name)
+
         assertThat(account).isNotNull
-        assertThat(account!!.userId).isEqualTo(request.userId)
+        assertThat(account!!.userId).isEqualTo(userId)
         assertThat(account!!.currency).isEqualTo(request.currency)
     }
 
