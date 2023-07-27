@@ -1,6 +1,13 @@
 ktor:
   application:
     modules:
-      - apigw.bk.jf.ro.ApplicationKt.module
+      - apigw.bk.jf.ro.BookkeeperApiGatewayKt.module
   deployment:
     port: 8101
+
+bookkeeper:
+  integration:
+    user-service:
+      baseUrl: 'http://localhost:8132'
+    account-service:
+      baseUrl: 'http://localhost:8136'
