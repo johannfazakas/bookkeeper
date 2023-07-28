@@ -1,16 +1,15 @@
 package ro.jf.bk.apigw
 
-import ro.jf.bk.apigw.integration.AccountProxyService
-import ro.jf.bk.apigw.integration.UserProxyService
-import ro.jf.bk.apigw.integration.integrationModule
-import ro.jf.bk.apigw.web.configureRouting
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
 import io.ktor.server.netty.*
 import io.ktor.server.plugins.contentnegotiation.*
+import org.koin.core.qualifier.named
 import org.koin.ktor.ext.inject
 import org.koin.ktor.plugin.Koin
 import org.koin.logger.slf4jLogger
+import ro.jf.bk.apigw.integration.*
+import ro.jf.bk.apigw.web.configureRouting
 
 fun main(args: Array<String>): Unit = EngineMain.main(args)
 
@@ -23,8 +22,8 @@ fun Application.module() {
         modules(integrationModule())
     }
 
-    val userProxyService: UserProxyService by inject()
-    val accountProxyService: AccountProxyService by inject()
+    val userProxyService: ProxyService by inject(named(Services.USER_SERVICE.value))
+    val accountProxyService: ProxyService by inject(named(Services.ACCOUNT_SERVICE.value))
 
     configureRouting(
         userProxyService,

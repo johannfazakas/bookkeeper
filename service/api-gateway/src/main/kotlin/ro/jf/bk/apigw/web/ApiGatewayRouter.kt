@@ -1,13 +1,12 @@
 package ro.jf.bk.apigw.web
 
-import ro.jf.bk.apigw.integration.AccountProxyService
-import ro.jf.bk.apigw.integration.UserProxyService
 import io.ktor.server.application.*
 import io.ktor.server.routing.*
+import ro.jf.bk.apigw.integration.ProxyService
 
 fun Application.configureRouting(
-    userProxyService: UserProxyService,
-    accountProxyService: AccountProxyService
+    userProxyService: ProxyService,
+    accountProxyService: ProxyService
 ) {
     routing {
         route("/user/v1/*") {

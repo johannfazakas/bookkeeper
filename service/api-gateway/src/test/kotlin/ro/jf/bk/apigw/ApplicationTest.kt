@@ -5,14 +5,13 @@ import io.ktor.client.statement.*
 import io.ktor.server.testing.*
 import kotlin.test.*
 import io.ktor.http.*
-import apigw.bk.jf.ro.web.*
 import ro.jf.bk.apigw.web.configureRouting
 
 class ApplicationTest {
     @Test
     fun testRoot() = testApplication {
         application {
-            configureRouting()
+//            configureRouting(null, null)
         }
         client.get("/").apply {
             assertEquals(HttpStatusCode.OK, status)

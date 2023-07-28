@@ -11,7 +11,7 @@ import io.ktor.server.response.*
 
 private const val USER_ID_HEADER = "BK_USER_ID"
 
-sealed class ProxyService(
+class ProxyService(
     private val baseUrl: String,
     private val httpClient: HttpClient
 ) {
@@ -32,19 +32,3 @@ sealed class ProxyService(
         ) { proxyResponse.body() }
     }
 }
-
-class AccountProxyService(
-    baseUrl: String,
-    httpClient: HttpClient
-) : ProxyService(
-    baseUrl,
-    httpClient
-)
-
-class UserProxyService(
-    baseUrl: String,
-    httpClient: HttpClient
-) : ProxyService(
-    baseUrl,
-    httpClient
-)
