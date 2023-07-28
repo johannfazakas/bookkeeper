@@ -1,4 +1,4 @@
-package apigw.bk.jf.ro.integration
+package ro.jf.bk.apigw.integration
 
 import io.ktor.client.*
 import io.ktor.client.call.*
@@ -9,6 +9,8 @@ import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 
+private const val USER_ID_HEADER = "BK_USER_ID"
+
 sealed class ProxyService(
     private val baseUrl: String,
     private val httpClient: HttpClient
@@ -17,7 +19,10 @@ sealed class ProxyService(
         val url = "${baseUrl}${call.request.path()}"
         val proxyResponse: HttpResponse = httpClient.request(url) {
             method = call.request.httpMethod
-            headers.appendAll(call.request.headers)
+            headers {
+                call.request.headers[USER_ID_HEADER]?.let { set(USER_ID_HEADER, it) }
+                call.request.headers[HttpHeaders.ContentType]?.let { set(HttpHeaders.ContentType, it) }
+            }
             setBody(call.receive<ByteArray>())
         }
         call.respondBytes(

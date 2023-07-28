@@ -1,7 +1,7 @@
-package apigw.bk.jf.ro.web
+package ro.jf.bk.apigw.web
 
-import apigw.bk.jf.ro.integration.AccountProxyService
-import apigw.bk.jf.ro.integration.UserProxyService
+import ro.jf.bk.apigw.integration.AccountProxyService
+import ro.jf.bk.apigw.integration.UserProxyService
 import io.ktor.server.application.*
 import io.ktor.server.routing.*
 

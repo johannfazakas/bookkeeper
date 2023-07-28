@@ -1,7 +1,7 @@
 ktor:
   application:
     modules:
-      - apigw.bk.jf.ro.BookkeeperApiGatewayKt.module
+      - ro.jf.bk.apigw.BookkeeperApiGatewayKt.module
   deployment:
     port: 8101
 

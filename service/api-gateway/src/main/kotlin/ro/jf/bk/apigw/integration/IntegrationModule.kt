@@ -1,4 +1,4 @@
-package apigw.bk.jf.ro.integration
+package ro.jf.bk.apigw.integration
 
 import io.ktor.client.*
 import io.ktor.server.application.*

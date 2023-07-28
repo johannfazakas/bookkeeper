@@ -1,9 +1,9 @@
-package apigw.bk.jf.ro
+package ro.jf.bk.apigw
 
-import apigw.bk.jf.ro.integration.AccountProxyService
-import apigw.bk.jf.ro.integration.UserProxyService
-import apigw.bk.jf.ro.integration.integrationModule
-import apigw.bk.jf.ro.web.configureRouting
+import ro.jf.bk.apigw.integration.AccountProxyService
+import ro.jf.bk.apigw.integration.UserProxyService
+import ro.jf.bk.apigw.integration.integrationModule
+import ro.jf.bk.apigw.web.configureRouting
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
 import io.ktor.server.netty.*
