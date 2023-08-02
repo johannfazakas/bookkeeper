@@ -18,4 +18,4 @@ fun Application.integrationModule() = module {
 }
 
 private fun Application.getServiceBaseUrl(serviceName: String) =
-    environment.config.property("bookkeeper.integration.${serviceName}.baseUrl").getString()
+    environment.config.property("bookkeeper.integration.${serviceName}.url").getString()

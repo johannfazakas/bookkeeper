@@ -8,6 +8,6 @@ ktor:
 bookkeeper:
   integration:
     user-service:
-      baseUrl: 'http://localhost:8132'
+      url: "$USER_SERVICE_URL:http://localhost:8132"
     account-service:
-      baseUrl: 'http://localhost:8136'
+      url: "$ACCOUNT_SERVICE_URL:http://localhost:8136"

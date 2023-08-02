@@ -7,9 +7,19 @@ Outputs:
     Value: !Ref BookkeeperWebAppECRRepository
     Export:
       Name: BookkeeperWebAppECRRepositoryName
+  BookkeeperApiGatewayECRRepositoryName:
+    Description: The ECR repository for the api gateway
+    Value: !Ref BookkeeperApiGatewayECRRepository
+    Export:
+      Name: BookkeeperApiGatewayECRRepositoryName
+  BookkeeperUserServiceECRRepositoryName:
+    Description: The ECR repository for the user service
+    Value: !Ref BookkeeperUserServiceECRRepository
+    Export:
+      Name: BookkeeperUserServiceECRRepositoryName
   BookkeeperAccountServiceECRRepositoryName:
     Description: The ECR repository for the account service
-    Value: !Ref BookkeeperApiECRRepository
+    Value: !Ref BookkeeperAccountServiceECRRepository
     Export:
       Name: BookkeeperAccountServiceECRRepositoryName
   BookkeeperPipelineTriggerECRRepositoryName:
@@ -23,7 +33,17 @@ Outputs:
       Name: BookkeeperArtifactsBucketName
 
 Resources:
-  BookkeeperApiECRRepository:
+  BookkeeperApiGatewayECRRepository:
+    Type: AWS::ECR::Repository
+    Properties:
+      RepositoryName: bookkeeper/api-gateway
+
+  BookkeeperUserServiceECRRepository:
+    Type: AWS::ECR::Repository
+    Properties:
+      RepositoryName: bookkeeper/user-service
+
+  BookkeeperAccountServiceECRRepository:
     Type: AWS::ECR::Repository
     Properties:
       RepositoryName: bookkeeper/account-service

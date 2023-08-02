@@ -7,4 +7,4 @@ cd $DIR/../
 ./gradlew clean jibDockerBuild
 docker tag bookkeeper/user-service:latest $AWS_ACCOUNT_ID.dkr.ecr.eu-central-1.amazonaws.com/bookkeeper/user-service:latest
 
-echo "Api image built."
+echo "User service image built."

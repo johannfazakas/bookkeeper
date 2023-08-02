@@ -12,11 +12,11 @@ import io.ktor.server.response.*
 private const val USER_ID_HEADER = "BK_USER_ID"
 
 class ProxyService(
-    private val baseUrl: String,
+    private val url: String,
     private val httpClient: HttpClient
 ) {
     suspend fun proxy(call: ApplicationCall) {
-        val url = "${baseUrl}${call.request.path()}"
+        val url = "${url}${call.request.path()}"
         val proxyResponse: HttpResponse = httpClient.request(url) {
             method = call.request.httpMethod
             headers {

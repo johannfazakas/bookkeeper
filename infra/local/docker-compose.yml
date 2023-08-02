@@ -1,9 +1,46 @@
 name: bookkeeper-app
 
 services:
-  bk_postgres:
+  bk-api-gateway:
+    container_name: bk-api-gateway
+    image: bookkeeper/api-gateway:latest
+    ports:
+      - 8101:8101
+    environment:
+      USER_SERVICE_URL: http://bk-user-service:8132
+      ACCOUNT_SERVICE_URL: http://bk-account-service:8136
+    networks:
+      - bookkeeper-network
+
+  bk-user-service:
+    container_name: bk-user-service
+    depends_on:
+      - bk-postgres
+    image: bookkeeper/user-service:latest
+    ports:
+      - 8132:8132
+    environment:
+      SPRING_R2DBC_URL: r2dbc:postgresql://bk-postgres/bookkeeper?currentSchema=bk_user
+      SPRING_FLYWAY_URL: jdbc:postgresql://bk-postgres:5432/bookkeeper?currentSchema=bk_user
+    networks:
+      - bookkeeper-network
+
+  bk-account-service:
+    container_name: bk-account-service
+    depends_on:
+      - bk-postgres
+    image: bookkeeper/account-service:latest
+    ports:
+      - 8136:8136
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://bk-postgres:5432/bookkeeper?currentSchema=bk_account
+      BOOKKEEPER_INTEGRATION_USER-SERVICE_URL: http://bk-user-service:8132
+    networks:
+      - bookkeeper-network
+
+  bk-postgres:
     image: postgres:15
-    container_name: bk_postgres
+    container_name: bk-postgres
     ports:
       - 5432:5432
     environment:
@@ -11,40 +48,14 @@ services:
       POSTGRES_PASSWORD: admin
       POSTGRES_DB: bookkeeper
     volumes:
-      - bookkeeper_api_postgres:/var/lib/postgresql/data
+      - bookkeeper-api-postgres:/var/lib/postgresql/data
       - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
     networks:
-      - bookkeeper_network
-
-  bk_user_service:
-    container_name: bk_user_service
-    depends_on:
-      - bk_postgres
-    image: bookkeeper/user-service:latest
-    ports:
-      - 8132:8132
-    environment:
-      SPRING_R2DBC_URL: r2dbc:postgresql://bk_postgres/bookkeeper?currentSchema=bk_user
-      SPRING_FLYWAY_URL: jdbc:postgresql://bk_postgres:5432/bookkeeper?currentSchema=bk_user
-    networks:
-      - bookkeeper_network
-
-  bk_account_service:
-    container_name: bk_account_service
-    depends_on:
-      - bk_postgres
-    image: bookkeeper/account-service:latest
-    ports:
-      - 8136:8136
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://bk_postgres:5432/bookkeeper?currentSchema=bk_account
-      BOOKKEEPER_INTEGRATION_USER-SERVICE_URL: http://bk_user_service:8132
-    networks:
-      - bookkeeper_network
+      - bookkeeper-network
 
 volumes:
-  bookkeeper_api_postgres:
+  bookkeeper-api-postgres:
 
 networks:
-  bookkeeper_network:
+  bookkeeper-network:
     driver: bridge

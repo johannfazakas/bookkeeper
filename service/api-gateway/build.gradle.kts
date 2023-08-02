@@ -1,3 +1,5 @@
+import io.ktor.plugin.features.*
+
 val ktor_version: String by project
 val koin_version: String by project
 val kotlin_version: String by project
@@ -34,4 +36,11 @@ dependencies {
     testImplementation("io.ktor:ktor-server-tests-jvm:$ktor_version")
     testImplementation("io.insert-koin:koin-test:$koin_version")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
+}
+
+ktor {
+    docker {
+        jreVersion.set(JreVersion.JRE_17)
+        localImageName.set("bookkeeper/api-gateway")
+    }
 }
