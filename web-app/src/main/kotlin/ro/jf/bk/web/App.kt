@@ -1,3 +1,7 @@
+package ro.jf.bk.web
+
+import ro.jf.bk.web.integration.model.UsersResponse
+import ro.jf.bk.web.integration.getUsers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import react.FC

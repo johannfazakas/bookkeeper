@@ -1,3 +1,5 @@
+package ro.jf.bk.web
+
 import kotlinx.browser.document
 import react.create
 import react.dom.client.createRoot

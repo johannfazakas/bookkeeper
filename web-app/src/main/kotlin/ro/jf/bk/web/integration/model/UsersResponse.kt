@@ -1,3 +1,5 @@
+package ro.jf.bk.web.integration.model
+
 import kotlinx.serialization.Serializable
 
 @Serializable

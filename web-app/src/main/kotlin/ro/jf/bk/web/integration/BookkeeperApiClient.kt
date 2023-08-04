@@ -1,3 +1,6 @@
+package ro.jf.bk.web.integration
+
+import ro.jf.bk.web.integration.model.UsersResponse
 import kotlinx.browser.window
 import kotlinx.coroutines.*
 import kotlinx.serialization.decodeFromString
