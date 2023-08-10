@@ -1,25 +1,39 @@
 # bookkeeper-web-app
-Web App for Bookkeeping.
+
+Bookkeeper web application.
 
 ## Prerequisites
+
+- npm
 - Docker
 - AWS CLI
+- [Start local infrastructure & backend services](../infra/local/docker-compose.yml)
 - Make scripts executable:
+
 ```shell 
 chmod +x ./scripts/*.sh
 ```
 
 ## Local development
+Install dependencies:
 ```shell
-./gradlew clean run --continuous
+npm install
+```
+Start application
+```shell
+npm start
 ```
 
 ## Build docker image
+
+[//]: # (TODO Johann)
 ```shell
-./scripts/build-web-app-image.sh
+./scripts/build-user-service-image.sh
 ```
 
 ## Push docker image to ECR
+
+[//]: # (TODO Johann)
 ```shell
-./scripts/push-web-app-image.sh
+./scripts/push-user-service-image.sh
 ```
