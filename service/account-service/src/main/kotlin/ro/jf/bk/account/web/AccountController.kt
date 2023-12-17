@@ -24,7 +24,6 @@ class AccountController(
         return accountService.find(userId, accountId)?.toTO() ?: throw RuntimeException("Account not found")
     }
 
-
     @GetMapping
     fun listAccounts(
         @RequestHeader(USER_ID_HEADER_KEY) userId: UUID
