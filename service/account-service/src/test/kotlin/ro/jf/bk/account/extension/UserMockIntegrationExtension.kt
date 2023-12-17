@@ -5,6 +5,7 @@ import org.mockserver.client.MockServerClient
 import org.mockserver.model.HttpRequest.request
 import org.mockserver.model.HttpResponse.response
 import org.springframework.test.context.DynamicPropertyRegistry
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder
 import org.testcontainers.containers.MockServerContainer
 import org.testcontainers.utility.DockerImageName
 import java.util.*
@@ -73,3 +74,6 @@ fun MockServerClient.givenNonExistingUser(userId: UUID) {
             .withStatusCode(404)
     )
 }
+
+fun MockHttpServletRequestBuilder.userIdHeader(userId: UUID) =
+    this.header("BK_USER_ID", userId)

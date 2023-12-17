@@ -1,4 +1,4 @@
-package ro.jf.bk.account.web.transfer
+package ro.jf.bk.account.api.transfer
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import ro.jf.bk.account.domain.model.Account

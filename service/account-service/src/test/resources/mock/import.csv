@@ -1,0 +1,223 @@
+account;category;currency;amount;ref_currency_amount;type;payment_type;payment_type_local;note;date;gps_latitude;gps_longitude;gps_accuracy_in_meters;warranty_in_month;transfer;payee;labels;envelope_id;custom_category
+BT RON;Mortgage;RON;-338.89;-338.89;Expenses;TRANSFER;Bank transfer;"Rambursare principal credit;";2023-12-15 02:00:00;;;;0;false;;;3001;false
+BT RON;Mortgage;RON;-30.45;-30.45;Expenses;TRANSFER;Bank transfer;"Transfer intern - debit polita; PLATA RATA 46 DE CATRE CLIENT, PRIMA DE ASIGURARE DATORATA POLITA: A7082333;;";2023-12-15 02:00:00;;;;0;false;RO83BTRLRONINCS000716301;;3001;false
+BT RON;Loan, interests;RON;-2569.30;-2569.30;Expenses;TRANSFER;Bank transfer;"Dobanda credit;";2023-12-15 02:00:00;;;;0;false;;;8002;false
+BT RON;Income;RON;35.46;35.46;Income;TRANSFER;Bank transfer;"Transfer intern - canal electronic; transfer conturi;;";2023-12-15 02:00:00;;;;0;false;RO16BTRLRONECON0T5063702;;10011;false
+Revolut RON;Bar, cafe;RON;-14.00;-14.00;Expenses;TRANSFER;Bank transfer;To CLAUDIU RUS;2023-12-14 13:37:24;;;;0;false;CLAUDIU RUS, LT793250050750670441;;1002;false
+Cash RON;TRANSFER;RON;600.00;600.00;Income;DEBIT_CARD;Debit card;"Retragere de numerar de la ATM BT; ATM 12/12/2023 TID A0013007 ATM CLUJ P-ta 1 Mai FN,Clujana Cluj-Napoca ROM 41401489 RRN: 148520838171;;";2023-12-12 02:00:00;;;;0;true;;;20001;false
+BT RON;TRANSFER;RON;-600.00;-600.00;Expenses;DEBIT_CARD;Debit card;"Retragere de numerar de la ATM BT; ATM 12/12/2023 TID A0013007 ATM CLUJ P-ta 1 Mai FN,Clujana Cluj-Napoca ROM 41401489 RRN: 148520838171;;";2023-12-12 02:00:00;;;;0;true;;;20001;false
+BT RON;Unknown Expense;RON;-500.00;-500.00;Expenses;DEBIT_CARD;Debit card;"Colectare automata fonduri BTAM; CV UNIT./FAZAKAS JOHANN IGNAC/1891228142611/1163364/BTM";2023-12-11 02:00:00;;;;0;false;;;13001;false
+BT RON;Unknown Expense;RON;-500.00;-500.00;Expenses;DEBIT_CARD;Debit card;"Colectare automata fonduri BTAM; CV UNIT./FAZAKAS JOHANN IGNAC/1891228142611/1170810/BTR";2023-12-11 02:00:00;;;;0;false;;;13001;false
+Revolut RON;Vehicle maintenance;RON;-20.00;-20.00;Expenses;DEBIT_CARD;Debit card;Nyx*dasimaginvestsrl;2023-12-09 02:00:00;;;;0;false;Nyx*dasimaginvestsrl;;5002;false
+Revolut RON;Bar, cafe;RON;-11.00;-11.00;Expenses;DEBIT_CARD;Debit card;To CLAUDIU RUS;2023-12-09 02:00:00;;;;0;false;LT793250050750670441;;1002;false
+Revolut RON;TRANSFER;RON;17.00;17.00;Income;DEBIT_CARD;Debit card;From CRISTIAN GELU VELICU;2023-12-09 02:00:00;;;;0;true;91757012611;;20001;false
+BT RON;Unknown Expense;RON;-15.70;-15.70;Expenses;DEBIT_CARD;Debit card;"Plata la POS; POS 09/12/2023 TID D1301HPR JF JUNIOR MARKET SRL  PLAIESTI RO 41401489 RRN: 334311999144;;";2023-12-09 02:00:00;;;;0;false;;;13001;false
+ING RON;TRANSFER;RON;631.00;631.00;Income;CASH;Cash;investitii Olivia;2023-12-08 17:15:00;;;;0;true;;;20001;false
+BT Philocode RON;Advisory;RON;-600.00;-600.00;Expenses;CASH;Cash;servicii contabile;2023-12-08 17:15:00;;;;0;false;gif;Work Taxes;8004;false
+Olivia;TRANSFER;RON;-631.00;-631.00;Expenses;CASH;Cash;investitii Olivia;2023-12-08 17:15:00;;;;0;true;;;20001;false
+BT CC;Clothes & shoes;RON;-249.97;-249.97;Expenses;CASH;Cash;;2023-12-08 17:00:00;;;;0;false;decathlon;Shopping;2000;false
+BT CC;Clothes & shoes;RON;-118.00;-118.00;Expenses;CASH;Cash;first layer merinos;2023-12-08 17:00:00;;;;0;false;merino-shop;Shopping;2000;false
+Cash RON;Bar, cafe;RON;-17.00;-17.00;Expenses;CASH;Cash;;2023-12-08 16:45:00;;;;0;false;;Food;1002;false
+ING RON;TRANSFER;RON;200.00;200.00;Income;CASH;Cash;;2023-12-07 17:00:00;;;;0;true;;;20001;false
+ING RON;Software, apps, games;RON;-59.99;-59.99;Expenses;CASH;Cash;abonament;2023-12-07 17:00:00;;;;0;false;headspace;Utilities;7003;false
+BT CC;TRANSFER;RON;-200.00;-200.00;Expenses;CASH;Cash;;2023-12-07 17:00:00;;;;0;true;;;20001;false
+BT Economy RON;Financial investments;RON;-3.10;-3.10;Expenses;CASH;Cash;cont economii;2023-12-07 17:00:00;;;;0;false;me;Invest Profit Dist;9002;false
+Revolut RON;Bar, cafe;RON;-11.00;-11.00;Expenses;DEBIT_CARD;Debit card;To CLAUDIU RUS;2023-12-07 02:00:00;;;;0;false;LT793250050750670441;;1002;false
+Revolut RON;Groceries;RON;-4.66;-4.66;Expenses;DEBIT_CARD;Debit card;J&F Junior Market Srl;2023-12-06 02:00:00;;;;0;false;J&f Junior Market Srl;Food;1000;false
+Revolut RON;Charity, gifts;RON;-16.20;-16.20;Expenses;DEBIT_CARD;Debit card;J&F Junior Market Srl;2023-12-06 02:00:00;;;;0;false;J&f Junior Market Srl;Gifts;6010;false
+BT RON;Software, apps, games;RON;-2.86;-2.86;Expenses;DEBIT_CARD;Debit card;"Plata la POS non-BT cu card VISA; EPOS 02/12/2023 323670000156182 TID:99999999 AWS EMEA  aws.amazon.co LU 41401489 valoare tranzactie: 0.62 USD RRN:333610402700 comision tranzactie 0.00 RON;;";2023-12-06 02:00:00;;;;0;false;aws;Education;7003;false
+BT Philocode RON;Fuel;RON;-447.88;-447.88;Expenses;CASH;Cash;motorina;2023-12-05 17:15:00;;;;0;false;omv;Car & Transport;5000;false
+ING RON;Gifts, joy;RON;-350.00;-350.00;Expenses;CASH;Cash;cadouri mami, buni si tati;2023-12-05 17:00:00;;;;0;false;;Gifts;2007;false
+BT CC;Restaurant, fast-food;RON;-195.99;-195.99;Expenses;CASH;Cash;Masa cu Flo si Anca in Belis;2023-12-05 17:00:00;;;;0;false;Colt de Rai;Fun;1001;false
+BT Philocode RON;TRANSFER;RON;-2079.00;-2079.00;Expenses;DEBIT_CARD;Debit card;"Incasare OP - canal electronic; salariu noiembrie 2023;;;57;PHILOCODE SRL;467RONCRT0594711001;BTRLRO22";2023-12-05 02:00:00;;;;0;true;RONCRT00T5063702;;20001;false
+BT CC;TRANSFER;RON;-0.01;-0.01;Expenses;DEBIT_CARD;Debit card;restaurant Belis From ANDREI MIHAI FLOREA;2023-12-05 02:00:00;;;;0;true;91757012611;;20001;false
+BT CC;TRANSFER;RON;-163.00;-163.00;Expenses;DEBIT_CARD;Debit card;Belis From ANDREI MIHAI FLOREA;2023-12-05 02:00:00;;;;0;true;91757012611;;20001;false
+Revolut RON;TRANSFER;RON;163.00;163.00;Income;DEBIT_CARD;Debit card;Belis From ANDREI MIHAI FLOREA;2023-12-05 02:00:00;;;;0;true;91757012611;;20001;false
+Revolut RON;TRANSFER;RON;0.01;0.01;Income;DEBIT_CARD;Debit card;restaurant Belis From ANDREI MIHAI FLOREA;2023-12-05 02:00:00;;;;0;true;91757012611;;20001;false
+BT RON;TRANSFER;RON;2079.00;2079.00;Income;DEBIT_CARD;Debit card;"Incasare OP - canal electronic; salariu noiembrie 2023;;;57;PHILOCODE SRL;467RONCRT0594711001;BTRLRO22";2023-12-05 02:00:00;;;;0;true;RONCRT00T5063702;;20001;false
+BT CC;Food & Drinks;RON;-60.00;-60.00;Expenses;CASH;Cash;control trichineloza;2023-12-04 17:00:00;;;;0;false;cabinet veterinar;Food;1003;false
+Cash RON;Active sport, fitness;RON;-180.00;-180.00;Expenses;CASH;Cash;tenis;2023-12-04 16:45:00;;;;0;false;Cristi tenis;Fun;6002;false
+XTB ETF EUR;Financial investments;RON;442.83;442.83;Income;CASH;Cash;78.3 IS3N * 28.151 EUR = 10954.99 RON;2023-12-04 11:00:00;;;;0;false;me;Invest Profit Acc;9002;false
+BT Funds RON;Financial investments;RON;-165.51;-165.51;Expenses;CASH;Cash;BT Index;2023-12-04 10:15:00;;;;0;false;me;Invest Profit Acc;9002;false
+XTB ETF EUR;Financial investments;RON;569.32;569.32;Income;CASH;Cash;39.9 EUNL * 79.824 EUR = 15829.34 RON;2023-12-04 10:15:00;;;;0;false;me;Invest Profit Acc;9002;false
+XTB ETF EUR;Financial investments;RON;1357.19;1357.19;Income;CASH;Cash;172.0 QDVE * 21.755 EUR = 18597.04 RON;2023-12-04 10:15:00;;;;0;false;me;Invest Profit Acc;9002;false
+XTB ETF EUR;Financial investments;RON;1576.21;1576.21;Income;CASH;Cash;14.10 SXR8 * 441.65 EUR = 30949.51 RON;2023-12-04 10:15:00;;;;0;false;me;Invest Profit Acc;9002;false
+XTB ETF EUR;Financial investments;RON;477.04;477.04;Income;CASH;Cash;149 SUSW * 9.7725 EUR = 7236.89 RON;2023-12-04 10:15:00;;;;0;false;me;Invest Profit Acc;9002;false
+XTB ETF EUR;Financial investments;RON;705.28;705.28;Income;CASH;Cash;33.2 IMAE * 70.1153 EUR = 11569.26RON;2023-12-04 10:15:00;;;;0;false;me;Invest Profit Acc;9002;false
+BT Funds EUR;Financial investments;RON;-103.22;-103.22;Expenses;CASH;Cash;BT Energy;2023-12-04 10:15:00;;;;0;false;me;Invest Profit Acc;9002;false
+BT Funds EUR;Financial investments;RON;648.34;648.34;Income;CASH;Cash;BT Technology;2023-12-04 10:15:00;;;;0;false;me;Invest Profit Acc;9002;false
+ING Funds RON;Financial investments;RON;416.23;416.23;Income;CASH;Cash;NN IRE;2023-12-04 10:15:00;;;;0;false;me;Invest Profit Acc;9002;false
+XTB EUR;Financial investments;RON;-3.24;-3.24;Expenses;CASH;Cash;curs valutar;2023-12-04 10:00:00;;;;0;false;me;Invest Profit Dist;9002;false
+BT Funds RON;Financial investments;RON;-161.20;-161.20;Expenses;CASH;Cash;BT Maxim;2023-12-04 10:00:00;;;;0;false;me;Invest Profit Acc;9002;false
+BT EUR;Financial investments;RON;-15.06;-15.06;Expenses;CASH;Cash;curs valutar, comisioane;2023-12-04 10:00:00;;;;0;false;me;Invest Profit Dist;9002;false
+BT Philocode EUR;Financial investments;RON;-190.00;-190.00;Expenses;CASH;Cash;curs valutar, comisioane;2023-12-04 10:00:00;;;;0;false;me;Invest Profit Dist;9002;false
+Revolut EUR;Financial investments;RON;-26.32;-26.32;Expenses;CASH;Cash;curs valutar, comisioane;2023-12-04 10:00:00;;;;0;false;me;Invest Profit Dist;9002;false
+Cash EUR;Financial investments;RON;17.10;17.10;Income;CASH;Cash;curs valutar, comisioane;2023-12-04 10:00:00;;;;0;false;me;Invest Profit Dist;9002;false
+Revolut RON;Food & Drinks;RON;-4.00;-4.00;Expenses;DEBIT_CARD;Debit card;Caf Prod Comimpex;2023-12-04 02:00:00;;;;0;false;Caf Prod Comimpex;Food;1003;false
+Revolut RON;Holiday, trips, hotels;RON;-330.00;-330.00;Expenses;DEBIT_CARD;Debit card;huvigneta To ANDREI MIHAI FLOREA;2023-12-04 02:00:00;;;;0;false;LT793250004818082931;Fun;6009;false
+Revolut RON;Bar, cafe;RON;-14.00;-14.00;Expenses;DEBIT_CARD;Debit card;To CLAUDIU RUS;2023-12-04 02:00:00;;;;0;false;LT793250050750670441;Fun;1002;false
+BT RON;Software, apps, games;RON;-24.00;-24.00;Expenses;DEBIT_CARD;Debit card;"Plata la POS non-BT cu card VISA; EPOS 30/11/2023 498750000222498 TID:99999999 SpotifyRO  Stockholm SE 41401489 valoare tranzactie: 24.00 RON RRN:333421158545 comision tranzactie 0.00 RON;;";2023-12-04 02:00:00;;;;0;false;spotify;Utilities;7003;false
+ING RON;Phone, cell phone;RON;-61.06;-61.06;Expenses;CASH;Cash;abonament;2023-12-03 17:00:00;;;;0;false;orange;Utilities;7001;false
+BT CC;Clothes & shoes;RON;-309.00;-309.00;Expenses;CASH;Cash;haine;2023-12-03 17:00:00;;;;0;false;peek & cloppenburg;Shopping;2000;false
+ING RON;Software, apps, games;RON;-13.99;-13.99;Expenses;CASH;Cash;storage;2023-12-02 17:00:00;;;;0;false;google;Utilities;7003;false
+BT CC;Restaurant, fast-food;RON;-123.00;-123.00;Expenses;CASH;Cash;restaurant cu Piti & Ticu;2023-12-02 17:00:00;;;;0;false;dot;Fun;1001;false
+BT CC;TRANSFER;RON;-80.00;-80.00;Expenses;DEBIT_CARD;Debit card;From CRISTIAN GELU VELICU;2023-12-02 02:00:00;;;;0;true;91757012611;;20001;false
+BT CC;TRANSFER;RON;-88.00;-88.00;Expenses;DEBIT_CARD;Debit card;DOT brunch From ANDREI HAVRILIUC;2023-12-02 02:00:00;;;;0;true;91757012611;;20001;false
+Revolut RON;TRANSFER;RON;80.00;80.00;Income;DEBIT_CARD;Debit card;From CRISTIAN GELU VELICU;2023-12-02 02:00:00;;;;0;true;91757012611;;20001;false
+Revolut RON;TRANSFER;RON;88.00;88.00;Income;DEBIT_CARD;Debit card;DOT brunch From ANDREI HAVRILIUC;2023-12-02 02:00:00;;;;0;true;91757012611;;20001;false
+BT Philocode RON;Financial expenses;RON;-29.00;-29.00;Expenses;CASH;Cash;comision administrare;2023-12-01 17:15:00;;;;0;false;bt;Work Taxes;8008;false
+Revolut EUR;Groceries;RON;-322.70;-322.70;Expenses;CASH;Cash;cumparaturi;2023-12-01 10:00:00;;;;0;false;lidl;Food;1000;false
+BT CC;Restaurant, fast-food;RON;-115.00;-115.00;Expenses;CASH;Cash;pizza;2023-11-30 09:45:00;;;;0;false;pizza focco;Food;1001;false
+Revolut RON;Groceries;RON;-15.83;-15.83;Expenses;DEBIT_CARD;Debit card;J&F Junior Market Srl;2023-11-30 02:00:00;;;;0;false;junior market;Food;1000;false
+BT RON;Advisory;RON;-5.00;-5.00;Expenses;DEBIT_CARD;Debit card;"Abonament BT 24;";2023-11-30 02:00:00;;;;0;false;bt;Utilities;8004;false
+BT Philocode EUR;Wage, invoices;RON;35784.00;35784.00;Income;CASH;Cash;factura sentio;2023-11-29 10:00:00;;;;0;false;me;Work Income;10000;false
+BT Philocode RON;Vehicle maintenance;RON;-500.00;-500.00;Expenses;CASH;Cash;pdr masina;2023-11-29 09:30:00;;;;0;false;profesional car detailing;Car & Transport;5002;false
+BT Philocode RON;Advisory;RON;-50.00;-50.00;Expenses;CASH;Cash;protectia muncii;2023-11-29 09:30:00;;;;0;false;protectia muncii;Work Taxes;8004;false
+Revolut RON;Drug-store, chemist;RON;-4.59;-4.59;Expenses;DEBIT_CARD;Debit card;Drm Cluj 14 C4;2023-11-29 02:00:00;;;;0;false;dr max;Health;2011;false
+Revolut RON;Groceries;RON;-45.84;-45.84;Expenses;DEBIT_CARD;Debit card;Auchan 0037 Cluj;2023-11-29 02:00:00;;;;0;false;auchan;Food;1000;false
+BT RON;Groceries;RON;-17.00;-17.00;Expenses;DEBIT_CARD;Debit card;"Plata la POS; POS 29/11/2023 TID 16700BPR JIMSYM SRL BIRSEI CLUJ-NAPOCA ROM 41401489 RRN: 147125778991;;";2023-11-29 02:00:00;;;;0;false;palanet;Food;1000;false
+BT RON;Groceries;RON;-3.70;-3.70;Expenses;DEBIT_CARD;Debit card;"Plata la POS; POS 29/11/2023 TID D1301HPR JF JUNIOR MARKET SRL PRINCIPALA PLAIESTI ROM 41401489 RRN: 147126885871;;";2023-11-29 02:00:00;;;;0;false;junior market;Food;1000;false
+Revolut RON;Holiday, trips, hotels;RON;-678.00;-678.00;Expenses;DEBIT_CARD;Debit card;Cabana pentru amandoi + sticlele ce le-ati luat To ANDREI MIHAI FLOREA;2023-11-28 02:00:00;;;;0;false;LT793250004818082931;Fun;6009;false
+ING RON;Taxi;RON;-24.10;-24.10;Expenses;CASH;Cash;taxi;2023-11-27 10:00:00;;;;0;false;bolt;Car & Transport;4001;false
+Revolut RON;Bar, cafe;RON;-11.00;-11.00;Expenses;DEBIT_CARD;Debit card;To CLAUDIU RUS;2023-11-27 02:00:00;;;;0;false;LT793250050750670441;Fun;1002;false
+BT CC;Restaurant, fast-food;RON;-148.00;-148.00;Expenses;CASH;Cash;mancare;2023-11-26 09:45:00;;;;0;false;nativ;Fun;1001;false
+BT Philocode RON;Vehicle maintenance;RON;-6614.56;-6614.56;Expenses;CASH;Cash;service clima;2023-11-26 09:30:00;;;;0;false;autoworld;Car & Transport;5002;false
+BT CC;TRANSFER;RON;-200.00;-200.00;Expenses;DEBIT_CARD;Debit card;From ANA MARIA MIHAI;2023-11-26 02:00:00;;;;0;true;91757012611;;20001;false
+Revolut RON;Parking;RON;-16.00;-16.00;Expenses;DEBIT_CARD;Debit card;Serv Pub Admin Parcari;2023-11-26 02:00:00;;;;0;false;Serv Pub Admin Parcari;Car & Transport;5001;false
+Revolut RON;Restaurant, fast-food;RON;-82.00;-82.00;Expenses;DEBIT_CARD;Debit card;klausen To MARIUS VLAS;2023-11-26 02:00:00;;;;0;false;klausen;Fun;1001;false
+Revolut RON;TRANSFER;RON;200.00;200.00;Income;DEBIT_CARD;Debit card;From ANA MARIA MIHAI;2023-11-26 02:00:00;;;;0;true;91757012611;;20001;false
+BT CC;Restaurant, fast-food;RON;-225.00;-225.00;Expenses;CASH;Cash;mancare;2023-11-25 09:45:00;;;;0;false;cabana la munte;Fun;1001;false
+Cash EUR;Sale;RON;13916.00;13916.00;Income;CASH;Cash;vanzare Clio 2800 EUR;2023-11-24 17:45:00;;;;0;false;Ruslan;Car & Transport;10002;false
+ING RON;Taxi;RON;-41.30;-41.30;Expenses;CASH;Cash;taxi;2023-11-24 10:00:00;;;;0;false;bolt;Car & Transport;4001;false
+Revolut RON;Bar, cafe;RON;-11.00;-11.00;Expenses;DEBIT_CARD;Debit card;To CLAUDIU RUS;2023-11-24 02:00:00;;;;0;false;claudiu cafe;Fun;1002;false
+ING RON;Public transport;RON;-45.10;-45.10;Expenses;CASH;Cash;taxi;2023-11-23 10:00:00;;;;0;false;bolt;Car & Transport;4000;false
+Revolut RON;Bar, cafe;RON;-11.00;-11.00;Expenses;DEBIT_CARD;Debit card;To CLAUDIU RUS;2023-11-23 02:00:00;;;;0;false;claudiu cafe;Fun;1002;false
+XTB EUR;TRANSFER;RON;-618.72;-618.72;Expenses;CASH;Cash;5.7 QDVE * 21.840 EUR = 124.49 EUR;2023-11-22 15:15:00;;;;0;true;me;Investment;20001;false
+XTB EUR;TRANSFER;RON;-613.15;-613.15;Expenses;CASH;Cash;4.4 IS3N * 28.031 EUR = 123.37 EUR;2023-11-22 15:15:00;;;;0;true;me;Investment;20001;false
+XTB EUR;TRANSFER;RON;-626.47;-626.47;Expenses;CASH;Cash;1.6 EUNL * 78.784 EUR = 126.05 EUR;2023-11-22 15:15:00;;;;0;true;me;Investment;20001;false
+XTB EUR;TRANSFER;RON;-650.62;-650.62;Expenses;CASH;Cash;1.9 IMAE * 68.895 EUR = 130.91 EUR;2023-11-22 15:15:00;;;;0;true;me;Investment;20001;false
+XTB EUR;TRANSFER;RON;-620.75;-620.75;Expenses;CASH;Cash;13 SUSW * 9.5975 EUR = 124.90 EUR;2023-11-22 15:15:00;;;;0;true;me;Investment;20001;false
+XTB ETF EUR;TRANSFER;RON;613.15;613.15;Income;CASH;Cash;4.4 IS3N * 28.031 EUR = 123.37 EUR;2023-11-22 15:15:00;;;;0;true;me;Investment;20001;false
+XTB ETF EUR;TRANSFER;RON;620.75;620.75;Income;CASH;Cash;13 SUSW * 9.5975 EUR = 124.90 EUR;2023-11-22 15:15:00;;;;0;true;me;Investment;20001;false
+XTB ETF EUR;TRANSFER;RON;626.47;626.47;Income;CASH;Cash;1.6 EUNL * 78.784 EUR = 126.05 EUR;2023-11-22 15:15:00;;;;0;true;me;Investment;20001;false
+XTB ETF EUR;TRANSFER;RON;618.72;618.72;Income;CASH;Cash;5.7 QDVE * 21.840 EUR = 124.49 EUR;2023-11-22 15:15:00;;;;0;true;me;Investment;20001;false
+XTB ETF EUR;TRANSFER;RON;650.62;650.62;Income;CASH;Cash;1.9 IMAE * 68.895 EUR = 130.91 EUR;2023-11-22 15:15:00;;;;0;true;me;Investment;20001;false
+XTB EUR;TRANSFER;RON;-1953.46;-1953.46;Expenses;CASH;Cash;0.9 SXR8 * 436.72 EUR = 393.05 EUR;2023-11-22 15:00:00;;;;0;true;me;Investment;20001;false
+XTB ETF EUR;TRANSFER;RON;1953.46;1953.46;Income;CASH;Cash;0.9 SXR8 * 436.72 EUR = 393.05 EUR;2023-11-22 15:00:00;;;;0;true;me;Investment;20001;false
+ING RON;Health care, doctor;RON;-170.00;-170.00;Expenses;CASH;Cash;abonament;2023-11-22 10:00:00;;;;0;false;regina maria;Health;6000;false
+BT CC;TRANSFER;RON;5502.55;5502.55;Income;TRANSFER;Bank transfer;"P2P BTPay; Transfer din card 1489 JOHANN IGNAC FAZAKAS catre JOHANN IGNAC FAZAKAS reprezentand : Obligatie de plata;;";2023-11-22 02:00:55;;;;0;true;RO52BTRLRONMFRT0T5063701;;20001;false
+BT RON;TRANSFER;RON;-5502.55;-5502.55;Expenses;TRANSFER;Bank transfer;"P2P BTPay; Transfer din card 1489 JOHANN IGNAC FAZAKAS catre JOHANN IGNAC FAZAKAS reprezentand : Obligatie de plata;;";2023-11-22 02:00:55;;;;0;true;RO52BTRLRONMFRT0T5063701;;20001;false
+Revolut RON;Groceries;RON;-6.53;-6.53;Expenses;DEBIT_CARD;Debit card;Profi 2007 C5;2023-11-22 02:00:00;;;;0;false;profi;Food;1000;false
+BT Philocode RON;Fuel;RON;-464.14;-464.14;Expenses;CASH;Cash;benzina;2023-11-21 09:30:00;;;;0;false;omv;Car & Transport;5000;false
+Other;TRANSFER;RON;5000.00;5000.00;Income;DEBIT_CARD;Debit card;transfer revolut -> bt;2023-11-21 02:00:00;;;;0;true;RONCRT00T5063702;;20001;false
+Other;TRANSFER;RON;-5000.00;-5000.00;Expenses;DEBIT_CARD;Debit card;transfer revolut -> bt;2023-11-21 02:00:00;;;;0;true;RONCRT00T5063702;;20001;false
+Revolut RON;TRANSFER;RON;-5000.00;-5000.00;Expenses;DEBIT_CARD;Debit card;transfer revolut -> bt;2023-11-21 02:00:00;;;;0;true;RONCRT00T5063702;;20001;false
+Revolut RON;TRANSFER;RON;4958.31;4958.31;Income;DEBIT_CARD;Debit card;Exchanged to RON;2023-11-21 02:00:00;;;;0;true;;;20001;false
+Revolut EUR;TRANSFER;RON;-4958.31;-4958.31;Expenses;DEBIT_CARD;Debit card;Exchanged to RON;2023-11-21 02:00:00;;;;0;true;;;20001;false
+BT RON;Charges, Fees;RON;-5.00;-5.00;Expenses;DEBIT_CARD;Debit card;"Comision Incasare Instant; SENT FROM REVOLUT JOHANN IGNAC FAZAKAS;;;;REVOLUT BANK UAB;RO44BREL0005510842690100;BRELROBU";2023-11-21 02:00:00;;;;0;false;RO44BREL0005510842690100;Utilities;8005;false
+BT RON;TRANSFER;RON;5000.00;5000.00;Income;DEBIT_CARD;Debit card;transfer revolut -> bt;2023-11-21 02:00:00;;;;0;true;RONCRT00T5063702;;20001;false
+BT EUR;TRANSFER;RON;15332.45;15332.45;Income;CASH;Cash;;2023-11-20 19:15:00;;;;0;true;;;20001;false
+Cash EUR;TRANSFER;RON;-15332.45;-15332.45;Expenses;CASH;Cash;;2023-11-20 19:15:00;;;;0;true;;;20001;false
+BT Philocode RON;TRANSFER;RON;14772.00;14772.00;Income;CASH;Cash;schimb curs valutar;2023-11-20 18:00:00;;;;0;true;;;20001;false
+BT Philocode EUR;TRANSFER;RON;-14772.00;-14772.00;Expenses;CASH;Cash;schimb curs valutar;2023-11-20 18:00:00;;;;0;true;;;20001;false
+BT EUR;TRANSFER;RON;-12425.00;-12425.00;Expenses;CASH;Cash;;2023-11-20 15:30:00;;;;0;true;;;20001;false
+Revolut EUR;TRANSFER;RON;12425.00;12425.00;Income;CASH;Cash;;2023-11-20 15:30:00;;;;0;true;;;20001;false
+ING RON;Energy, utilities;RON;-393.47;-393.47;Expenses;CASH;Cash;;2023-11-17 17:15:00;;;;0;false;servmanagement;Utilities;3002;false
+ING RON;Energy, utilities;RON;-507.02;-507.02;Expenses;CASH;Cash;;2023-11-17 17:15:00;;;;0;false;electrica;Utilities;3002;false
+Revolut RON;Bar, cafe;RON;-11.00;-11.00;Expenses;DEBIT_CARD;Debit card;To CLAUDIU RUS;2023-11-17 02:00:00;;;;0;false;LT793250050750670441;Fun;1002;false
+XTB EUR;TRANSFER;RON;4970.00;4970.00;Income;CASH;Cash;transfer investitii;2023-11-16 17:45:00;;;;0;true;;;20001;false
+BT EUR;TRANSFER;RON;-4970.00;-4970.00;Expenses;CASH;Cash;transfer investitii;2023-11-16 17:45:00;;;;0;true;;;20001;false
+BT EUR;TRANSFER;RON;-2236.50;-2236.50;Expenses;CASH;Cash;transfer investitii;2023-11-16 17:45:00;;;;0;true;;;20001;false
+Olivia;TRANSFER;RON;2236.50;2236.50;Income;CASH;Cash;transfer investitii;2023-11-16 17:45:00;;;;0;true;;;20001;false
+Cash RON;Gifts, joy;RON;-200.00;-200.00;Expenses;CASH;Cash;medicamente ajutor;2023-11-16 17:30:00;;;;0;false;;Gifts;2007;false
+ING RON;TRANSFER;RON;-1000.00;-1000.00;Expenses;DEBIT_CARD;Debit card;Top-Up by *2061;2023-11-16 02:00:00;;;;0;true;;;20001;false
+Cash RON;TRANSFER;RON;500.00;500.00;Income;DEBIT_CARD;Debit card;"Retragere de numerar de la ATM BT; ATM 16/11/2023 TID RA013069 ATM CLUJ Strada Republicii 1 Cluj-Napoca ROM 41401489 RRN: 145497856961;;";2023-11-16 02:00:00;;;;0;true;;;20001;false
+Revolut RON;Bar, cafe;RON;-14.00;-14.00;Expenses;DEBIT_CARD;Debit card;To CLAUDIU RUS;2023-11-16 02:00:00;;;;0;false;LT793250050750670441;Fun;1002;false
+Revolut RON;Restaurant, fast-food;RON;-7.00;-7.00;Expenses;DEBIT_CARD;Debit card;Holimpex Import Export Sr;2023-11-16 02:00:00;;;;0;false;Holimpex Import Export Sr;Food;1001;false
+Revolut RON;Charity, gifts;RON;-96.95;-96.95;Expenses;DEBIT_CARD;Debit card;cadou Flo;2023-11-16 02:00:00;;;;0;false;LT273250084608296143;Gifts;6010;false
+Revolut RON;TRANSFER;RON;1000.00;1000.00;Income;DEBIT_CARD;Debit card;Top-Up by *2061;2023-11-16 02:00:00;;;;0;true;;;20001;false
+Revolut RON;Groceries;RON;-22.74;-22.74;Expenses;DEBIT_CARD;Debit card;Profi 2007 C4;2023-11-16 02:00:00;;;;0;false;Profi 2007 C4;Food;1000;false
+Revolut RON;Vehicle maintenance;RON;-215.00;-215.00;Expenses;DEBIT_CARD;Debit card;service Clio;2023-11-16 02:00:00;;;;0;false;Autorom Serv Srl;Car & Transport;5002;false
+BT RON;TRANSFER;RON;-500.00;-500.00;Expenses;DEBIT_CARD;Debit card;"Retragere de numerar de la ATM BT; ATM 16/11/2023 TID RA013069 ATM CLUJ Strada Republicii 1 Cluj-Napoca ROM 41401489 RRN: 145497856961;;";2023-11-16 02:00:00;;;;0;true;;;20001;false
+ING RON;Software, apps, games;RON;-46.97;-46.97;Expenses;CASH;Cash;abonament copilot;2023-11-15 17:15:00;;;;0;false;github;Work Taxes;7003;false
+Cash RON;Groceries;RON;-63.00;-63.00;Expenses;CASH;Cash;;2023-11-15 09:45:00;;;;0;false;;Food;1000;false
+ING RON;TRANSFER;RON;1460.00;1460.00;Income;DEBIT_CARD;Debit card;transfer rata;2023-11-15 02:00:13;;;;0;true;;;20001;false
+BT RON;TRANSFER;RON;-1460.00;-1460.00;Expenses;DEBIT_CARD;Debit card;transfer rata;2023-11-15 02:00:13;;;;0;true;;;20001;false
+BT RON;Loan, interests;RON;-1111.64;-1111.64;Expenses;DEBIT_CARD;Debit card;"Dobanda credit;";2023-11-15 02:00:13;;;;0;false;bt;Home;8002;false
+Revolut RON;Bar, cafe;RON;-11.00;-11.00;Expenses;DEBIT_CARD;Debit card;To CLAUDIU RUS;2023-11-15 02:00:00;;;;0;false;LT793250050750670441;Fun;1002;false
+BT RON;Loan, interests;RON;-336.55;-336.55;Expenses;DEBIT_CARD;Debit card;"Rambursare principal credit;";2023-11-15 02:00:00;;;;0;false;bt;Home;8002;false
+BT RON;Insurances;RON;-33.42;-33.42;Expenses;DEBIT_CARD;Debit card;"Transfer intern - debit polita; PLATA RATA 45 DE CATRE CLIENT, PRIMA DE ASIGURARE DATORATA POLITA: A7082333;;";2023-11-15 02:00:00;;;;0;false;bt;Home;8001;false
+Cash RON;Energy, utilities;RON;-280.00;-280.00;Expenses;CASH;Cash;curatenie;2023-11-14 17:30:00;;;;0;false;csilla;Utilities;3002;false
+ING RON;Vehicle;RON;-60.18;-60.18;Expenses;CASH;Cash;anunt autovit;2023-11-14 17:15:00;;;;0;false;autovit;Car & Transport;5004;false
+Revolut RON;Bar, cafe;RON;-14.00;-14.00;Expenses;DEBIT_CARD;Debit card;To CLAUDIU RUS;2023-11-14 02:00:00;;;;0;false;LT793250050750670441;Fun;1002;false
+ING RON;Groceries;RON;-55.66;-55.66;Expenses;CASH;Cash;cumparaturi;2023-11-12 17:15:00;;;;0;false;kaufland;Food;1000;false
+Revolut RON;Vehicle maintenance;RON;-20.00;-20.00;Expenses;DEBIT_CARD;Debit card;Nyx*dasimaginvestsrl;2023-11-12 02:00:00;;;;0;false;spalatorie;Car & Transport;5002;false
+Revolut RON;Groceries;RON;-9.00;-9.00;Expenses;DEBIT_CARD;Debit card;J&F Junior Market Srl;2023-11-12 02:00:00;;;;0;false;J&f Junior Market Srl;Food;1000;false
+BT CC;Groceries;RON;-536.03;-536.03;Expenses;CASH;Cash;;2023-11-11 17:45:00;;;;0;false;lidl;Food;1000;false
+BT CC;Groceries;RON;-217.21;-217.21;Expenses;CASH;Cash;;2023-11-11 17:45:00;;;;0;false;kaufland;Food;1000;false
+Revolut RON;Restaurant, fast-food;RON;-72.00;-72.00;Expenses;DEBIT_CARD;Debit card;Salamora Srl;2023-11-11 02:00:00;;;;0;false;Salamora Srl;Food;1001;false
+Revolut RON;Bar, cafe;RON;-11.00;-11.00;Expenses;DEBIT_CARD;Debit card;To CLAUDIU RUS;2023-11-11 02:00:00;;;;0;false;LT793250050750670441;Fun;1002;false
+Revolut RON;Food & Drinks;RON;-30.00;-30.00;Expenses;DEBIT_CARD;Debit card;Dulceata de habanero To ALEXANDRU UNGUR;2023-11-11 02:00:00;;;;0;false;LT273250084608296143;Food;1003;false
+BT Funds RON;TRANSFER;RON;500.00;500.00;Income;DEBIT_CARD;Debit card;"Colectare automata fonduri BTAM; CV UNIT./FAZAKAS JOHANN IGNAC/1891228142611/1170810/BTR";2023-11-10 02:00:00;;;;0;true;me;Investment;20001;false
+BT Funds RON;TRANSFER;RON;500.00;500.00;Income;DEBIT_CARD;Debit card;"Colectare automata fonduri BTAM; CV UNIT./FAZAKAS JOHANN IGNAC/1891228142611/1163364/BTM";2023-11-10 02:00:00;;;;0;true;me;Investment;20001;false
+Revolut RON;Alcohol, tobacco;RON;-27.00;-27.00;Expenses;DEBIT_CARD;Debit card;J&F Junior Market Srl;2023-11-10 02:00:00;;;;0;false;J&f Junior Market Srl;Fun;6011;false
+Revolut RON;Hobbies;RON;-20.00;-20.00;Expenses;DEBIT_CARD;Debit card;To ANDREI VASILE NEGREA;2023-11-10 02:00:00;;;;0;false;LT163250097764842938;Fun;6005;false
+Revolut RON;Parking;RON;-16.00;-16.00;Expenses;DEBIT_CARD;Debit card;Serv Pub Admin Parcari;2023-11-10 02:00:00;;;;0;false;Serv Pub Admin Parcari;Car & Transport;5001;false
+Revolut RON;Restaurant, fast-food;RON;-27.99;-27.99;Expenses;DEBIT_CARD;Debit card;Yellow Media Srl-D;2023-11-10 02:00:00;;;;0;false;Yellow Media Srl-d;Food;1001;false
+BT RON;TRANSFER;RON;-500.00;-500.00;Expenses;DEBIT_CARD;Debit card;"Colectare automata fonduri BTAM; CV UNIT./FAZAKAS JOHANN IGNAC/1891228142611/1170810/BTR";2023-11-10 02:00:00;;;;0;true;me;Investment;20001;false
+BT RON;TRANSFER;RON;-500.00;-500.00;Expenses;DEBIT_CARD;Debit card;"Colectare automata fonduri BTAM; CV UNIT./FAZAKAS JOHANN IGNAC/1891228142611/1163364/BTM";2023-11-10 02:00:00;;;;0;true;me;Investment;20001;false
+ING RON;Software, apps, games;RON;-19.00;-19.00;Expenses;CASH;Cash;storage;2023-11-09 17:15:00;;;;0;false;google;Utilities;7003;false
+ING RON;Charity, gifts;RON;-570.00;-570.00;Expenses;CASH;Cash;cadou Crina Craciun;2023-11-09 17:15:00;;;;0;false;;Gifts;6010;false
+BT Philocode RON;Advisory;RON;-600.00;-600.00;Expenses;CASH;Cash;servicii contabile;2023-11-09 07:15:00;;;;0;false;gif;Work Taxes;8004;false
+BT Philocode RON;TRANSFER;RON;4918.00;4918.00;Income;CASH;Cash;schimb valutar;2023-11-09 07:15:00;;;;0;true;;;20001;false
+BT Philocode EUR;TRANSFER;RON;-4918.00;-4918.00;Expenses;CASH;Cash;schimb valutar;2023-11-09 07:15:00;;;;0;true;;;20001;false
+BT Philocode RON;TRANSFER;RON;-2079.00;-2079.00;Expenses;DEBIT_CARD;Debit card;"Incasare OP - canal electronic; salariu octombrie 2023;;;54;PHILOCODE SRL;467RONCRT0594711001;BTRLRO22";2023-11-09 02:00:00;;;;0;true;me;;20001;false
+BT RON;TRANSFER;RON;2079.00;2079.00;Income;DEBIT_CARD;Debit card;"Incasare OP - canal electronic; salariu octombrie 2023;;;54;PHILOCODE SRL;467RONCRT0594711001;BTRLRO22";2023-11-09 02:00:00;;;;0;true;me;;20001;false
+ING RON;TRANSFER;RON;631.00;631.00;Income;CASH;Cash;investitii Olivia;2023-11-08 17:15:00;;;;0;true;;;20001;false
+ING RON;Taxi;RON;-20.90;-20.90;Expenses;CASH;Cash;;2023-11-08 17:15:00;;;;0;false;bolt;Car & Transport;4001;false
+Olivia;TRANSFER;RON;-631.00;-631.00;Expenses;CASH;Cash;investitii Olivia;2023-11-08 17:15:00;;;;0;true;;;20001;false
+Revolut RON;Restaurant, fast-food;RON;-128.00;-128.00;Expenses;DEBIT_CARD;Debit card;barlog To ANDREI MIHAI FLOREA;2023-11-08 02:00:00;;;;0;false;LT793250004818082931;Fun;1001;false
+Revolut RON;Parking;RON;-16.00;-16.00;Expenses;DEBIT_CARD;Debit card;Serv Pub Admin Parcari;2023-11-08 02:00:00;;;;0;false;Serv Pub Admin Parcari;Car & Transport;5001;false
+BT Economy RON;Financial investments;RON;32.36;32.36;Income;CASH;Cash;dobanda economii;2023-11-07 17:45:00;;;;0;false;me;Invest Profit Dist;9002;false
+ING RON;Software, apps, games;RON;-59.99;-59.99;Expenses;CASH;Cash;abonament;2023-11-07 17:15:00;;;;0;false;headspace;Utilities;7003;false
+BT Philocode RON;Charges, Fees;RON;-5.00;-5.00;Expenses;CASH;Cash;comision tranzactie;2023-11-07 07:15:00;;;;0;false;bt;Work Taxes;8005;false
+BT Philocode RON;Vehicle maintenance;RON;-2500.00;-2500.00;Expenses;CASH;Cash;avans factura;2023-11-07 07:15:00;;;;0;false;autoworld;Car & Transport;5002;false
+Other;TRANSFER;RON;5000.00;5000.00;Income;DEBIT_CARD;Debit card;transfer revolut -> bt;2023-11-07 02:00:00;;;;0;true;RONCRT00T5063702;;20001;false
+Other;TRANSFER;RON;-5000.00;-5000.00;Expenses;DEBIT_CARD;Debit card;transfer Revolut -> BT;2023-11-07 02:00:00;;;;0;true;RONCRT00T5063702;;20001;false
+Revolut RON;Bar, cafe;RON;-11.00;-11.00;Expenses;DEBIT_CARD;Debit card;To CLAUDIU RUS;2023-11-07 02:00:00;;;;0;false;LT793250050750670441;Fun;1002;false
+Revolut RON;TRANSFER;RON;3985.29;3985.29;Income;DEBIT_CARD;Debit card;Exchanged to RON;2023-11-07 02:00:00;;;;0;true;;;20001;false
+Revolut RON;Fuel;RON;-50.46;-50.46;Expenses;DEBIT_CARD;Debit card;Omv 1081;2023-11-07 02:00:00;;;;0;false;Omv 1081;Car & Transport;5000;false
+Revolut RON;TRANSFER;RON;-5000.00;-5000.00;Expenses;DEBIT_CARD;Debit card;transfer revolut -> bt;2023-11-07 02:00:00;;;;0;true;RONCRT00T5063702;;20001;false
+Revolut EUR;TRANSFER;RON;-3985.29;-3985.29;Expenses;DEBIT_CARD;Debit card;Exchanged to RON;2023-11-07 02:00:00;;;;0;true;;;20001;false
+BT RON;Charges, Fees;RON;-5.00;-5.00;Expenses;DEBIT_CARD;Debit card;"Comision Incasare Instant; SENT FROM REVOLUT JOHANN IGNAC FAZAKAS;;;;REVOLUT BANK UAB;RO44BREL0005510842690100;BRELROBU";2023-11-07 02:00:00;;;;0;false;bt;Utilities;8005;false
+BT RON;TRANSFER;RON;5000.00;5000.00;Income;DEBIT_CARD;Debit card;transfer Revolut -> BT;2023-11-07 02:00:00;;;;0;true;RONCRT00T5063702;;20001;false
+Revolut RON;Drug-store, chemist;RON;-28.42;-28.42;Expenses;DEBIT_CARD;Debit card;Drm Cluj 3 C1;2023-11-06 02:00:00;;;;0;false;dr max;Health;2011;false
+Revolut RON;Drug-store, chemist;RON;-69.47;-69.47;Expenses;DEBIT_CARD;Debit card;Drm Cluj 3 C1;2023-11-06 02:00:00;;;;0;false;dr max;Health;2011;false
+Revolut RON;Drug-store, chemist;RON;-47.00;-47.00;Expenses;DEBIT_CARD;Debit card;Farmacia Napofarm;2023-11-06 02:00:00;;;;0;false;;Health;2011;false
+BT RON;Software, apps, games;RON;-2.93;-2.93;Expenses;DEBIT_CARD;Debit card;"Plata la POS non-BT cu card VISA; EPOS 03/11/2023 323670000156182 TID:99999999 AWS EMEA  aws.amazon.co LU 41401489 valoare tranzactie: 0.62 USD RRN:330710298285 comision tranzactie 0.00 RON;;";2023-11-06 02:00:00;;;;0;false;aws;Education;7003;false
+BT RON;Public transport;RON;-3.00;-3.00;Expenses;DEBIT_CARD;Debit card;"Plata la POS non-BT cu card VISA; POS 02/11/2023 3L1170010000 TID:L1170674 CTP CLUJ NAPOCA  CLUJ NAPOCA RO 41401489 valoare tranzactie: 3.00 RON RRN:330605479626 comision tranzactie 0.00 RON;;";2023-11-06 02:00:00;;;;0;false;ratuc;Car & Transport;4000;false
+Other;TRANSFER;RON;2072.50;2072.50;Income;CASH;Cash;investitii Olivia;2023-11-05 07:26:47;;;;0;true;;;20001;false
+Olivia;TRANSFER;RON;-2072.50;-2072.50;Expenses;CASH;Cash;investitii Olivia;2023-11-05 07:26:47;;;;0;true;;;20001;false
+BT Philocode RON;Vehicle maintenance;RON;-2718.16;-2718.16;Expenses;CASH;Cash;revizie + schimb ulei;2023-11-05 07:11:00;;;;0;false;audi;Car & Transport;5002;false
+BT RON;Public transport;RON;-3.00;-3.00;Expenses;DEBIT_CARD;Debit card;"Plata la POS non-BT cu card VISA; POS 30/10/2023 3L1170010000 TID:L1170266 CTP CLUJ NAPOCA  CLUJ NAPOCA RO 41401489 valoare tranzactie: 3.00 RON RRN:330311684095 comision tranzactie 0.00 RON;;";2023-11-05 02:00:00;;;;0;false;ratuc;Car & Transport;4000;false
+BT RON;Public transport;RON;-3.00;-3.00;Expenses;DEBIT_CARD;Debit card;"Plata la POS non-BT cu card VISA; POS 30/10/2023 3L1170010000 TID:L1170295 CTP CLUJ NAPOCA  CLUJ NAPOCA RO 41401489 valoare tranzactie: 3.00 RON RRN:330311473794 comision tranzactie 0.00 RON;;";2023-11-05 02:00:00;;;;0;false;ratuc;Car & Transport;4000;false
+BT RON;Software, apps, games;RON;-24.00;-24.00;Expenses;DEBIT_CARD;Debit card;"Plata la POS non-BT cu card VISA; EPOS 30/10/2023 498750000222498 TID:99999999 SpotifyRO  Stockholm SE 41401489 valoare tranzactie: 24.00 RON RRN:330321378326 comision tranzactie 0.00 RON;;";2023-11-04 02:00:02;;;;0;false;spotify;Utilities;7003;false
+BT EUR;TRANSFER;RON;-3976.00;-3976.00;Expenses;CASH;Cash;;2023-11-03 19:28:39;;;;0;true;;;20001;false
+Revolut EUR;TRANSFER;RON;3976.00;3976.00;Income;CASH;Cash;;2023-11-03 19:28:39;;;;0;true;;;20001;false
+ING RON;Software, apps, games;RON;-13.99;-13.99;Expenses;CASH;Cash;;2023-11-02 19:24:34;;;;0;false;google;Utilities;7003;false
+Cash RON;Active sport, fitness;RON;-10.00;-10.00;Expenses;CASH;Cash;coplata;2023-11-02 19:13:31;;;;0;false;spital ORL;Health;6002;false
+BT Funds RON;Financial investments;RON;202.93;202.93;Income;CASH;Cash;BT Index = 11599.90 RON;2023-11-01 19:30:00;;;;0;false;me;Invest Profit Acc;9002;false
+BT Funds EUR;Financial investments;RON;-309.88;-309.88;Expenses;CASH;Cash;BT Technology = 1764.02 EUR;2023-11-01 19:30:00;;;;0;false;me;Invest Profit Acc;9002;false
+BT Funds EUR;Financial investments;RON;-246.37;-246.37;Expenses;CASH;Cash;BT Energy = 1722.17 EUR;2023-11-01 19:30:00;;;;0;false;me;Invest Profit Acc;9002;false
+ING Funds RON;Financial investments;RON;332.99;332.99;Income;CASH;Cash;NN IRE = 9916.37 RON;2023-11-01 19:30:00;;;;0;false;me;Invest Profit Acc;9002;false
+ING RON;Taxi;RON;-40.80;-40.80;Expenses;CASH;Cash;;2023-11-01 19:25:47;;;;0;false;bolt;Car & Transport;4001;false
+BT Funds RON;Financial investments;RON;144.25;144.25;Income;CASH;Cash;BT Maxim = 11799.80 RON;2023-11-01 19:15:00;;;;0;false;me;Invest Profit Acc;9002;false
+XTB ETF EUR;Financial investments;RON;-302.73;-302.73;Expenses;CASH;Cash;73.9 IS3N * 26.952 EUR = 9899.01 RON;2023-11-01 19:15:00;;;;0;false;me;Invest Profit Acc;9002;false
+XTB ETF EUR;Financial investments;RON;-294.53;-294.53;Expenses;CASH;Cash;31.3 IMAE * 65.655 EUR = 10213.36;2023-11-01 19:15:00;;;;0;false;me;Invest Profit Acc;9002;false
+XTB ETF EUR;Financial investments;RON;-215.86;-215.86;Expenses;CASH;Cash;136 SUSW * 9.0825 EUR = 6139.04;2023-11-01 19:15:00;;;;0;false;me;Invest Profit Acc;9002;false
+XTB ETF EUR;Financial investments;RON;-339.42;-339.42;Expenses;CASH;Cash;38.3 EUNL * 75.4538 EUR = 14361.98 RON;2023-11-01 19:15:00;;;;0;false;me;Invest Profit Acc;9002;false
+XTB ETF EUR;Financial investments;RON;42.83;42.83;Income;CASH;Cash;166.3 QDVE * 20.110 EUR = 16621.14 RON;2023-11-01 19:15:00;;;;0;false;me;Invest Profit Acc;9002;false
+XTB ETF EUR;Financial investments;RON;-513.95;-513.95;Expenses;CASH;Cash;13.2 SXR8 * 417.96 EUR = 27419.85 RON;2023-11-01 19:00:00;;;;0;false;me;Invest Profit Acc;9002;false
+BT Philocode EUR;Financial investments;RON;-132.50;-132.50;Expenses;CASH;Cash;curs valutar;2023-11-01 07:17:59;;;;0;false;me;Invest Profit Dist;9002;false
+BT Philocode RON;Charges, Fees;RON;-29.00;-29.00;Expenses;CASH;Cash;comision;2023-11-01 07:10:03;;;;0;false;bt;Work Taxes;8005;false
+BT EUR;Financial investments;RON;-633.54;-633.54;Expenses;CASH;Cash;curs valutar;2023-11-01 07:03:03;;;;0;false;me;Invest Profit Dist;9002;false

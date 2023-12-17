@@ -1,4 +1,4 @@
-package ro.jf.bk.account.web
+package ro.jf.bk.account.api
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.assertj.core.api.Assertions.assertThat
@@ -14,20 +14,15 @@ import org.springframework.http.MediaType
 import org.springframework.test.context.DynamicPropertyRegistry
 import org.springframework.test.context.DynamicPropertySource
 import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
-import ro.jf.bk.account.extension.PostgresContainerExtension
+import ro.jf.bk.account.api.transfer.CreateAccountTO
+import ro.jf.bk.account.extension.*
 import ro.jf.bk.account.extension.PostgresContainerExtension.Companion.injectPostgresConnectionProps
-import ro.jf.bk.account.extension.UserMockIntegrationExtension
 import ro.jf.bk.account.extension.UserMockIntegrationExtension.Companion.injectUserIntegrationProps
-import ro.jf.bk.account.extension.givenExistingUser
-import ro.jf.bk.account.extension.givenNonExistingUser
 import ro.jf.bk.account.persistence.entity.AccountEntity
 import ro.jf.bk.account.persistence.repository.AccountEntityRepository
-import ro.jf.bk.account.web.transfer.CreateAccountTO
-import java.util.*
 import java.util.UUID.randomUUID
 
 @SpringBootTest
@@ -151,7 +146,4 @@ class AccountApiTest {
         mockMvc.perform(get("/account/v1/accounts").userIdHeader(userId))
             .andExpect(status().isUnauthorized)
     }
-
-    private fun MockHttpServletRequestBuilder.userIdHeader(userId: UUID) =
-        this.header("BK_USER_ID", userId)
 }

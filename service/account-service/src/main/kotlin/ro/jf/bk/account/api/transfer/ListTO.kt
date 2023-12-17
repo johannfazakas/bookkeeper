@@ -1,4 +1,4 @@
-package ro.jf.bk.account.web.transfer
+package ro.jf.bk.account.api.transfer
 
 data class ListTO<E>(
     val data: List<E>

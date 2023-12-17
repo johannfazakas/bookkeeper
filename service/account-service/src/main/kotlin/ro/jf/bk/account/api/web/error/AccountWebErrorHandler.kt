@@ -1,4 +1,4 @@
-package ro.jf.bk.account.web.error
+package ro.jf.bk.account.api.web.error
 
 import mu.KotlinLogging
 import org.springframework.http.HttpStatus

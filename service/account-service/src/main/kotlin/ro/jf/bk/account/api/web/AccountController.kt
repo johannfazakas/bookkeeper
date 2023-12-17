@@ -1,14 +1,14 @@
-package ro.jf.bk.account.web
+package ro.jf.bk.account.api.web
 
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 import ro.jf.bk.account.domain.service.AccountService
-import ro.jf.bk.account.web.interceptor.USER_ID_HEADER_KEY
-import ro.jf.bk.account.web.transfer.AccountTO
-import ro.jf.bk.account.web.transfer.AccountTO.Companion.toTO
-import ro.jf.bk.account.web.transfer.CreateAccountTO
-import ro.jf.bk.account.web.transfer.ListTO
-import ro.jf.bk.account.web.transfer.ListTO.Companion.toListTO
+import ro.jf.bk.account.api.web.interceptor.USER_ID_HEADER_KEY
+import ro.jf.bk.account.api.transfer.AccountTO
+import ro.jf.bk.account.api.transfer.AccountTO.Companion.toTO
+import ro.jf.bk.account.api.transfer.CreateAccountTO
+import ro.jf.bk.account.api.transfer.ListTO
+import ro.jf.bk.account.api.transfer.ListTO.Companion.toListTO
 import java.util.*
 
 @RestController

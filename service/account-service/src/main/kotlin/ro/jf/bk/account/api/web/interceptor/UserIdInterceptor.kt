@@ -1,4 +1,4 @@
-package ro.jf.bk.account.web.interceptor
+package ro.jf.bk.account.api.web.interceptor
 
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
