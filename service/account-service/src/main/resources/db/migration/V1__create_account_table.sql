@@ -1,6 +1,6 @@
-create table if not exists account
+CREATE TABLE IF NOT EXISTS account
 (
-    id uuid primary key,
-    name varchar(255) not null,
-    currency varchar(10) not null
+    id UUID PRIMARY KEY,
+    name TEXT NOT NULL,
+    currency TEXT NOT NULL
 );

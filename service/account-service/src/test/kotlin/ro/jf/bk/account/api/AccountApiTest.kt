@@ -115,7 +115,7 @@ class AccountApiTest {
 
         assertThat(account).isNotNull
         assertThat(account!!.userId).isEqualTo(userId)
-        assertThat(account!!.currency).isEqualTo(request.currency)
+        assertThat(account.currency).isEqualTo(request.currency)
     }
 
     @Test
