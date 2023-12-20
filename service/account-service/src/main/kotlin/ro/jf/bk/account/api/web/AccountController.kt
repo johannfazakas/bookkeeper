@@ -3,11 +3,7 @@ package ro.jf.bk.account.api.web
 import mu.KotlinLogging.logger
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
-import ro.jf.bk.account.api.transfer.AccountTO
-import ro.jf.bk.account.api.transfer.AccountTO.Companion.toTO
-import ro.jf.bk.account.api.transfer.CreateAccountTO
-import ro.jf.bk.account.api.transfer.ListTO
-import ro.jf.bk.account.api.transfer.ListTO.Companion.toListTO
+import ro.jf.bk.account.api.transfer.*
 import ro.jf.bk.account.api.web.interceptor.USER_ID_HEADER_KEY
 import ro.jf.bk.account.domain.service.AccountService
 import java.util.*

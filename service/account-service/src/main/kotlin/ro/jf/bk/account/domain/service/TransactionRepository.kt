@@ -6,4 +6,7 @@ import java.util.*
 
 interface TransactionRepository {
     fun save(userId: UUID, command: CreateTransactionCommand): Transaction
+    fun getById(userId: UUID, transactionId: UUID): Transaction?
+    fun listByAccountId(userId: UUID, accountId: UUID): List<Transaction>
+    fun deleteById(userId: UUID, transactionId: UUID)
 }

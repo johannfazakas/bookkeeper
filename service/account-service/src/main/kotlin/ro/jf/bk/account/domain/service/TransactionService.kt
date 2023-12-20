@@ -11,4 +11,14 @@ class TransactionService(
 ) {
     fun create(userId: UUID, command: CreateTransactionCommand): Transaction =
         transactionRepository.save(userId, command)
+
+    fun getById(userId: UUID, transactionId: UUID): Transaction? =
+        transactionRepository.getById(userId, transactionId)
+
+    fun listByAccountId(userId: UUID, accountId: UUID): List<Transaction> =
+        transactionRepository.listByAccountId(userId, accountId)
+
+    fun deleteById(userId: UUID, transactionId: UUID) {
+        transactionRepository.deleteById(userId, transactionId)
+    }
 }

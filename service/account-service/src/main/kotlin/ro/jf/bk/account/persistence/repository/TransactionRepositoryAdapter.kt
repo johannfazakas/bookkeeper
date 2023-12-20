@@ -22,6 +22,10 @@ interface TransactionEntityRepository : CrudRepository<TransactionEntity, UUID> 
         nativeQuery = true
     )
     fun findByUserIdAndAccount(userId: UUID, accountId: UUID): List<TransactionEntity>
+
+    fun findByUserIdAndId(userId: UUID, id: UUID): TransactionEntity?
+
+    fun deleteByUserIdAndId(userId: UUID, id: UUID)
 }
 
 @Component
@@ -40,4 +44,14 @@ class TransactionRepositoryAdapter(
                 description = command.description
             )
         ).toModel()
+
+    override fun getById(userId: UUID, transactionId: UUID): Transaction? =
+        transactionEntityRepository.findByUserIdAndId(userId, transactionId)?.toModel()
+
+    override fun listByAccountId(userId: UUID, accountId: UUID): List<Transaction> =
+        transactionEntityRepository.findByUserIdAndAccount(userId, accountId).map { it.toModel() }
+
+    override fun deleteById(userId: UUID, transactionId: UUID) {
+        transactionEntityRepository.deleteByUserIdAndId(userId, transactionId)
+    }
 }

@@ -2,10 +2,8 @@ package ro.jf.bk.account.api.transfer
 
 data class ListTO<E>(
     val data: List<E>
-) {
-    companion object {
-        fun <E> List<E>.toListTO(): ListTO<E> = ListTO(
-            data = this.toList()
-        )
-    }
-}
+)
+
+fun <E> List<E>.toListTO(): ListTO<E> = ListTO(
+    data = this.toList()
+)

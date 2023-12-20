@@ -13,16 +13,14 @@ data class TransactionTO(
     val to: UUID,
     val amount: BigDecimal,
     val description: String?
-) {
-    companion object {
-        fun Transaction.toTO() = TransactionTO(
-            id = this.id,
-            userId = this.userId,
-            timestamp = this.timestamp,
-            from = this.from,
-            to = this.to,
-            amount = this.amount,
-            description = this.description
-        )
-    }
-}
+)
+
+fun Transaction.toTO() = TransactionTO(
+    id = this.id,
+    userId = this.userId,
+    timestamp = this.timestamp,
+    from = this.from,
+    to = this.to,
+    amount = this.amount,
+    description = this.description
+)

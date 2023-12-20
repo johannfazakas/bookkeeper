@@ -10,13 +10,11 @@ data class AccountTO(
     val userId: UUID,
     val name: String,
     val currency: String
-) {
-    companion object {
-        fun Account.toTO(): AccountTO = AccountTO(
-            id = this.id,
-            userId = this.userId,
-            name = this.name,
-            currency = this.currency
-        )
-    }
-}
+)
+
+fun Account.toTO(): AccountTO = AccountTO(
+    id = this.id,
+    userId = this.userId,
+    name = this.name,
+    currency = this.currency
+)
