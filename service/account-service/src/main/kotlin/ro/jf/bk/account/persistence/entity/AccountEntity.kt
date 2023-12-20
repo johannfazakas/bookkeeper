@@ -1,8 +1,9 @@
 package ro.jf.bk.account.persistence.entity
 
-import java.util.*
 import jakarta.persistence.*
 import ro.jf.bk.account.domain.model.Account
+import ro.jf.bk.account.domain.model.AccountType
+import java.util.*
 
 @Entity
 @Table(name = "account")
@@ -12,6 +13,7 @@ data class AccountEntity(
     var id: UUID? = null,
     var userId: UUID,
     var name: String,
+    var type: String,
     var currency: String
 ) {
     fun toDomain(): Account {
@@ -20,6 +22,7 @@ data class AccountEntity(
             id = id!!,
             userId = userId,
             name = name,
+            type = AccountType.fromValue(type),
             currency = currency
         )
     }

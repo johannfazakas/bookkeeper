@@ -4,17 +4,18 @@ import jakarta.transaction.Transactional
 import org.springframework.data.repository.CrudRepository
 import org.springframework.stereotype.Component
 import ro.jf.bk.account.domain.model.Account
+import ro.jf.bk.account.domain.model.AccountType
 import ro.jf.bk.account.domain.model.CreateAccountCommand
 import ro.jf.bk.account.domain.service.AccountRepository
 import ro.jf.bk.account.persistence.entity.AccountEntity
 import java.util.*
 
 interface AccountEntityRepository : CrudRepository<AccountEntity, UUID> {
-    fun findByUserIdAndId(userId: UUID, accountId: UUID): AccountEntity?
-    fun findByUserId(userId: UUID): List<AccountEntity>
-    fun findByUserIdAndName(userId: UUID, name: String): AccountEntity?
+    fun findByUserIdAndTypeAndId(userId: UUID, accountType: String, accountId: UUID): AccountEntity?
+    fun findByUserIdAndType(userId: UUID, accountType: String): List<AccountEntity>
+    fun findByUserIdAndTypeAndName(userId: UUID, accountType: String, name: String): AccountEntity?
 
-    fun deleteByUserIdAndId(userId: UUID, accountId: UUID)
+    fun deleteByUserIdAndTypeAndId(userId: UUID, accountType: String, accountId: UUID)
 }
 
 @Component
@@ -22,22 +23,23 @@ interface AccountEntityRepository : CrudRepository<AccountEntity, UUID> {
 class AccountRepositoryAdapter(
     private val accountEntityRepository: AccountEntityRepository
 ) : AccountRepository {
-    override fun find(userId: UUID, accountId: UUID): Account? =
-        accountEntityRepository.findByUserIdAndId(userId, accountId)?.toDomain()
+    override fun find(userId: UUID, accountType: AccountType, accountId: UUID): Account? =
+        accountEntityRepository.findByUserIdAndTypeAndId(userId, accountType.value, accountId)?.toDomain()
 
-    override fun findAll(userId: UUID): List<Account> =
-        accountEntityRepository.findByUserId(userId).map(AccountEntity::toDomain)
+    override fun findAll(userId: UUID, accountType: AccountType): List<Account> =
+        accountEntityRepository.findByUserIdAndType(userId, accountType.value).map(AccountEntity::toDomain)
 
     override fun save(userId: UUID, command: CreateAccountCommand): Account =
         accountEntityRepository.save(
             AccountEntity(
                 userId = userId,
                 name = command.name,
+                type = command.type.value,
                 currency = command.currency
             )
         ).toDomain()
 
-    override fun delete(userId: UUID, accountId: UUID) {
-        accountEntityRepository.deleteByUserIdAndId(userId, accountId)
+    override fun delete(userId: UUID, accountType: AccountType, accountId: UUID) {
+        accountEntityRepository.deleteByUserIdAndTypeAndId(userId, accountType.value, accountId)
     }
 }

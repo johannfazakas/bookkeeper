@@ -18,6 +18,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import ro.jf.bk.account.api.transfer.CreateAccountTO
+import ro.jf.bk.account.domain.model.AccountType
 import ro.jf.bk.account.extension.*
 import ro.jf.bk.account.extension.PostgresContainerExtension.Companion.injectPostgresConnectionProps
 import ro.jf.bk.account.extension.UserMockIntegrationExtension.Companion.injectUserIntegrationProps
@@ -31,7 +32,7 @@ import java.util.UUID.randomUUID
     PostgresContainerExtension::class,
     UserMockIntegrationExtension::class
 )
-class AccountApiTest {
+class PrivateAccountApiTest {
     companion object {
         @JvmStatic
         @DynamicPropertySource
@@ -59,10 +60,12 @@ class AccountApiTest {
     fun `should get account`(mockServerClient: MockServerClient) {
         val userId = randomUUID()
         mockServerClient.givenExistingUser(userId)
-        val accountEntity = accountEntityRepository.save(AccountEntity(null, userId, "account-1", "RON"))
+        val accountEntity = accountEntityRepository.save(
+            AccountEntity(null, userId, "account-1", AccountType.PRIVATE.value, "RON")
+        )
 
         mockMvc.perform(
-            get("/account/v1/accounts/{id}", accountEntity.id)
+            get("/account/v1/private-accounts/{id}", accountEntity.id)
                 .userIdHeader(userId)
         )
             .andExpect(status().isOk)
@@ -76,12 +79,20 @@ class AccountApiTest {
     fun `should list accounts`(mockServerClient: MockServerClient) {
         val userId = randomUUID()
         mockServerClient.givenExistingUser(userId)
-        val accountEntity1 = accountEntityRepository.save(AccountEntity(null, userId, "account-1", "RON"))
-        val accountEntity2 = accountEntityRepository.save(AccountEntity(null, userId, "account-2", "EUR"))
-        accountEntityRepository.save(AccountEntity(null, randomUUID(), "account-2", "EUR"))
+        val accountEntity1 =
+            accountEntityRepository.save(
+                AccountEntity(null, userId, "account-1", AccountType.PRIVATE.value, "RON")
+            )
+        val accountEntity2 =
+            accountEntityRepository.save(
+                AccountEntity(null, userId, "account-2", AccountType.PRIVATE.value, "EUR")
+            )
+        accountEntityRepository.save(
+            AccountEntity(null, randomUUID(), "account-2", AccountType.PRIVATE.value, "EUR")
+        )
 
         mockMvc.perform(
-            get("/account/v1/accounts")
+            get("/account/v1/private-accounts")
                 .userIdHeader(userId)
         )
             .andExpect(status().isOk)
@@ -100,7 +111,7 @@ class AccountApiTest {
         val request = CreateAccountTO("account-name", "USD")
 
         mockMvc.perform(
-            post("/account/v1/accounts")
+            post("/account/v1/private-accounts")
                 .userIdHeader(userId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request))
@@ -111,7 +122,8 @@ class AccountApiTest {
             .andExpect(jsonPath("$.name").value(request.name))
             .andExpect(jsonPath("$.currency").value(request.currency))
 
-        val account = accountEntityRepository.findByUserIdAndName(userId, request.name)
+        val account = accountEntityRepository
+            .findByUserIdAndTypeAndName(userId, AccountType.PRIVATE.value, request.name)
 
         assertThat(account).isNotNull
         assertThat(account!!.userId).isEqualTo(userId)
@@ -122,10 +134,12 @@ class AccountApiTest {
     fun `should delete account`(mockServerClient: MockServerClient) {
         val userId = randomUUID()
         mockServerClient.givenExistingUser(userId)
-        val accountEntity = accountEntityRepository.save(AccountEntity(null, userId, "account-1", "RON"))
+        val accountEntity = accountEntityRepository.save(
+            AccountEntity(null, userId, "account-1", AccountType.INCOME_SOURCE.value, "RON")
+        )
 
         mockMvc.perform(
-            delete("/account/v1/accounts/{id}", accountEntity.id)
+            delete("/account/v1/private-accounts/{id}", accountEntity.id)
                 .userIdHeader(userId)
         )
             .andExpect(status().isNoContent)
@@ -135,7 +149,7 @@ class AccountApiTest {
 
     @Test
     fun `should return unauthorized when user id is not sent`() {
-        mockMvc.perform(get("/account/v1/accounts"))
+        mockMvc.perform(get("/account/v1/private-accounts"))
             .andExpect(status().isUnauthorized)
     }
 
@@ -143,7 +157,7 @@ class AccountApiTest {
     fun `should return unauthorized when not found user id id sent`(mockServerClient: MockServerClient) {
         val userId = randomUUID()
         mockServerClient.givenNonExistingUser(userId)
-        mockMvc.perform(get("/account/v1/accounts").userIdHeader(userId))
+        mockMvc.perform(get("/account/v1/private-accounts").userIdHeader(userId))
             .andExpect(status().isUnauthorized)
     }
 }

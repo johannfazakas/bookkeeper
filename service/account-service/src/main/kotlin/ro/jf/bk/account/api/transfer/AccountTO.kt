@@ -9,6 +9,7 @@ data class AccountTO(
     @JsonProperty("user_id")
     val userId: UUID,
     val name: String,
+    val type: String,
     val currency: String
 )
 
@@ -16,5 +17,6 @@ fun Account.toTO(): AccountTO = AccountTO(
     id = this.id,
     userId = this.userId,
     name = this.name,
+    type = this.type.value,
     currency = this.currency
 )

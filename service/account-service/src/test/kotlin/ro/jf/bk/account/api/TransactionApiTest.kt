@@ -1,7 +1,6 @@
 package ro.jf.bk.account.api
 
 import org.assertj.core.api.Assertions.assertThat
-import org.hamcrest.Matchers
 import org.hamcrest.Matchers.hasSize
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -16,6 +15,7 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import ro.jf.bk.account.domain.model.AccountType
 import ro.jf.bk.account.extension.PostgresContainerExtension
 import ro.jf.bk.account.extension.PostgresContainerExtension.Companion.injectPostgresConnectionProps
 import ro.jf.bk.account.extension.UserMockIntegrationExtension
@@ -59,8 +59,12 @@ class TransactionApiTest {
     fun `should create transaction`(mockServerClient: MockServerClient) {
         val userId = randomUUID()
         mockServerClient.givenExistingUser(userId)
-        val account1 = accountEntityRepository.save(AccountEntity(null, userId, "account-1", "RON"))
-        val account2 = accountEntityRepository.save(AccountEntity(null, userId, "account-2", "RON"))
+        val account1 = accountEntityRepository.save(
+            AccountEntity(null, userId, "account-1", AccountType.PRIVATE.value, "RON")
+        )
+        val account2 = accountEntityRepository.save(
+            AccountEntity(null, userId, "account-2", AccountType.PRIVATE.value, "RON")
+        )
 
         mockMvc.perform(
             MockMvcRequestBuilders.post("/account/v1/transactions")
@@ -93,8 +97,10 @@ class TransactionApiTest {
     fun `should get transaction`(mockServerClient: MockServerClient) {
         val userId = randomUUID()
         mockServerClient.givenExistingUser(userId)
-        val account1 = accountEntityRepository.save(AccountEntity(null, userId, "account-1", "RON"))
-        val account2 = accountEntityRepository.save(AccountEntity(null, userId, "account-2", "RON"))
+        val account1 =
+            accountEntityRepository.save(AccountEntity(null, userId, "account-1", AccountType.PRIVATE.value, "RON"))
+        val account2 =
+            accountEntityRepository.save(AccountEntity(null, userId, "account-2", AccountType.PRIVATE.value, "RON"))
         val transaction = transactionEntityRepository.save(
             TransactionEntity(null, userId, Instant.now(), account1.id!!, account2.id!!, BigDecimal(100.25), "test")
         )
@@ -129,9 +135,12 @@ class TransactionApiTest {
     fun `should list transactions by account`(mockServerClient: MockServerClient) {
         val userId = randomUUID()
         mockServerClient.givenExistingUser(userId)
-        val account1 = accountEntityRepository.save(AccountEntity(null, userId, "account-1", "RON"))
-        val account2 = accountEntityRepository.save(AccountEntity(null, userId, "account-2", "RON"))
-        val account3 = accountEntityRepository.save(AccountEntity(null, userId, "account-3", "RON"))
+        val account1 =
+            accountEntityRepository.save(AccountEntity(null, userId, "account-1", AccountType.PRIVATE.value, "RON"))
+        val account2 =
+            accountEntityRepository.save(AccountEntity(null, userId, "account-2", AccountType.PRIVATE.value, "RON"))
+        val account3 =
+            accountEntityRepository.save(AccountEntity(null, userId, "account-3", AccountType.PRIVATE.value, "RON"))
         val transaction1 = transactionEntityRepository.save(
             TransactionEntity(null, userId, Instant.now(), account1.id!!, account2.id!!, BigDecimal(100.25), "test")
         )
@@ -160,7 +169,8 @@ class TransactionApiTest {
     fun `should delete transaction`(mockServerClient: MockServerClient) {
         val userId = randomUUID()
         mockServerClient.givenExistingUser(userId)
-        val account1 = accountEntityRepository.save(AccountEntity(null, userId, "account-1", "RON"))
+        val account1 =
+            accountEntityRepository.save(AccountEntity(null, userId, "account-1", AccountType.PRIVATE.value, "RON"))
         val transaction1 = transactionEntityRepository.save(
             TransactionEntity(null, userId, Instant.now(), account1.id!!, account1.id!!, BigDecimal(100.25), "test")
         )

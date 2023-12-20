@@ -29,6 +29,23 @@ class AccountWebErrorHandler {
             )
     }
 
+    @ExceptionHandler(AccountNotFoundException::class)
+    fun accountNotFoundException(e: AccountNotFoundException): ResponseEntity<ProblemDetail> {
+        log.warn("Account not found.", e)
+
+        val statusCode = HttpStatus.NOT_FOUND.value()
+        return ResponseEntity
+            .status(statusCode)
+            .header("Content-Type", "application/problem+json")
+            .body(
+                ProblemDetail.forStatus(statusCode)
+                    .apply {
+                        title = AccountNotFoundException.TITLE
+                        detail = e.message
+                    }
+            )
+    }
+
     @ExceptionHandler(TransactionNotFoundException::class)
     fun transactionNotFoundException(e: TransactionNotFoundException): ResponseEntity<ProblemDetail> {
         log.warn("Transaction not found.", e)

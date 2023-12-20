@@ -4,6 +4,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.mockito.kotlin.*
 import ro.jf.bk.account.domain.model.Account
+import ro.jf.bk.account.domain.model.AccountType
 import ro.jf.bk.account.domain.model.CreateAccountCommand
 import ro.jf.bk.account.domain.service.AccountRepository
 import ro.jf.bk.account.domain.service.AccountService
@@ -18,10 +19,11 @@ class AccountServiceTest {
     fun shouldGetAccount() {
         val userId = randomUUID()
         val accountId = randomUUID()
-        val account = Account(accountId, userId, "account-name", "RON")
-        whenever(accountRepository.find(userId, accountId)).thenReturn(account)
+        val accountType = AccountType.PRIVATE
+        val account = Account(accountId, userId, "account-name", AccountType.PRIVATE, "RON")
+        whenever(accountRepository.find(userId, accountType, accountId)).thenReturn(account)
 
-        val retrievedAccount = accountService.find(userId, accountId)
+        val retrievedAccount = accountService.find(userId, accountType, accountId)
 
         assertThat(retrievedAccount).isNotNull()
         assertThat(retrievedAccount?.id).isEqualTo(accountId)
@@ -33,11 +35,12 @@ class AccountServiceTest {
     @Test
     fun shouldRetrieveAccounts() {
         val userId = randomUUID()
-        val account1 = Account(randomUUID(), userId, "account-name-1", "RON")
-        val account2 = Account(randomUUID(), userId, "account-name-2", "EUR")
-        whenever(accountRepository.findAll(userId)).thenReturn(listOf(account1, account2))
+        val accountType = AccountType.PRIVATE
+        val account1 = Account(randomUUID(), userId, "account-name-1", AccountType.PRIVATE, "RON")
+        val account2 = Account(randomUUID(), userId, "account-name-2", AccountType.PRIVATE, "EUR")
+        whenever(accountRepository.findAll(userId, accountType)).thenReturn(listOf(account1, account2))
 
-        val accounts = accountService.list(userId)
+        val accounts = accountService.list(userId, accountType)
 
         assertThat(accounts).hasSize(2)
         assertThat(accounts[0].id).isEqualTo(account1.id)
@@ -51,11 +54,12 @@ class AccountServiceTest {
     fun shouldCreateAccount() {
         val userId = randomUUID()
         val accountId = randomUUID()
-        val createCommand = CreateAccountCommand("account-name", "RON")
+        val type = AccountType.PRIVATE
+        val createCommand = CreateAccountCommand("account-name", type, "RON")
         whenever(accountRepository.save(eq(userId), any<CreateAccountCommand>()))
             .thenAnswer {
                 it.getArgument<CreateAccountCommand>(1).let { command ->
-                    Account(accountId, userId, command.name, command.currency)
+                    Account(accountId, userId, command.name, command.type, command.currency)
                 }
             }
 
@@ -71,9 +75,10 @@ class AccountServiceTest {
     fun shouldDeleteAccount() {
         val userId = randomUUID()
         val accountId = randomUUID()
+        val type = AccountType.PRIVATE
 
-        accountService.delete(userId, accountId)
+        accountService.delete(userId, type, accountId)
 
-        verify(accountRepository).delete(userId, accountId)
+        verify(accountRepository).delete(userId, type, accountId)
     }
 }
