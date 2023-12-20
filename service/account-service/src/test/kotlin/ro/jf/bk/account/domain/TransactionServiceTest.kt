@@ -1,7 +1,6 @@
 package ro.jf.bk.account.domain
 
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.mockito.kotlin.*
 import ro.jf.bk.account.domain.model.CreateTransactionCommand
@@ -45,7 +44,15 @@ class TransactionServiceTest {
     fun shouldRetrieveTransaction() {
         val userId = randomUUID()
         val transactionId = randomUUID()
-        val transaction = Transaction(transactionId, userId, Instant.now(), randomUUID(), randomUUID(), BigDecimal(12.5), "transaction-name")
+        val transaction = Transaction(
+            transactionId,
+            userId,
+            Instant.now(),
+            randomUUID(),
+            randomUUID(),
+            BigDecimal(12.5),
+            "transaction-name"
+        )
         whenever(transactionRepository.getById(userId, transactionId)).thenReturn(transaction)
 
         val retrievedTransaction = transactionService.getById(userId, transactionId)
@@ -63,9 +70,30 @@ class TransactionServiceTest {
     fun shouldRetrieveTransactionsByAccountId() {
         val userId = randomUUID()
         val accountId = randomUUID()
-        val transaction1 = Transaction(randomUUID(), userId, Instant.now(), accountId, randomUUID(), BigDecimal(12.5), "transaction-name")
-        val transaction2 = Transaction(randomUUID(), userId, Instant.now(), accountId, randomUUID(), BigDecimal(12.5), "transaction-name")
-        whenever(transactionRepository.listByAccountId(userId, accountId)).thenReturn(listOf(transaction1, transaction2))
+        val transaction1 = Transaction(
+            randomUUID(),
+            userId,
+            Instant.now(),
+            accountId,
+            randomUUID(),
+            BigDecimal(12.5),
+            "transaction-name"
+        )
+        val transaction2 = Transaction(
+            randomUUID(),
+            userId,
+            Instant.now(),
+            accountId,
+            randomUUID(),
+            BigDecimal(12.5),
+            "transaction-name"
+        )
+        whenever(transactionRepository.listByAccountId(userId, accountId)).thenReturn(
+            listOf(
+                transaction1,
+                transaction2
+            )
+        )
 
         val transactions = transactionService.listByAccountId(userId, accountId)
 
