@@ -33,7 +33,7 @@ class IncomeSourceController(
         @RequestHeader(USER_ID_HEADER_KEY) userId: UUID
     ): ListTO<AccountTO> {
         log.debug { "List income sources >> user: $userId." }
-        return accountService.list(userId, AccountType.INCOME_SOURCE).map(Account::toTO).toListTO()
+        return accountService.findByType(userId, AccountType.INCOME_SOURCE).map(Account::toTO).toListTO()
     }
 
     @GetMapping("/{accountId}")
@@ -42,7 +42,7 @@ class IncomeSourceController(
         @PathVariable("accountId") accountId: UUID
     ): AccountTO {
         log.debug { "Get income source >> user: $userId, accountId: $accountId." }
-        return accountService.find(userId, AccountType.INCOME_SOURCE, accountId)?.toTO()
+        return accountService.getById(userId, AccountType.INCOME_SOURCE, accountId)?.toTO()
             ?: throw AccountNotFoundException(userId, accountId)
     }
 

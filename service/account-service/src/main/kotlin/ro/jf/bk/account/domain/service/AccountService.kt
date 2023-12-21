@@ -10,12 +10,16 @@ import java.util.*
 class AccountService(
     private val accountRepository: AccountRepository
 ) {
-    fun find(userId: UUID, accountType: AccountType, accountId: UUID): Account? {
+    fun getById(userId: UUID, accountType: AccountType, accountId: UUID): Account? {
         return accountRepository.find(userId, accountType, accountId)
     }
 
-    fun list(userId: UUID, accountType: AccountType): List<Account> {
+    fun findByType(userId: UUID, accountType: AccountType): List<Account> {
         return accountRepository.findAllByType(userId, accountType)
+    }
+
+    fun findAll(userId: UUID): List<Account> {
+        return accountRepository.findAll(userId)
     }
 
     fun create(userId: UUID, command: CreateAccountCommand): Account {

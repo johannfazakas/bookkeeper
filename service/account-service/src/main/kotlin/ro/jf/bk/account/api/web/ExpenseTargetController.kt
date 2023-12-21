@@ -33,7 +33,7 @@ class ExpenseTargetController(
         @RequestHeader(USER_ID_HEADER_KEY) userId: UUID
     ): ListTO<AccountTO> {
         log.debug { "List expense targets >> user: $userId." }
-        return accountService.list(userId, AccountType.EXPENSE_TARGET).map(Account::toTO).toListTO()
+        return accountService.findByType(userId, AccountType.EXPENSE_TARGET).map(Account::toTO).toListTO()
     }
 
     @GetMapping("/{accountId}")
@@ -42,7 +42,7 @@ class ExpenseTargetController(
         @PathVariable("accountId") accountId: UUID
     ): AccountTO {
         log.debug { "Get expense target >> user: $userId, accountId: $accountId." }
-        return accountService.find(userId, AccountType.EXPENSE_TARGET, accountId)?.toTO()
+        return accountService.getById(userId, AccountType.EXPENSE_TARGET, accountId)?.toTO()
             ?: throw AccountNotFoundException(userId, accountId)
     }
 

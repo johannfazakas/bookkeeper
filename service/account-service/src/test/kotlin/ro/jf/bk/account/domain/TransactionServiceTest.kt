@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test
 import org.mockito.kotlin.*
 import ro.jf.bk.account.domain.model.CreateTransactionCommand
 import ro.jf.bk.account.domain.model.Transaction
+import ro.jf.bk.account.domain.service.AccountService
 import ro.jf.bk.account.domain.service.ImportTransactionReaderRegistry
 import ro.jf.bk.account.domain.service.TransactionRepository
 import ro.jf.bk.account.domain.service.TransactionService
@@ -14,8 +15,11 @@ import java.util.UUID.randomUUID
 
 class TransactionServiceTest {
     private val transactionRepository = mock<TransactionRepository>()
+    private val accountService = mock<AccountService>()
     private val importTransactionReaderRegistry = mock<ImportTransactionReaderRegistry>()
-    private val transactionService = TransactionService(transactionRepository, importTransactionReaderRegistry)
+    private val transactionService = TransactionService(
+        transactionRepository, accountService, importTransactionReaderRegistry
+    )
 
     @Test
     fun shouldCreateTransaction() {

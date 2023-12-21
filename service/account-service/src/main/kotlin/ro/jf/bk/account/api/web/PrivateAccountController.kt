@@ -22,7 +22,7 @@ class PrivateAccountController(
         @PathVariable("accountId") accountId: UUID
     ): AccountTO {
         log.debug { "Get personal account >> user: $userId, accountId: $accountId." }
-        return accountService.find(userId, AccountType.PRIVATE, accountId)?.toTO()
+        return accountService.getById(userId, AccountType.PRIVATE, accountId)?.toTO()
             ?: throw RuntimeException("Account not found")
     }
 
@@ -30,7 +30,7 @@ class PrivateAccountController(
     fun listAccounts(
         @RequestHeader(USER_ID_HEADER_KEY) userId: UUID
     ): ListTO<AccountTO> {
-        return accountService.list(userId, AccountType.PRIVATE).map { it.toTO() }.toListTO()
+        return accountService.findByType(userId, AccountType.PRIVATE).map { it.toTO() }.toListTO()
     }
 
     @PostMapping

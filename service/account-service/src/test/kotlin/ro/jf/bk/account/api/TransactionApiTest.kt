@@ -223,7 +223,6 @@ class TransactionApiTest {
             createAccount(userId, "$it account", AccountType.EXPENSE_TARGET, "RON", it)
         }
 
-
         val mockMultipartFile = ClassPathResource("mock/wallet.csv")
             .let { MockMultipartFile("file", it.filename, "text/csv", it.inputStream.readBytes()) }
         mockMvc.perform(
@@ -232,6 +231,9 @@ class TransactionApiTest {
                 .userIdHeader(userId)
         )
             .andExpect(status().isOk)
+
+        val transactions = transactionEntityRepository.findByUserId(userId)
+        assertThat(transactions).hasSize(69)
     }
 
     private fun createAccount(

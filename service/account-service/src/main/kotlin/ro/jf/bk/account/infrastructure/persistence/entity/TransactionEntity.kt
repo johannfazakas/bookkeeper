@@ -1,6 +1,7 @@
 package ro.jf.bk.account.infrastructure.persistence.entity
 
 import jakarta.persistence.*
+import ro.jf.bk.account.domain.model.CreateTransactionCommand
 import ro.jf.bk.account.domain.model.Transaction
 import java.math.BigDecimal
 import java.time.Instant
@@ -22,6 +23,18 @@ data class TransactionEntity(
     var amount: BigDecimal,
     var description: String?
 ) {
+    companion object {
+        fun fromCommand(userId: UUID, command: CreateTransactionCommand): TransactionEntity =
+            TransactionEntity(
+                userId = userId,
+                timestamp = command.timestamp,
+                from = command.from,
+                to = command.to,
+                amount = command.amount,
+                description = command.description
+            )
+    }
+
     fun toModel(): Transaction {
         if (id == null) throw IllegalStateException("Transaction Entity id is null.")
         return Transaction(

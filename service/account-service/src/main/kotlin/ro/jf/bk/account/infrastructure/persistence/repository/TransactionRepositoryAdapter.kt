@@ -23,6 +23,8 @@ interface TransactionEntityRepository : CrudRepository<TransactionEntity, UUID> 
     )
     fun findByUserIdAndAccount(userId: UUID, accountId: UUID): List<TransactionEntity>
 
+    fun findByUserId(userId: UUID): List<TransactionEntity>
+
     fun findByUserIdAndId(userId: UUID, id: UUID): TransactionEntity?
 
     fun deleteByUserIdAndId(userId: UUID, id: UUID)
@@ -34,16 +36,12 @@ class TransactionRepositoryAdapter(
     private val transactionEntityRepository: TransactionEntityRepository
 ) : TransactionRepository {
     override fun save(userId: UUID, command: CreateTransactionCommand): Transaction =
-        transactionEntityRepository.save(
-            TransactionEntity(
-                userId = userId,
-                timestamp = command.timestamp,
-                from = command.from,
-                to = command.to,
-                amount = command.amount,
-                description = command.description
-            )
-        ).toModel()
+        transactionEntityRepository.save(TransactionEntity.fromCommand(userId, command)).toModel()
+
+    override fun saveAll(userId: UUID, commands: List<CreateTransactionCommand>): List<Transaction> =
+        transactionEntityRepository
+            .saveAll(commands.map { TransactionEntity.fromCommand(userId, it) })
+            .map { it.toModel() }
 
     override fun getById(userId: UUID, transactionId: UUID): Transaction? =
         transactionEntityRepository.findByUserIdAndId(userId, transactionId)?.toModel()

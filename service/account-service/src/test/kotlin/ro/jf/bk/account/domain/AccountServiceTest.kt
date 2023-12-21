@@ -23,7 +23,7 @@ class AccountServiceTest {
         val account = Account(accountId, userId, "account-name",  AccountType.PRIVATE, "RON", "ref")
         whenever(accountRepository.find(userId, accountType, accountId)).thenReturn(account)
 
-        val retrievedAccount = accountService.find(userId, accountType, accountId)
+        val retrievedAccount = accountService.getById(userId, accountType, accountId)
 
         assertThat(retrievedAccount).isNotNull()
         assertThat(retrievedAccount?.id).isEqualTo(accountId)
@@ -40,7 +40,7 @@ class AccountServiceTest {
         val account2 = Account(randomUUID(), userId, "account-name-2", AccountType.PRIVATE, "EUR", "ref-2")
         whenever(accountRepository.findAllByType(userId, accountType)).thenReturn(listOf(account1, account2))
 
-        val accounts = accountService.list(userId, accountType)
+        val accounts = accountService.findByType(userId, accountType)
 
         assertThat(accounts).hasSize(2)
         assertThat(accounts[0].id).isEqualTo(account1.id)

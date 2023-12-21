@@ -3,6 +3,7 @@ package ro.jf.bk.account.domain.service
 import mu.KotlinLogging.logger
 import org.springframework.stereotype.Service
 import ro.jf.bk.account.domain.error.ImportException
+import ro.jf.bk.account.domain.model.Account
 import ro.jf.bk.account.domain.model.CreateTransactionCommand
 import ro.jf.bk.account.domain.model.Transaction
 import java.io.InputStream
@@ -13,6 +14,7 @@ private val log = logger { }
 @Service
 class TransactionService(
     private val transactionRepository: TransactionRepository,
+    private val accountService: AccountService,
     private val importTransactionReaderRegistry: ImportTransactionReaderRegistry,
 ) {
     fun create(userId: UUID, command: CreateTransactionCommand): Transaction =
@@ -33,5 +35,25 @@ class TransactionService(
             ?.read(inputStream)
             ?: throw ImportException("No reader found for exporter: $exporter.")
         log.info { "Importing transactions >> user: $userId, exporter: $exporter, transactions: $importTransactionCommands." }
+
+        val accountIdResolver = getAccountIdResolverByReference(userId)
+        val createTransactionCommands = importTransactionCommands
+            .map {
+                CreateTransactionCommand(
+                    timestamp = it.timestamp,
+                    from = accountIdResolver(it.fromAccountReference),
+                    to = accountIdResolver(it.toAccountReference),
+                    amount = it.amount,
+                    description = it.description
+                )
+            }
+        transactionRepository.saveAll(userId, createTransactionCommands)
+    }
+
+    private fun getAccountIdResolverByReference(userId: UUID): (String) -> UUID {
+        val accountsByReference = accountService
+            .findAll(userId)
+            .associateBy(Account::externalReference, Account::id)
+        return { accountsByReference[it] ?: throw ImportException("No account found for reference: $it.") }
     }
 }
