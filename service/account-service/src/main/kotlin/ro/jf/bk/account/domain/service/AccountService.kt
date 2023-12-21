@@ -15,7 +15,7 @@ class AccountService(
     }
 
     fun list(userId: UUID, accountType: AccountType): List<Account> {
-        return accountRepository.findAll(userId, accountType)
+        return accountRepository.findAllByType(userId, accountType)
     }
 
     fun create(userId: UUID, command: CreateAccountCommand): Account {

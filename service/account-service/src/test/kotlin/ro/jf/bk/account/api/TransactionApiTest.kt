@@ -2,6 +2,7 @@ package ro.jf.bk.account.api
 
 import org.assertj.core.api.Assertions.assertThat
 import org.hamcrest.Matchers.hasSize
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockserver.client.MockServerClient
@@ -31,6 +32,7 @@ import ro.jf.bk.account.infrastructure.persistence.repository.AccountEntityRepos
 import ro.jf.bk.account.infrastructure.persistence.repository.TransactionEntityRepository
 import java.math.BigDecimal
 import java.time.Instant
+import java.util.*
 import java.util.UUID.randomUUID
 
 @SpringBootTest
@@ -58,15 +60,21 @@ class TransactionApiTest {
     @Autowired
     private lateinit var transactionEntityRepository: TransactionEntityRepository
 
+    @BeforeEach
+    fun setUp() {
+        transactionEntityRepository.deleteAll()
+        accountEntityRepository.deleteAll()
+    }
+
     @Test
     fun `should create transaction`(mockServerClient: MockServerClient) {
         val userId = randomUUID()
         mockServerClient.givenExistingUser(userId)
         val account1 = accountEntityRepository.save(
-            AccountEntity(null, userId, "account-1", AccountType.PRIVATE.value, "RON")
+            AccountEntity(null, userId, "account-1", AccountType.PRIVATE.value, "RON", "ref-1")
         )
         val account2 = accountEntityRepository.save(
-            AccountEntity(null, userId, "account-2", AccountType.PRIVATE.value, "RON")
+            AccountEntity(null, userId, "account-2", AccountType.PRIVATE.value, "RON", "ref-2")
         )
 
         mockMvc.perform(
@@ -101,9 +109,27 @@ class TransactionApiTest {
         val userId = randomUUID()
         mockServerClient.givenExistingUser(userId)
         val account1 =
-            accountEntityRepository.save(AccountEntity(null, userId, "account-1", AccountType.PRIVATE.value, "RON"))
+            accountEntityRepository.save(
+                AccountEntity(
+                    null,
+                    userId,
+                    "account-1",
+                    AccountType.PRIVATE.value,
+                    "RON",
+                    "ref-1"
+                )
+            )
         val account2 =
-            accountEntityRepository.save(AccountEntity(null, userId, "account-2", AccountType.PRIVATE.value, "RON"))
+            accountEntityRepository.save(
+                AccountEntity(
+                    null,
+                    userId,
+                    "account-2",
+                    AccountType.PRIVATE.value,
+                    "RON",
+                    "ref-2"
+                )
+            )
         val transaction = transactionEntityRepository.save(
             TransactionEntity(null, userId, Instant.now(), account1.id!!, account2.id!!, BigDecimal(100.25), "test")
         )
@@ -138,27 +164,24 @@ class TransactionApiTest {
     fun `should list transactions by account`(mockServerClient: MockServerClient) {
         val userId = randomUUID()
         mockServerClient.givenExistingUser(userId)
-        val account1 =
-            accountEntityRepository.save(AccountEntity(null, userId, "account-1", AccountType.PRIVATE.value, "RON"))
-        val account2 =
-            accountEntityRepository.save(AccountEntity(null, userId, "account-2", AccountType.PRIVATE.value, "RON"))
-        val account3 =
-            accountEntityRepository.save(AccountEntity(null, userId, "account-3", AccountType.PRIVATE.value, "RON"))
+        val account1Id = createAccount(userId, "account-1", AccountType.PRIVATE, "RON")
+        val account2Id = createAccount(userId, "account-2", AccountType.PRIVATE, "RON")
+        val account3Id = createAccount(userId, "account-3", AccountType.PRIVATE, "RON")
         val transaction1 = transactionEntityRepository.save(
-            TransactionEntity(null, userId, Instant.now(), account1.id!!, account2.id!!, BigDecimal(100.25), "test")
+            TransactionEntity(null, userId, Instant.now(), account1Id, account2Id, BigDecimal(100.25), "test")
         )
         val transaction2 = transactionEntityRepository.save(
-            TransactionEntity(null, userId, Instant.now(), account2.id!!, account1.id!!, BigDecimal(100.25), "test")
+            TransactionEntity(null, userId, Instant.now(), account2Id, account1Id, BigDecimal(100.25), "test")
         )
         val transaction3 = transactionEntityRepository.save(
-            TransactionEntity(null, userId, Instant.now(), account3.id!!, account2.id!!, BigDecimal(100.25), "test")
+            TransactionEntity(null, userId, Instant.now(), account1Id, account2Id, BigDecimal(100.25), "test")
         )
         val transaction4 = transactionEntityRepository.save(
-            TransactionEntity(null, userId, Instant.now(), account3.id!!, account1.id!!, BigDecimal(100.25), "test")
+            TransactionEntity(null, userId, Instant.now(), account3Id, account1Id, BigDecimal(100.25), "test")
         )
 
         mockMvc.perform(
-            MockMvcRequestBuilders.get("/account/v1/transactions?accountId=${account2.id}")
+            MockMvcRequestBuilders.get("/account/v1/transactions?accountId=${account2Id}")
                 .userIdHeader(userId)
         )
             .andExpect(status().isOk)
@@ -172,10 +195,9 @@ class TransactionApiTest {
     fun `should delete transaction`(mockServerClient: MockServerClient) {
         val userId = randomUUID()
         mockServerClient.givenExistingUser(userId)
-        val account1 =
-            accountEntityRepository.save(AccountEntity(null, userId, "account-1", AccountType.PRIVATE.value, "RON"))
+        val accountId = createAccount(userId, "account-1", AccountType.PRIVATE, "RON")
         val transaction1 = transactionEntityRepository.save(
-            TransactionEntity(null, userId, Instant.now(), account1.id!!, account1.id!!, BigDecimal(100.25), "test")
+            TransactionEntity(null, userId, Instant.now(), accountId, accountId, BigDecimal(100.25), "test")
         )
 
         mockMvc.perform(
@@ -191,6 +213,16 @@ class TransactionApiTest {
     fun `should import wallet csv transactions`(mockServerClient: MockServerClient) {
         val userId = randomUUID()
         mockServerClient.givenExistingUser(userId)
+        listOf("Cash", "Revolut", "BT", "Other").forEach {
+            createAccount(userId, "$it account", AccountType.PRIVATE, "RON", it)
+        }
+        listOf("Work Income").forEach {
+            createAccount(userId, "$it account", AccountType.INCOME_SOURCE, "RON", it)
+        }
+        listOf("Food", "Home", "Gifts", "Education", "Car & Transport", "Shopping").forEach {
+            createAccount(userId, "$it account", AccountType.EXPENSE_TARGET, "RON", it)
+        }
+
 
         val mockMultipartFile = ClassPathResource("mock/wallet.csv")
             .let { MockMultipartFile("file", it.filename, "text/csv", it.inputStream.readBytes()) }
@@ -201,4 +233,9 @@ class TransactionApiTest {
         )
             .andExpect(status().isOk)
     }
+
+    private fun createAccount(
+        userId: UUID, name: String, type: AccountType, currency: String, externalReference: String? = null
+    ): UUID =
+        accountEntityRepository.save(AccountEntity(null, userId, name, type.value, currency, externalReference)).id!!
 }

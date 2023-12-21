@@ -7,7 +7,8 @@ import java.util.*
 
 interface AccountRepository {
     fun find(userId: UUID, accountType: AccountType, accountId: UUID): Account?
-    fun findAll(userId: UUID, accountType: AccountType): List<Account>
+    fun findAllByType(userId: UUID, accountType: AccountType): List<Account>
+    fun findAll(userId: UUID): List<Account>
     fun save(userId: UUID, command: CreateAccountCommand): Account
     fun delete(userId: UUID, accountType: AccountType, accountId: UUID)
 }

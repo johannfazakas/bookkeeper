@@ -5,11 +5,13 @@ import ro.jf.bk.account.domain.model.CreateAccountCommand
 
 data class CreateAccountTO(
     val name: String,
-    val currency: String
+    val currency: String,
+    val externalReference: String?
 ) {
     fun toCommand(accountType: AccountType) = CreateAccountCommand(
         name = name,
         type = accountType,
-        currency = currency
+        currency = currency,
+        externalReference = externalReference
     )
 }

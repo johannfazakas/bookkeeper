@@ -13,8 +13,8 @@ import java.util.*
 interface AccountEntityRepository : CrudRepository<AccountEntity, UUID> {
     fun findByUserIdAndTypeAndId(userId: UUID, accountType: String, accountId: UUID): AccountEntity?
     fun findByUserIdAndType(userId: UUID, accountType: String): List<AccountEntity>
+    fun findByUserId(userId: UUID): List<AccountEntity>
     fun findByUserIdAndTypeAndName(userId: UUID, accountType: String, name: String): AccountEntity?
-
     fun deleteByUserIdAndTypeAndId(userId: UUID, accountType: String, accountId: UUID)
 }
 
@@ -26,14 +26,18 @@ class AccountRepositoryAdapter(
     override fun find(userId: UUID, accountType: AccountType, accountId: UUID): Account? =
         accountEntityRepository.findByUserIdAndTypeAndId(userId, accountType.value, accountId)?.toDomain()
 
-    override fun findAll(userId: UUID, accountType: AccountType): List<Account> =
+    override fun findAllByType(userId: UUID, accountType: AccountType): List<Account> =
         accountEntityRepository.findByUserIdAndType(userId, accountType.value).map(AccountEntity::toDomain)
+
+    override fun findAll(userId: UUID): List<Account> =
+        accountEntityRepository.findByUserId(userId).map(AccountEntity::toDomain)
 
     override fun save(userId: UUID, command: CreateAccountCommand): Account =
         accountEntityRepository.save(
             AccountEntity(
                 userId = userId,
                 name = command.name,
+                externalReference = command.externalReference,
                 type = command.type.value,
                 currency = command.currency
             )

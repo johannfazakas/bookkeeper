@@ -14,7 +14,8 @@ data class AccountEntity(
     var userId: UUID,
     var name: String,
     var type: String,
-    var currency: String
+    var currency: String,
+    var externalReference: String?,
 ) {
     fun toDomain(): Account {
         if (id == null) throw IllegalStateException("Account Entity id is null.")
@@ -23,7 +24,8 @@ data class AccountEntity(
             userId = userId,
             name = name,
             type = AccountType.fromValue(type),
-            currency = currency
+            currency = currency,
+            externalReference = externalReference
         )
     }
 }

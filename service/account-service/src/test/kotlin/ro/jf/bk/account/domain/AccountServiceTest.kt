@@ -20,7 +20,7 @@ class AccountServiceTest {
         val userId = randomUUID()
         val accountId = randomUUID()
         val accountType = AccountType.PRIVATE
-        val account = Account(accountId, userId, "account-name", AccountType.PRIVATE, "RON")
+        val account = Account(accountId, userId, "account-name",  AccountType.PRIVATE, "RON", "ref")
         whenever(accountRepository.find(userId, accountType, accountId)).thenReturn(account)
 
         val retrievedAccount = accountService.find(userId, accountType, accountId)
@@ -36,9 +36,9 @@ class AccountServiceTest {
     fun shouldRetrieveAccounts() {
         val userId = randomUUID()
         val accountType = AccountType.PRIVATE
-        val account1 = Account(randomUUID(), userId, "account-name-1", AccountType.PRIVATE, "RON")
-        val account2 = Account(randomUUID(), userId, "account-name-2", AccountType.PRIVATE, "EUR")
-        whenever(accountRepository.findAll(userId, accountType)).thenReturn(listOf(account1, account2))
+        val account1 = Account(randomUUID(), userId, "account-name-1", AccountType.PRIVATE, "RON", "ref-1")
+        val account2 = Account(randomUUID(), userId, "account-name-2", AccountType.PRIVATE, "EUR", "ref-2")
+        whenever(accountRepository.findAllByType(userId, accountType)).thenReturn(listOf(account1, account2))
 
         val accounts = accountService.list(userId, accountType)
 
@@ -55,11 +55,11 @@ class AccountServiceTest {
         val userId = randomUUID()
         val accountId = randomUUID()
         val type = AccountType.PRIVATE
-        val createCommand = CreateAccountCommand("account-name", type, "RON")
+        val createCommand = CreateAccountCommand("account-name", type, "RON", "ref")
         whenever(accountRepository.save(eq(userId), any<CreateAccountCommand>()))
             .thenAnswer {
                 it.getArgument<CreateAccountCommand>(1).let { command ->
-                    Account(accountId, userId, command.name, command.type, command.currency)
+                    Account(accountId, userId, command.name, command.type, command.currency, command.externalReference)
                 }
             }
 

@@ -63,7 +63,7 @@ class ExpenseTargetApiTest {
         val userId = UUID.randomUUID()
         mockServerClient.givenExistingUser(userId)
         val accountEntity = accountEntityRepository.save(
-            AccountEntity(null, userId, "income-1", AccountType.EXPENSE_TARGET.value, "RON")
+            AccountEntity(null, userId, "income-1", AccountType.EXPENSE_TARGET.value, "RON", "ref")
         )
 
         mockMvc.perform(
@@ -82,16 +82,16 @@ class ExpenseTargetApiTest {
         val userId = UUID.randomUUID()
         mockServerClient.givenExistingUser(userId)
         val incomeSource1 = accountEntityRepository.save(
-            AccountEntity(null, userId, "account-1", AccountType.EXPENSE_TARGET.value, "RON")
+            AccountEntity(null, userId, "account-1", AccountType.EXPENSE_TARGET.value, "RON", "ref-1")
         )
         val incomeSource2 = accountEntityRepository.save(
-            AccountEntity(null, userId, "account-2", AccountType.EXPENSE_TARGET.value, "EUR")
+            AccountEntity(null, userId, "account-2", AccountType.EXPENSE_TARGET.value, "EUR", "ref-2")
         )
         accountEntityRepository.save(
-            AccountEntity(null, UUID.randomUUID(), "account-3", AccountType.EXPENSE_TARGET.value, "EUR")
+            AccountEntity(null, UUID.randomUUID(), "account-3",  AccountType.EXPENSE_TARGET.value, "EUR", "ref-3")
         )
         accountEntityRepository.save(
-            AccountEntity(null, userId, "account-4", AccountType.PRIVATE.value, "EUR")
+            AccountEntity(null, userId, "account-4", AccountType.PRIVATE.value, "EUR", "ref-4")
         )
 
         mockMvc.perform(
@@ -111,7 +111,7 @@ class ExpenseTargetApiTest {
     fun `should create expense target`(mockServerClient: MockServerClient) {
         val userId = UUID.randomUUID()
         mockServerClient.givenExistingUser(userId)
-        val request = CreateAccountTO("salary", "USD")
+        val request = CreateAccountTO("salary", "USD", "reference")
 
         mockMvc.perform(
             MockMvcRequestBuilders.post("/account/v1/expense-targets")
@@ -138,7 +138,7 @@ class ExpenseTargetApiTest {
         val userId = UUID.randomUUID()
         mockServerClient.givenExistingUser(userId)
         val incomeSource = accountEntityRepository.save(
-            AccountEntity(null, userId, "account-1", AccountType.EXPENSE_TARGET.value, "RON")
+            AccountEntity(null, userId, "account-1", AccountType.EXPENSE_TARGET.value, "RON", "ref-1")
         )
 
         mockMvc.perform(

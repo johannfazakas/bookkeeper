@@ -61,7 +61,7 @@ class PrivateAccountApiTest {
         val userId = randomUUID()
         mockServerClient.givenExistingUser(userId)
         val accountEntity = accountEntityRepository.save(
-            AccountEntity(null, userId, "account-1", AccountType.PRIVATE.value, "RON")
+            AccountEntity(null, userId, "account-1", AccountType.PRIVATE.value, "RON", "ref-1")
         )
 
         mockMvc.perform(
@@ -81,14 +81,14 @@ class PrivateAccountApiTest {
         mockServerClient.givenExistingUser(userId)
         val accountEntity1 =
             accountEntityRepository.save(
-                AccountEntity(null, userId, "account-1", AccountType.PRIVATE.value, "RON")
+                AccountEntity(null, userId, "account-1", AccountType.PRIVATE.value, "RON", "ref-1")
             )
         val accountEntity2 =
             accountEntityRepository.save(
-                AccountEntity(null, userId, "account-2", AccountType.PRIVATE.value, "EUR")
+                AccountEntity(null, userId, "account-2", AccountType.PRIVATE.value, "EUR", "ref-2")
             )
         accountEntityRepository.save(
-            AccountEntity(null, randomUUID(), "account-2", AccountType.PRIVATE.value, "EUR")
+            AccountEntity(null, randomUUID(), "account-2", AccountType.PRIVATE.value, "EUR", "ref-2")
         )
 
         mockMvc.perform(
@@ -108,7 +108,7 @@ class PrivateAccountApiTest {
     fun `should create account`(mockServerClient: MockServerClient) {
         val userId = randomUUID()
         mockServerClient.givenExistingUser(userId)
-        val request = CreateAccountTO("account-name", "USD")
+        val request = CreateAccountTO("account-name", "USD", "ref-1")
 
         mockMvc.perform(
             post("/account/v1/private-accounts")
@@ -135,7 +135,7 @@ class PrivateAccountApiTest {
         val userId = randomUUID()
         mockServerClient.givenExistingUser(userId)
         val accountEntity = accountEntityRepository.save(
-            AccountEntity(null, userId, "account-1", AccountType.INCOME_SOURCE.value, "RON")
+            AccountEntity(null, userId, "account-1", AccountType.INCOME_SOURCE.value, "RON", "ref-1")
         )
 
         mockMvc.perform(

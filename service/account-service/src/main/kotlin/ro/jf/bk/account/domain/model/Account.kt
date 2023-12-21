@@ -7,5 +7,6 @@ data class Account(
     val userId: UUID,
     val name: String,
     val type: AccountType,
-    val currency: String
+    val currency: String,
+    val externalReference: String?
 )
