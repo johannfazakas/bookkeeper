@@ -3,6 +3,7 @@ package ro.jf.bk.account.api.web
 import mu.KotlinLogging.logger
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
+import org.springframework.web.multipart.MultipartFile
 import ro.jf.bk.account.api.transfer.*
 import ro.jf.bk.account.api.web.error.TransactionNotFoundException
 import ro.jf.bk.account.api.web.interceptor.USER_ID_HEADER_KEY
@@ -53,5 +54,17 @@ TransactionController(
     ) {
         log.info { "Delete transaction >> user: $userId, transactionId: $transactionId." }
         transactionService.deleteById(userId, transactionId)
+    }
+
+    @PutMapping("/import/{exporter}")
+    @ResponseStatus(HttpStatus.OK)
+    fun importTransactions(
+        @RequestHeader(USER_ID_HEADER_KEY) userId: UUID,
+        @PathVariable("exporter") exporter: String,
+        @RequestParam("file") file: MultipartFile
+    ): ImportResultTO {
+        log.info { "Importing transactions for user $userId from CSV file." }
+        transactionService.import(userId, exporter, file.inputStream)
+        return ImportResultTO(0, 0)
     }
 }

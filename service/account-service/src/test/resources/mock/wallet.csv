@@ -1,0 +1,80 @@
+account;category;currency;amount;ref_currency_amount;type;payment_type;payment_type_local;note;date;gps_latitude;gps_longitude;gps_accuracy_in_meters;warranty_in_month;transfer;payee;labels;envelope_id;custom_category
+Other;TRANSFER;RON;900.00;900.00;Income;CASH;Cash;Crina;2021-01-31 19:58:26;;;;0;true;;;20001;false
+Cash RON;TRANSFER;RON;-900.00;-900.00;Expenses;CASH;Cash;Crina;2021-01-31 19:58:26;;;;0;true;;;20001;false
+Revolut;Bar, cafe;RON;-100.00;-100.00;Expenses;CASH;Cash;;2021-01-31 19:55:42;;;;0;false;;Food;1002;false
+Revolut;TRANSFER;RON;100.00;100.00;Income;CASH;Cash;;2021-01-31 19:55:13;;;;0;true;;;20001;false
+Cash RON;TRANSFER;RON;-100.00;-100.00;Expenses;CASH;Cash;;2021-01-31 19:55:13;;;;0;true;;;20001;false
+Revolut;Bar, cafe;RON;-21.00;-21.00;Expenses;CASH;Cash;;2021-01-31 19:53:54;;;;0;false;;Food;1002;false
+Revolut;Groceries;RON;-52.00;-52.00;Expenses;CASH;Cash;;2021-01-31 19:53:18;;;;0;false;;Food;1000;false
+Revolut;Home, garden;RON;-101.03;-101.03;Expenses;CASH;Cash;;2021-01-31 19:52:54;;;;0;false;;Home;2004;false
+Revolut;TRANSFER;RON;-180.00;-180.00;Expenses;CASH;Cash;;2021-01-31 19:52:23;;;;0;true;;;20001;false
+Other;TRANSFER;RON;180.00;180.00;Income;CASH;Cash;;2021-01-31 19:52:23;;;;0;true;;;20001;false
+BT RON;Software, apps, games;RON;-5.00;-5.00;Expenses;DEBIT_CARD;Debit card;Abonament BT 24;2021-01-31 02:00:55;;;;0;false;;Food;7003;false
+BT RON;Charity, gifts;RON;-20.00;-20.00;Expenses;DEBIT_CARD;Debit card;"Plata OP intra - canal electronic;Fazakas Johann / CJ00666 / octombrie - ianuarie;3;USR Cluj;RO19BTRLRONCRT047877791A;BTRLRO22";2021-01-31 02:00:44;;;;0;false;;Gifts;6010;false
+Cash RON;TRANSFER;RON;500.00;500.00;Income;DEBIT_CARD;Debit card;"Retragere de numerar de la ATM BT;ATM 30/01/2021 TID A0013080 ATM CLUJ Bd. Muncii 1-15 / Galeria Comer Cluj-Napoca ROM 41401489 RRN: 005143850098;";2021-01-30 02:00:00;;;;0;true;;;20001;false
+BT RON;TRANSFER;RON;-500.00;-500.00;Expenses;DEBIT_CARD;Debit card;"Retragere de numerar de la ATM BT;ATM 30/01/2021 TID A0013080 ATM CLUJ Bd. Muncii 1-15 / Galeria Comer Cluj-Napoca ROM 41401489 RRN: 005143850098;";2021-01-30 02:00:00;;;;0;true;;;20001;false
+Cash RON;Housing;RON;-7100.00;-7100.00;Expenses;CASH;Cash;mobila bucatarie;2021-01-29 19:56:39;;;;0;false;;Home;3005;false
+BT RON;Restaurant, fast-food;RON;-41.00;-41.00;Expenses;DEBIT_CARD;Debit card;"Plata la POS non-BT cu card VISA;POS 25/01/2021 44283000282 TID:16062663 SEASON ARENA S.R.L. Turda RO 41401489 valoare tranzactie: 41.00 RON RRN:102510915857 comision tranzactie 0.00 RON;";2021-01-27 02:00:20;;;;0;false;;Food;1001;false
+BT RON;Groceries;RON;-13.51;-13.51;Expenses;DEBIT_CARD;Debit card;"Plata la POS;POS 24/01/2021 TID D1301HPR JF JUNIOR MARKET SRL PRINCIPALA PLAIESTI ROM 41401489 RRN: 005117266627;";2021-01-24 02:00:30;;;;0;false;;Food;1000;false
+BT RON;Groceries;RON;-260.13;-260.13;Expenses;DEBIT_CARD;Debit card;"Plata la POS;POS 24/01/2021 TID LD216002 LIDL 216 STR ALEXANDRU VAIDA VOIEVOD,NR. CLUJ NAPOCA ROM 41401489 RRN: 005118474405;";2021-01-24 02:00:14;;;;0;false;;Food;1000;false
+BT RON;Software, apps, games;RON;-9.99;-9.99;Expenses;DEBIT_CARD;Debit card;"Plata la POS non-BT cu card VISA;EPOS 21/01/2021 18997035 TID:WPGTID01 GOOGLEGOOGLE STORAGE G.CO/HELPPAY# GB 41401489 valoare tranzactie: 9.99 RON RRN:102119627331 comision tranzactie 0.00 RON;";2021-01-24 02:00:08;;;;0;false;;Food;7003;false
+BT RON;Groceries;RON;-22.00;-22.00;Expenses;DEBIT_CARD;Debit card;"Plata la POS;POS 23/01/2021 TID J1302IPR TAGLIO ROMANA S.R.L. LOMBULUI CLUJ-NAPOCA ROM 41401489 RRN: 005115573827;";2021-01-23 02:00:56;;;;0;false;;Food;1000;false
+BT RON;Groceries;RON;-8.00;-8.00;Expenses;DEBIT_CARD;Debit card;"Plata la POS;POS 23/01/2021 TID J1302IPR TAGLIO ROMANA S.R.L. LOMBULUI CLUJ-NAPOCA ROM 41401489 RRN: 005115593573;";2021-01-23 02:00:48;;;;0;false;;Food;1000;false
+BT RON;Software, apps, games;RON;-19.00;-19.00;Expenses;DEBIT_CARD;Debit card;"Plata la POS non-BT cu card VISA;EPOS 20/01/2021 249141000020254 TID:99999999 GOOGLE Google Play Ap g.co/helppay# GB 41401489 valoare tranzactie: 19.00 RON RRN:102071685897 comision tranzactie 0.00 RON;";2021-01-23 02:00:45;;;;0;false;;Food;7003;false
+BT RON;Groceries;RON;-23.55;-23.55;Expenses;DEBIT_CARD;Debit card;"Plata la POS non-BT cu card VISA;POS 19/01/2021 3F3230340000 TID:F3233404 0037 CASA RAPIDA CLUJ-NAPOCA RO 41401489 valoare tranzactie: 23.55 RON RRN:101917357368 comision tranzactie 0.00 RON;";2021-01-23 02:00:00;;;;0;false;;Food;1000;false
+BT RON;Restaurant, fast-food;RON;-17.00;-17.00;Expenses;DEBIT_CARD;Debit card;"Plata la POS;POS 22/01/2021 TID 96600APR YELLOW MEDIA SRL-D LUNETEI CLUJ-NAPOCA ROM 41401489 RRN: 005109359433;";2021-01-22 02:00:39;;;;0;false;;Food;1001;false
+Cash RON;TRANSFER;RON;2500.00;2500.00;Income;DEBIT_CARD;Debit card;"Retragere de numerar de la ATM BT;ATM 22/01/2021 TID A0013080 ATM CLUJ Bd. Muncii 1-15 / Galeria Comer Cluj-Napoca ROM 41401489 RRN: 005109306865;";2021-01-22 02:00:00;;;;0;true;;;20001;false
+BT RON;TRANSFER;RON;-2500.00;-2500.00;Expenses;DEBIT_CARD;Debit card;"Retragere de numerar de la ATM BT;ATM 22/01/2021 TID A0013080 ATM CLUJ Bd. Muncii 1-15 / Galeria Comer Cluj-Napoca ROM 41401489 RRN: 005109306865;";2021-01-22 02:00:00;;;;0;true;;;20001;false
+BT RON;Culture, sport events;RON;-52.20;-52.20;Expenses;DEBIT_CARD;Debit card;"Plata la POS non-BT cu card VISA;POS 17/01/2021 000000010626398 TID:00000679 CARTURESTI CLUJ CLUJ NAPOCA RO 41401489 valoare tranzactie: 52.20 RON RRN:101716042977 comision tranzactie 0.00 RON;";2021-01-20 02:00:29;;;;0;false;;Food;6003;false
+BT RON;Bar, cafe;RON;-81.25;-81.25;Expenses;DEBIT_CARD;Debit card;"Plata la POS non-BT cu card VISA;POS 17/01/2021 30165770 TID:30165771 GREEN BELLINI CLUJ NAPOCA RO 41401489 valoare tranzactie: 81.25 RON RRN:101715541815 comision tranzactie 0.00 RON;";2021-01-19 02:00:18;;;;0;false;;Food;1002;false
+Cash RON;TRANSFER;RON;5000.00;5000.00;Income;DEBIT_CARD;Debit card;"Retragere de numerar de la ATM BT;ATM 19/01/2021 TID A0013080 ATM CLUJ Bd. Muncii 1-15 / Galeria Comer Cluj-Napoca ROM 41401489 RRN: 005097289474;";2021-01-19 02:00:00;;;;0;true;;;20001;false
+BT RON;TRANSFER;RON;-5000.00;-5000.00;Expenses;DEBIT_CARD;Debit card;"Retragere de numerar de la ATM BT;ATM 19/01/2021 TID A0013080 ATM CLUJ Bd. Muncii 1-15 / Galeria Comer Cluj-Napoca ROM 41401489 RRN: 005097289474;";2021-01-19 02:00:00;;;;0;true;;;20001;false
+BT RON;Bar, cafe;RON;-3.00;-3.00;Expenses;DEBIT_CARD;Debit card;"Plata la POS;POS 17/01/2021 TID 0240ADPR ATTRIUS DEVELOPMENTS PALAS IASI ROM 41401489 RRN: 005087879950;";2021-01-17 02:00:53;;;;0;false;;Food;1002;false
+BT RON;Restaurant, fast-food;RON;-49.80;-49.80;Expenses;DEBIT_CARD;Debit card;"Plata la POS;POS 17/01/2021 TID 31300KPR NOODLE PACK TARGULUI HUEDIN ROM 41401489 RRN: 005087862444;";2021-01-17 02:00:48;;;;0;false;;Food;1001;false
+BT RON;Health care, doctor;RON;-52.90;-52.90;Expenses;DEBIT_CARD;Debit card;"Plata la POS;POS 17/01/2021 TID 13ALP000 ELMAFARM SRL VICTOR BABES CLUJ NAPOCA ROM 41401489 RRN: 005087828374;";2021-01-17 02:00:07;;;;0;false;;Food;6000;false
+BT RON;Health care, doctor;RON;-24.00;-24.00;Expenses;DEBIT_CARD;Debit card;"Plata la POS;POS 17/01/2021 TID 13680000 VIAFARM SRL - RON PIATA MIHAI VITEAZU nr. FN, 400 CJ ROM 41401489 RRN: 005086400814;";2021-01-17 02:00:02;;;;0;false;;Food;6000;false
+BT RON;Restaurant, fast-food;RON;-17.00;-17.00;Expenses;DEBIT_CARD;Debit card;"Plata la POS;POS 16/01/2021 TID 96600APR YELLOW MEDIA SRL-D LUNETEI CLUJ-NAPOCA ROM 41401489 RRN: 005084878041;";2021-01-16 02:00:42;;;;0;false;;Food;1001;false
+Cash RON;Health care, doctor;RON;-969.00;-969.00;Expenses;CASH;Cash;;2021-01-15 19:59:26;;;;0;false;;Food;6000;false
+Cash RON;TRANSFER;RON;1000.00;1000.00;Income;TRANSFER;Bank transfer;;2021-01-15 02:00:34;;;;0;true;;;20001;false
+BT RON;TRANSFER;RON;-1000.00;-1000.00;Expenses;TRANSFER;Bank transfer;;2021-01-15 02:00:34;;;;0;true;;;20001;false
+BT RON;Charges, Fees;RON;-444.19;-444.19;Expenses;TRANSFER;Bank transfer;"Dobanda credit;066RIA0200910001;Credit Imobiliar";2021-01-15 02:00:30;;;;0;false;;Home;8005;false
+BT RON;Insurances;RON;-33.42;-33.42;Expenses;DEBIT_CARD;Debit card;"Nota contabila;PLATA RATA 11 DE CATRE CLIENT, PRIMA DE ASIGURARE DATORATA POLITA: A7082333";2021-01-15 02:00:24;;;;0;false;;Home;8001;false
+BT RON;Loan, interests;RON;-511.97;-511.97;Expenses;DEBIT_CARD;Debit card;"Rambursare principal credit;066RIA0200910001;Credit Imobiliar";2021-01-15 02:00:20;;;;0;false;;Home;8002;false
+BT RON;Groceries;RON;-4.60;-4.60;Expenses;DEBIT_CARD;Debit card;"Plata la POS;POS 13/01/2021 TID D1301HPR JF JUNIOR MARKET SRL PRINCIPALA PLAIESTI ROM 41401489 RRN: 005067624020;";2021-01-13 02:00:34;;;;0;false;;Food;1000;false
+BT RON;Energy, utilities;RON;-273.82;-273.82;Expenses;DEBIT_CARD;Debit card;"Plata la POS;EPOS 08/01/2021 000000060001020 TID:60001020 TIMESAFE SRL VOLUNTARI RO 41401489 valoare tranzactie: 273.82 RON RRN:100884197348 comision tranzactie 0.00 RON;";2021-01-08 02:00:51;;;;0;false;;Home;3002;false
+BT RON;Energy, utilities;RON;-54.90;-54.90;Expenses;DEBIT_CARD;Debit card;"Plata la POS;EPOS 08/01/2021 000000060001020 TID:60001020 TIMESAFE SRL VOLUNTARI RO 41401489 valoare tranzactie: 54.90 RON RRN:100884197336 comision tranzactie 0.00 RON;";2021-01-08 02:00:23;;;;0;false;;Home;3002;false
+BT RON;Energy, utilities;RON;-44.28;-44.28;Expenses;DEBIT_CARD;Debit card;"Plata la POS;EPOS 08/01/2021 000000060001020 TID:60001020 TIMESAFE SRL VOLUNTARI RO 41401489 valoare tranzactie: 44.28 RON RRN:100884197308 comision tranzactie 0.00 RON;";2021-01-08 02:00:11;;;;0;false;;Home;3002;false
+BT RON;Communication, PC;RON;-66.00;-66.00;Expenses;DEBIT_CARD;Debit card;"Plata la POS;EPOS 08/01/2021 000000060001020 TID:60001020 TIMESAFE SRL VOLUNTARI RO 41401489 valoare tranzactie: 66.00 RON RRN:100884197360 comision tranzactie 0.00 RON;";2021-01-08 02:00:01;;;;0;false;;Food;7005;false
+BT RON;Education, development;RON;-375.00;-375.00;Expenses;DEBIT_CARD;Debit card;"Plata OP inter - canal electronic;.;b84e1e2f1efc-460b-a053-4b38000a8500;2;Ioana Damian;RO61CECEB00008RON1267011;CECEROBU";2021-01-07 02:00:59;;;;0;false;;Education;6006;false
+Cash RON;TRANSFER;RON;220.00;220.00;Income;TRANSFER;Bank transfer;"P2P BTPay;Transfer din card 1489 JOHANN IGNAC FAZAKAS catre TIBOR FOGARASSY reprezentand : Transfer BT PAY;";2021-01-07 02:00:22;;;;0;true;;;20001;false
+BT RON;TRANSFER;RON;-220.00;-220.00;Expenses;TRANSFER;Bank transfer;"P2P BTPay;Transfer din card 1489 JOHANN IGNAC FAZAKAS catre TIBOR FOGARASSY reprezentand : Transfer BT PAY;";2021-01-07 02:00:22;;;;0;true;;;20001;false
+BT RON;Taxes;RON;-2.50;-2.50;Expenses;DEBIT_CARD;Debit card;Comision plata OP - canal electronic;2021-01-07 02:00:19;;;;0;false;;Food;8000;false
+BT RON;Groceries;RON;-29.40;-29.40;Expenses;DEBIT_CARD;Debit card;"Plata la POS non-BT cu card VISA;POS 31/12/2020 3F3230340000 TID:F3233409 0037 CASA RAPIDA CLUJ-NAPOCA RO 41401489 valoare tranzactie: 29.40 RON RRN:036611651316 comision tranzactie 0.00 RON;";2021-01-06 02:00:34;;;;0;false;;Food;1000;false
+Cash RON;Health care, doctor;RON;-200.00;-200.00;Expenses;CASH;Cash;;2021-01-05 19:05:12;;;;0;false;;Food;6000;false
+BT RON;Fuel;RON;-202.68;-202.68;Expenses;DEBIT_CARD;Debit card;"Plata la POS non-BT cu card VISA;POS 03/01/2021 2642OM1921 TID:ORO2118B OMV 1921 CLUJ RO 41401489 valoare tranzactie: 202.68 RON RRN:100314226756 comision tranzactie 0.00 RON;";2021-01-05 02:00:48;;;;0;false;;Car & Transport;5000;false
+BT RON;Clothes & shoes;RON;-9.00;-9.00;Expenses;DEBIT_CARD;Debit card;;2021-01-05 02:00:33;;;;0;false;;Shopping;2000;false
+Cash RON;TRANSFER;RON;180.00;180.00;Income;TRANSFER;Bank transfer;"Plata la POS non-BT cu card VISA;POS 03/01/2021 22634204 TID:22634204 MASSIMO D. IULIUS CJ C2 CLUJ-NAPOCA RO 41401489 valoare tranzactie: 189.00 RON RRN:100307381804 comision tranzactie 0.00 RON;";2021-01-05 02:00:20;;;;0;true;;;20001;false
+BT RON;TRANSFER;RON;-180.00;-180.00;Expenses;TRANSFER;Bank transfer;"Plata la POS non-BT cu card VISA;POS 03/01/2021 22634204 TID:22634204 MASSIMO D. IULIUS CJ C2 CLUJ-NAPOCA RO 41401489 valoare tranzactie: 189.00 RON RRN:100307381804 comision tranzactie 0.00 RON;";2021-01-05 02:00:20;;;;0;true;;;20001;false
+BT RON;Gifts, joy;RON;-239.40;-239.40;Expenses;DEBIT_CARD;Debit card;"Plata la POS non-BT cu card VISA;POS 03/01/2021 624282012 TID:88024100 SARKKROM TRADING SRL CLUJ RO 41401489 valoare tranzactie: 239.40 RON RRN:100313372688 comision tranzactie 0.00 RON;";2021-01-05 02:00:07;;;;0;false;;Gifts;2007;false
+Cash RON;Groceries;RON;-307.00;-307.00;Expenses;CASH;Cash;;2021-01-04 19:07:10;;;;0;false;;Food;1000;false
+BT RON;Electronics, accessories;RON;-1096.87;-1096.87;Expenses;DEBIT_CARD;Debit card;;2021-01-04 02:00:58;;;;0;false;;Home;2006;false
+BT RON;Home, garden;RON;-55.00;-55.00;Expenses;DEBIT_CARD;Debit card;;2021-01-04 02:00:54;;;;0;false;;Home;2004;false
+BT RON;Home, garden;RON;-200.00;-200.00;Expenses;DEBIT_CARD;Debit card;;2021-01-04 02:00:54;;;;0;false;;Shopping;2004;false
+BT RON;Charity, gifts;RON;-46.97;-46.97;Expenses;DEBIT_CARD;Debit card;;2021-01-04 02:00:48;;;;0;false;;Gifts;6010;false
+BT RON;Charges, Fees;RON;-5.00;-5.00;Expenses;DEBIT_CARD;Debit card;Comision incasare OP;2021-01-04 02:00:40;;;;0;false;;Food;8005;false
+BT RON;Home, garden;RON;-80.00;-80.00;Expenses;DEBIT_CARD;Debit card;;2021-01-04 02:00:39;;;;0;false;;Home;2004;false
+Cash RON;TRANSFER;RON;-180.00;-180.00;Expenses;TRANSFER;Bank transfer;"Incasare OP;/ROC/Sa le porti cu placere. La multi ani 180+250/430;Pollak Marilena;RO11RNCB0493037960540006;RNCBROBU";2021-01-04 02:00:38;;;;0;true;;;20001;false
+BT RON;TRANSFER;RON;180.00;180.00;Income;TRANSFER;Bank transfer;"Incasare OP;/ROC/Sa le porti cu placere. La multi ani 180+250/430;Pollak Marilena;RO11RNCB0493037960540006;RNCBROBU";2021-01-04 02:00:38;;;;0;true;;;20001;false
+BT RON;Home, garden;RON;-250.00;-250.00;Expenses;DEBIT_CARD;Debit card;;2021-01-04 02:00:37;;;;0;false;;Home;2004;false
+BT RON;Home, garden;RON;-216.90;-216.90;Expenses;DEBIT_CARD;Debit card;;2021-01-04 02:00:31;;;;0;false;;Home;2004;false
+BT RON;Home, garden;RON;-20.00;-20.00;Expenses;DEBIT_CARD;Debit card;;2021-01-04 02:00:29;;;;0;false;;Home;2004;false
+BT RON;Home, garden;RON;-105.00;-105.00;Expenses;DEBIT_CARD;Debit card;;2021-01-04 02:00:28;;;;0;false;;Home;2004;false
+BT RON;Wage, invoices;RON;13596.00;13596.00;Income;DEBIT_CARD;Debit card;"Procesare borderou;Salary:NESS ROMANIA SRL";2021-01-04 02:00:22;;;;0;false;;Work Income;10000;false
+BT RON;Charity, gifts;RON;-606.00;-606.00;Expenses;DEBIT_CARD;Debit card;;2021-01-04 02:00:19;;;;0;false;;Gifts;6010;false
+BT RON;Charity, gifts;RON;-140.00;-140.00;Expenses;DEBIT_CARD;Debit card;;2021-01-04 02:00:18;;;;0;false;;Gifts;6010;false
+BT RON;Home, garden;RON;-303.26;-303.26;Expenses;DEBIT_CARD;Debit card;"Transfer intern - canal electronic;.;";2021-01-04 02:00:12;;;;0;false;;Home;2004;false
+BT RON;Culture, sport events;RON;-30.00;-30.00;Expenses;DEBIT_CARD;Debit card;;2021-01-04 02:00:07;;;;0;false;;Food;6003;false
+BT RON;Charity, gifts;RON;-50.00;-50.00;Expenses;DEBIT_CARD;Debit card;;2021-01-04 02:00:06;;;;0;false;;Gifts;6010;false
+BT RON;Bar, cafe;RON;-3.00;-3.00;Expenses;DEBIT_CARD;Debit card;"Plata la POS;POS 03/01/2021 TID 0240A9PR ATTRIUS DEVELOPMENTS PALAS IASI ROM 41401489 RRN: 005025748573;";2021-01-03 02:00:46;;;;0;false;;Food;1002;false
+BT RON;Vehicle maintenance;RON;-102.21;-102.21;Expenses;DEBIT_CARD;Debit card;"Plata la POS non-BT cu card VISA;POS 31/12/2020 627319002 TID:21804750 DACIA SERVICE CLUJ SRL CLUJ-NAPOCA RO 41401489 valoare tranzactie: 102.21 RON RRN:036606357777 comision tranzactie 0.00 RON;";2021-01-02 02:00:29;;;;0;false;;Car & Transport;5002;false
+BT RON;Books, audio, subscriptions;RON;-24.36;-24.36;Expenses;DEBIT_CARD;Debit card;"Plata la POS non-BT cu card VISA;EPOS 30/12/2020 020340301 TID:80294118 Spotify Stockholm SE 41401489 valoare tranzactie: 4.99 EUR RRN:036521285817 comision tranzactie 0.00 RON;";2021-01-01 02:00:15;;;;0;false;;Food;6007;false

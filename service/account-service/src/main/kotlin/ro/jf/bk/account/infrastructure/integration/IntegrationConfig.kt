@@ -1,4 +1,4 @@
-package ro.jf.bk.account.integration
+package ro.jf.bk.account.infrastructure.integration
 
 import okhttp3.OkHttpClient
 import org.springframework.context.annotation.Bean

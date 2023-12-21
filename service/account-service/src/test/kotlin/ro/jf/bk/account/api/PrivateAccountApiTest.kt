@@ -22,8 +22,8 @@ import ro.jf.bk.account.domain.model.AccountType
 import ro.jf.bk.account.extension.*
 import ro.jf.bk.account.extension.PostgresContainerExtension.Companion.injectPostgresConnectionProps
 import ro.jf.bk.account.extension.UserMockIntegrationExtension.Companion.injectUserIntegrationProps
-import ro.jf.bk.account.persistence.entity.AccountEntity
-import ro.jf.bk.account.persistence.repository.AccountEntityRepository
+import ro.jf.bk.account.infrastructure.persistence.entity.AccountEntity
+import ro.jf.bk.account.infrastructure.persistence.repository.AccountEntityRepository
 import java.util.UUID.randomUUID
 
 @SpringBootTest

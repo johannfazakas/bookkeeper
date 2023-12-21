@@ -8,7 +8,10 @@ import org.mockserver.client.MockServerClient
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.core.io.ClassPathResource
+import org.springframework.http.HttpMethod
 import org.springframework.http.MediaType
+import org.springframework.mock.web.MockMultipartFile
 import org.springframework.test.context.DynamicPropertyRegistry
 import org.springframework.test.context.DynamicPropertySource
 import org.springframework.test.web.servlet.MockMvc
@@ -22,10 +25,10 @@ import ro.jf.bk.account.extension.UserMockIntegrationExtension
 import ro.jf.bk.account.extension.UserMockIntegrationExtension.Companion.injectUserIntegrationProps
 import ro.jf.bk.account.extension.givenExistingUser
 import ro.jf.bk.account.extension.userIdHeader
-import ro.jf.bk.account.persistence.entity.AccountEntity
-import ro.jf.bk.account.persistence.entity.TransactionEntity
-import ro.jf.bk.account.persistence.repository.AccountEntityRepository
-import ro.jf.bk.account.persistence.repository.TransactionEntityRepository
+import ro.jf.bk.account.infrastructure.persistence.entity.AccountEntity
+import ro.jf.bk.account.infrastructure.persistence.entity.TransactionEntity
+import ro.jf.bk.account.infrastructure.persistence.repository.AccountEntityRepository
+import ro.jf.bk.account.infrastructure.persistence.repository.TransactionEntityRepository
 import java.math.BigDecimal
 import java.time.Instant
 import java.util.UUID.randomUUID
@@ -182,5 +185,20 @@ class TransactionApiTest {
             .andExpect(status().isNoContent)
 
         assertThat(transactionEntityRepository.findByUserIdAndId(userId, transaction1.id!!)).isNull()
+    }
+
+    @Test
+    fun `should import wallet csv transactions`(mockServerClient: MockServerClient) {
+        val userId = randomUUID()
+        mockServerClient.givenExistingUser(userId)
+
+        val mockMultipartFile = ClassPathResource("mock/wallet.csv")
+            .let { MockMultipartFile("file", it.filename, "text/csv", it.inputStream.readBytes()) }
+        mockMvc.perform(
+            MockMvcRequestBuilders.multipart(HttpMethod.PUT, "/account/v1/transactions/import/wallet-csv")
+                .file(mockMultipartFile)
+                .userIdHeader(userId)
+        )
+            .andExpect(status().isOk)
     }
 }

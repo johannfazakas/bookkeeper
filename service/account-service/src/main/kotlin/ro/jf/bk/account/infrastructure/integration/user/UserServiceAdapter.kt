@@ -1,4 +1,4 @@
-package ro.jf.bk.account.integration.user
+package ro.jf.bk.account.infrastructure.integration.user
 
 import okhttp3.OkHttpClient
 import okhttp3.Request

@@ -1,4 +1,4 @@
-package ro.jf.bk.account.persistence.repository
+package ro.jf.bk.account.infrastructure.persistence.repository
 
 import jakarta.transaction.Transactional
 import org.springframework.data.repository.CrudRepository
@@ -7,7 +7,7 @@ import ro.jf.bk.account.domain.model.Account
 import ro.jf.bk.account.domain.model.AccountType
 import ro.jf.bk.account.domain.model.CreateAccountCommand
 import ro.jf.bk.account.domain.service.AccountRepository
-import ro.jf.bk.account.persistence.entity.AccountEntity
+import ro.jf.bk.account.infrastructure.persistence.entity.AccountEntity
 import java.util.*
 
 interface AccountEntityRepository : CrudRepository<AccountEntity, UUID> {

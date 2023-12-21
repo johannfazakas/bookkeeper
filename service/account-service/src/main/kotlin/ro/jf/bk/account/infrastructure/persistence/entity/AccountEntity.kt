@@ -1,4 +1,4 @@
-package ro.jf.bk.account.persistence.entity
+package ro.jf.bk.account.infrastructure.persistence.entity
 
 import jakarta.persistence.*
 import ro.jf.bk.account.domain.model.Account

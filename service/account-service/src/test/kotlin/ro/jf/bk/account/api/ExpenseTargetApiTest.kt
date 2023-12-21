@@ -24,8 +24,8 @@ import ro.jf.bk.account.extension.UserMockIntegrationExtension
 import ro.jf.bk.account.extension.UserMockIntegrationExtension.Companion.injectUserIntegrationProps
 import ro.jf.bk.account.extension.givenExistingUser
 import ro.jf.bk.account.extension.userIdHeader
-import ro.jf.bk.account.persistence.entity.AccountEntity
-import ro.jf.bk.account.persistence.repository.AccountEntityRepository
+import ro.jf.bk.account.infrastructure.persistence.entity.AccountEntity
+import ro.jf.bk.account.infrastructure.persistence.repository.AccountEntityRepository
 import java.util.*
 
 @SpringBootTest

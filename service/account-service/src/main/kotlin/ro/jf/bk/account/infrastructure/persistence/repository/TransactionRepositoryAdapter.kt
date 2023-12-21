@@ -1,4 +1,4 @@
-package ro.jf.bk.account.persistence.repository
+package ro.jf.bk.account.infrastructure.persistence.repository
 
 import jakarta.transaction.Transactional
 import org.springframework.data.jpa.repository.Query
@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component
 import ro.jf.bk.account.domain.model.CreateTransactionCommand
 import ro.jf.bk.account.domain.model.Transaction
 import ro.jf.bk.account.domain.service.TransactionRepository
-import ro.jf.bk.account.persistence.entity.TransactionEntity
+import ro.jf.bk.account.infrastructure.persistence.entity.TransactionEntity
 import java.util.*
 
 interface TransactionEntityRepository : CrudRepository<TransactionEntity, UUID> {
