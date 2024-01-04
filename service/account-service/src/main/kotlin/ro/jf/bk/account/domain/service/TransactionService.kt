@@ -4,7 +4,7 @@ import mu.KotlinLogging.logger
 import org.springframework.stereotype.Service
 import ro.jf.bk.account.domain.error.ImportException
 import ro.jf.bk.account.domain.model.Account
-import ro.jf.bk.account.domain.model.CreateTransactionCommand
+import ro.jf.bk.account.domain.command.CreateTransactionCommand
 import ro.jf.bk.account.domain.model.Transaction
 import java.io.InputStream
 import java.util.*

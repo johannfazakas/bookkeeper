@@ -1,7 +1,7 @@
 package ro.jf.bk.account.infrastructure.persistence.entity
 
 import jakarta.persistence.*
-import ro.jf.bk.account.domain.model.CreateTransactionCommand
+import ro.jf.bk.account.domain.command.CreateTransactionCommand
 import ro.jf.bk.account.domain.model.Transaction
 import java.math.BigDecimal
 import java.time.Instant

@@ -1,14 +1,10 @@
-package ro.jf.bk.account.domain
+package ro.jf.bk.account.domain.service
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.mockito.kotlin.*
-import ro.jf.bk.account.domain.model.CreateTransactionCommand
+import ro.jf.bk.account.domain.command.CreateTransactionCommand
 import ro.jf.bk.account.domain.model.Transaction
-import ro.jf.bk.account.domain.service.AccountService
-import ro.jf.bk.account.domain.service.ImportTransactionReaderRegistry
-import ro.jf.bk.account.domain.service.TransactionRepository
-import ro.jf.bk.account.domain.service.TransactionService
 import java.math.BigDecimal
 import java.time.Instant
 import java.util.UUID.randomUUID

@@ -1,4 +1,4 @@
-package ro.jf.bk.account.domain.model
+package ro.jf.bk.account.domain.command
 
 import java.math.BigDecimal
 import java.time.Instant

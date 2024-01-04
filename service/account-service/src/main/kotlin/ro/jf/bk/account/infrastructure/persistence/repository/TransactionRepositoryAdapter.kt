@@ -4,7 +4,7 @@ import jakarta.transaction.Transactional
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.CrudRepository
 import org.springframework.stereotype.Component
-import ro.jf.bk.account.domain.model.CreateTransactionCommand
+import ro.jf.bk.account.domain.command.CreateTransactionCommand
 import ro.jf.bk.account.domain.model.Transaction
 import ro.jf.bk.account.domain.service.TransactionRepository
 import ro.jf.bk.account.infrastructure.persistence.entity.TransactionEntity

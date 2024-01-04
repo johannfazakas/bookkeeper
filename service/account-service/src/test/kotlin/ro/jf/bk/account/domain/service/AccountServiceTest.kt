@@ -1,13 +1,11 @@
-package ro.jf.bk.account.domain
+package ro.jf.bk.account.domain.service
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.mockito.kotlin.*
 import ro.jf.bk.account.domain.model.Account
 import ro.jf.bk.account.domain.model.AccountType
-import ro.jf.bk.account.domain.model.CreateAccountCommand
-import ro.jf.bk.account.domain.service.AccountRepository
-import ro.jf.bk.account.domain.service.AccountService
+import ro.jf.bk.account.domain.command.CreateAccountCommand
 import java.util.UUID.randomUUID
 
 class AccountServiceTest {

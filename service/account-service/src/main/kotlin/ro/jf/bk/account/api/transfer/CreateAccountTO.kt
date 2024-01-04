@@ -1,7 +1,7 @@
 package ro.jf.bk.account.api.transfer
 
 import ro.jf.bk.account.domain.model.AccountType
-import ro.jf.bk.account.domain.model.CreateAccountCommand
+import ro.jf.bk.account.domain.command.CreateAccountCommand
 
 data class CreateAccountTO(
     val name: String,

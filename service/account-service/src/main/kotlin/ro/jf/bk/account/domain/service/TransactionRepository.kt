@@ -1,6 +1,6 @@
 package ro.jf.bk.account.domain.service
 
-import ro.jf.bk.account.domain.model.CreateTransactionCommand
+import ro.jf.bk.account.domain.command.CreateTransactionCommand
 import ro.jf.bk.account.domain.model.Transaction
 import java.util.*
 

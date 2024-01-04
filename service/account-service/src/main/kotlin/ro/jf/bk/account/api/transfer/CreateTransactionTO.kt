@@ -1,7 +1,7 @@
 package ro.jf.bk.account.api.transfer
 
 import com.fasterxml.jackson.annotation.JsonFormat
-import ro.jf.bk.account.domain.model.CreateTransactionCommand
+import ro.jf.bk.account.domain.command.CreateTransactionCommand
 import java.math.BigDecimal
 import java.time.Instant
 import java.util.*

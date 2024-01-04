@@ -6,7 +6,7 @@ import com.opencsv.CSVReaderBuilder
 import mu.KotlinLogging.logger
 import org.springframework.stereotype.Component
 import ro.jf.bk.account.domain.error.ImportException
-import ro.jf.bk.account.domain.model.ImportTransactionCommand
+import ro.jf.bk.account.domain.command.ImportTransactionCommand
 import ro.jf.bk.account.domain.service.ImportTransactionReader
 import java.io.InputStream
 import java.math.BigDecimal
