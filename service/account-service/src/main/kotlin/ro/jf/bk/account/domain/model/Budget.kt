@@ -9,10 +9,16 @@ data class Budget(
     val name: String,
     val versions: List<Version>
 ) {
+    fun getVersion(yearMonth: YearMonth): Version? =
+        versions
+            .sortedByDescending { it.availableFrom }
+            .dropWhile { it.availableFrom > yearMonth }
+            .firstOrNull()
+
     data class Version(
         val availableFrom: YearMonth,
-        val expenseTargetIds: List<UUID>,
         val incomePercent: Percent,
+        val expenseTargetIds: List<UUID>,
     )
 
     @JvmInline
@@ -26,24 +32,22 @@ data class Budget(
 data class BudgetConfiguration(
     val userId: UUID,
     val availableFrom: YearMonth,
-    val budgets: List<BudgetConfiguration.BudgetVersion>
+    val budgets: List<BudgetVersion>
 ) {
     companion object {
         fun fromBudgets(userId: UUID, availableFrom: YearMonth, budgets: List<Budget>): BudgetConfiguration =
             BudgetConfiguration(
                 userId = userId,
                 availableFrom = availableFrom,
-                budgets = budgets.map { budget ->
-                    val version = budget.versions
-                        .sortedBy { it.availableFrom }
-                        .dropWhile { it.availableFrom < availableFrom }
-                        .first()
-                    BudgetVersion(
-                        budgetId = budget.id,
-                        name = budget.name,
-                        expenseTargetIds = version.expenseTargetIds,
-                        incomePercent = version.incomePercent,
-                    )
+                budgets = budgets.mapNotNull { budget ->
+                    budget.getVersion(availableFrom)?.let {
+                        BudgetVersion(
+                            budgetId = budget.id,
+                            name = budget.name,
+                            expenseTargetIds = it.expenseTargetIds,
+                            incomePercent = it.incomePercent,
+                        )
+                    }
                 }
             )
     }

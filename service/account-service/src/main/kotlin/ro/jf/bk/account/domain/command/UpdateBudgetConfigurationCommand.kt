@@ -13,8 +13,8 @@ sealed class BudgetCommand
 
 data class CreateBudgetCommand(
     val name: String,
-    val expenseTargetIds: List<UUID>,
     val incomePercent: Budget.Percent,
+    val expenseTargetIds: List<UUID>,
 ) : BudgetCommand()
 
 data class UpdateBudgetCommand(
