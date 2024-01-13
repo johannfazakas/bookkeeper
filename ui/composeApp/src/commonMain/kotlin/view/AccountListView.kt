@@ -7,18 +7,100 @@ import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import api.AccountClient
 import model.Account
 
+
 @Composable
-fun AccountListView() {
+fun AccountsView() {
     var accounts by remember { mutableStateOf(AccountClient.getAccounts()) }
+    var openCreateAccountDialog by remember { mutableStateOf(false) }
 
     fun removeAccount(account: Account) {
         AccountClient.removeAccount(account)
         accounts = AccountClient.getAccounts()
     }
 
+    Row {
+        AccountsMenu(
+            onCreateAccount = { openCreateAccountDialog = true }
+        )
+        AccountListView(
+            accounts = accounts,
+            onDelete = { removeAccount(it) }
+        )
+    }
+
+    if (openCreateAccountDialog) {
+        CreateAccountDialog(
+            onDismiss = { openCreateAccountDialog = false }
+        )
+    }
+}
+
+@Composable
+fun CreateAccountDialog(
+    onDismiss: () -> Unit
+) {
+    Dialog(
+        onDismissRequest = onDismiss
+    ) {
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(375.dp)
+                .padding(16.dp),
+            shape = MaterialTheme.shapes.large,
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp)
+            ) {
+                Text(
+                    text = "Create account",
+                    style = MaterialTheme.typography.h3,
+                    modifier = Modifier.padding(16.dp)
+                )
+                Text(
+                    text = "TODO",
+                    style = MaterialTheme.typography.body1,
+                    modifier = Modifier.padding(16.dp)
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun AccountsMenu(
+    onCreateAccount: () -> Unit
+) {
+    Column(
+        modifier = Modifier
+            .width(300.dp)
+            .fillMaxHeight()
+    ) {
+        Text(
+            text = "Accounts",
+            style = MaterialTheme.typography.h3,
+            modifier = Modifier.padding(16.dp)
+        )
+        Button(
+            onClick = onCreateAccount,
+            modifier = Modifier.padding(16.dp)
+        ) {
+            Text(text = "Add account")
+        }
+    }
+}
+
+@Composable
+fun AccountListView(
+    accounts: List<Account>,
+    onDelete: (Account) -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -27,7 +109,7 @@ fun AccountListView() {
         accounts.forEach { account ->
             AccountItem(
                 account = account,
-                onDelete = { removeAccount(account) }
+                onDelete = { onDelete(account) }
             )
         }
     }

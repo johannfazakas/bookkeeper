@@ -1,10 +1,11 @@
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
-import view.AccountListView
+import view.AccountsView
 
 @Composable
 fun App() {
-    MaterialTheme {
-        AccountListView()
+    MaterialTheme(
+    ){
+        AccountsView()
     }
 }
