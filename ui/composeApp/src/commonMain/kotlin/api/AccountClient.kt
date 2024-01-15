@@ -1,6 +1,7 @@
 package api
 
 import model.Account
+import model.CreateAccountRequest
 import utils.log
 
 object AccountClient {
@@ -18,5 +19,13 @@ object AccountClient {
     fun removeAccount(account: Account) {
         accounts = accounts.filter { it.id != account.id }
         log("Account $account removed. Remaining accounts: ${accounts}")
+    }
+
+    fun createAccount(request: CreateAccountRequest) {
+        accounts = accounts + Account(
+            id = request.hashCode().toString(),
+            name = request.name,
+            currency = request.currency
+        )
     }
 }
