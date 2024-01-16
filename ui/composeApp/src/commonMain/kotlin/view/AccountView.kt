@@ -9,43 +9,32 @@ import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.*
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import api.AccountClient
 import model.Account
 import model.CreateAccountRequest
+import viewmodel.AccountViewModel
 
 
 @Composable
-fun AccountsView() {
-    var accounts by remember { mutableStateOf(AccountClient.getAccounts()) }
+fun AccountView() {
+    var accounts by remember { AccountViewModel.accounts }
     var openCreateAccountDialog by remember { mutableStateOf(false) }
 
-    fun removeAccount(account: Account) {
-        AccountClient.removeAccount(account)
-        accounts = AccountClient.getAccounts()
-    }
-
-    fun addAccount(request: CreateAccountRequest) {
-        AccountClient.createAccount(request)
-        accounts = AccountClient.getAccounts()
-    }
-
     Row {
-        AccountsMenu(
+        AccountMenu(
             onCreateAccount = { openCreateAccountDialog = true }
         )
         AccountListView(
             accounts = accounts,
-            onDelete = { removeAccount(it) }
+            onDelete = { AccountViewModel.removeAccount(it) }
         )
     }
 
     if (openCreateAccountDialog) {
         CreateAccountDialog(
             onDismiss = { openCreateAccountDialog = false },
-            onCreateAccount = { addAccount(it) }
+            onCreateAccount = { AccountViewModel.addAccount(it) }
         )
     }
 }
@@ -58,8 +47,6 @@ fun CreateAccountDialog(
 ) {
     var accountName by remember { mutableStateOf("") }
     var currency by remember { mutableStateOf("") }
-
-    val keyboardController = LocalSoftwareKeyboardController.current
 
     Dialog(
         onDismissRequest = onDismiss
@@ -132,7 +119,7 @@ fun CreateAccountDialog(
 }
 
 @Composable
-fun AccountsMenu(
+fun AccountMenu(
     onCreateAccount: () -> Unit
 ) {
     Column(
@@ -198,7 +185,7 @@ fun AccountItem(
                 style = MaterialTheme.typography.body1,
                 modifier = Modifier.weight(1f)
             )
-            AccountMenu(
+            AccountDropDownMenu(
                 onDelete = onDelete
             )
         }
@@ -206,7 +193,7 @@ fun AccountItem(
 }
 
 @Composable
-fun AccountMenu(
+fun AccountDropDownMenu(
     onDelete: () -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }

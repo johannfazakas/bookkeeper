@@ -1,7 +1,5 @@
 # Bookkeeper
 
-[//]: # (TODO: Add description)
-
 ## TODO
 
 ### API
